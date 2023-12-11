@@ -7,6 +7,10 @@
     /* font-family: 'Poppins', sans-serif; */
 }
 
+::-webkit-scrollbar {
+    display: none;
+}
+
 #root {
     background: #161920;
     min-height: 100dvh;
@@ -85,6 +89,13 @@ h3 {
     transition: all 0.2s;
     scale: 85%;
 }
-#nft-steps:hover{
-box-shadow: 0px 10px 40px -8px #8d125e72;
+
+#nft-steps:hover {
+    box-shadow: 0px 10px 40px -8px #8d125e72;
+}
+
+#labels-range-input::-webkit-slider-thumb {
+    outline: solid #b100ec 8px;
+    outline-offset: -1rem;
+    border-radius: 20px;
 }

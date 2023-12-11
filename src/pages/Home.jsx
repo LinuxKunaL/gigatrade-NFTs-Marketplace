@@ -9,14 +9,12 @@ function Home() {
           id="side-left"
           className="flex flex-col flex-1 relative z-10 h-full justify-around"
         >
-          {/* <div className="flex flex-col gap-3"> */}
           <h1 className="dark:text-white text-7xl font-semibold leading-tight">
             Explore, Buy and <br /> sell World <br />
           </h1>
           <b className="dark:text-white text-7xl self-start font-semibold leading-tight p-3 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-500 ">
             Best NFTs!
           </b>
-          {/* </div> */}
           <p className="text-gray-300">
             Non-fungible tokens, or NFTs, are artworks created on the <br />
             blockchain with unique encryption codes <br /> that can be validated
@@ -31,11 +29,7 @@ function Home() {
             </button>
             <button
               type="button"
-              class="py-2.5 px-5  text-sm font-medium flex items-center gap-4 text-gray-900 focus:outline-none bg-white rounded-lg hover:bg-gray-100 hover:text-purple-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-transparent
-        border-2
-        dark:border-darkBlue-100 dark:text-gray-100 dark:hover:text-white dark:hover:bg-purple-700
-    
-    "
+              class="py-2.5 px-5  text-sm font-medium flex items-center gap-4 text-gray-900 focus:outline-none bg-white rounded-lg hover:bg-gray-100 hover:text-purple-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-transparent border-2 dark:border-darkBlue-100 dark:text-gray-100 dark:hover:text-white dark:hover:bg-purple-700"
             >
               Explore
             </button>
@@ -58,22 +52,18 @@ function Home() {
         </div>
         <div
           id="side-right "
-          className="flex-1 h-full flex items-center  relative justify-center"
+          className="flex-1 h-full flex items-center relative justify-center"
         >
           <div className="relative z-10 -skew-x-12">
             <div
               id="float-4"
               style={{ top: "-2pc" }}
-              className="absolute -left-10 border-[1px] border-darkBlue-100/20 rounded-2xl backdrop-blur-lg w-[28pc]
-          -z-2
-          h-[14pc] 
-          flex flex-col dark:bg-darkBlue-400/30 p-3 gap-1 items-center justify-start"
+              className="absolute -left-10 border-[1px] border-darkBlue-100/20 rounded-2xl backdrop-blur-lg w-[28pc] -z-2 h-[14pc] flex flex-col dark:bg-darkBlue-400/30 p-3 gap-1 items-center justify-start"
             />
             <img src={Nft} className=" relative w-[27pc]" alt="" />
             <div
               id="float-3"
-              className="absolute -top-10 -right-6 border-[1px] border-darkBlue-100/20 rounded-2xl backdrop-blur-lg w-44 
-          flex flex-col dark:bg-darkBlue-400/30 p-3 gap-1 items-center justify-start"
+              className="absolute -top-10 -right-6 border-[1px] border-darkBlue-100/20 rounded-2xl backdrop-blur-lg w-44 flex flex-col dark:bg-darkBlue-400/30 p-3 gap-1 items-center justify-start"
             >
               <h2 className="font-semibold text-white">BID NOW !</h2>
               <span className="text-white/60">latest Collections</span>
@@ -105,15 +95,11 @@ function Home() {
             </div>
             <div
               id="float-5"
-              className="absolute -bottom-20 left-5 border-[1px] border-darkBlue-100/20 rounded-2xl backdrop-blur-lg w-[24pc]
-          -z-10
-          h-[14pc] 
-          flex flex-col dark:bg-darkBlue-400/30 p-3 gap-1 items-center justify-start"
+              className="absolute -bottom-20 left-5 border-[1px] border-darkBlue-100/20 rounded-2xl backdrop-blur-lg w-[24pc] -z-10 h-[14pc] flex flex-col dark:bg-darkBlue-400/30 p-3 gap-1 items-center justify-start"
             />
             <div
               id="float-6"
-              className="absolute right-0 -bottom-28 border-[1px] border-darkBlue-100/20 rounded-2xl backdrop-blur-lg 
-          flex flex-row dark:bg-darkBlue-400/30 p-3 gap-3 items-center justify-start"
+              className="absolute right-0 -bottom-28 border-[1px] border-darkBlue-100/20 rounded-2xl backdrop-blur-lg flex flex-row dark:bg-darkBlue-400/30 p-3 gap-3 items-center justify-start"
             >
               <div className="flex gap-[0.5pc] items-center flex-col">
                 <b className="text-sm text-white/90">08</b>
@@ -327,10 +313,10 @@ function Home() {
       </div>
       <div
         id="section-4"
-        className="flex justify-center gap-20 flex-col h-[40pc] w-full"
+        className="flex justify-center gap-20 flex-col h-[34pc] w-full"
       >
         <h1 className="dark:text-white/90 text-4xl ">
-          Create and Sell Your
+          Create and Sell Your{" "}
           <b className="bg-gradient-to-r from-purple-600 via-pink-600 to-blue-500">
             NFTs
           </b>
@@ -412,10 +398,7 @@ function Home() {
           </div>
         </div>
       </div>
-      <div
-        id="section-5"
-        className="flex justify-center gap-20 flex-col h-[20pc] w-full"
-      >
+      <div id="section-5" className="flex gap-20 flex-col h-[20pc] w-full">
         <h1 className="dark:text-white/90 text-4xl ">
           Top Seller in{" "}
           <b className="bg-gradient-to-r from-purple-600 via-pink-600 to-blue-500">
