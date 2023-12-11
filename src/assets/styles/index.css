@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+    font-family: 'Outfit', sans-serif;
+    /* font-family: 'Poppins', sans-serif; */
+}
+
+#root {
+    background: #161920;
+    min-height: 100dvh;
+    max-width: 100dvw;
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+}
+
+/* 
+#0f1014
+#161920
+#1b1f28
+#222631
+#272b35
+#2e3442
+#383e4c
+#495163
+ */
+
+
+#LiveBidding::before {
+    width: 22px;
+    height: 22px;
+    background: #8d125e;
+    position: absolute;
+    left: -35px;
+    top: 50%;
+    content: "";
+    transform: translateY(-50%);
+    border-radius: 100%;
+    opacity: 1;
+    animation: customOne 1s infinite;
+}
+
+#LiveBidding::after {
+    width: 22px;
+    height: 22px;
+    border: 4px solid #8d125e;
+    position: absolute;
+    left: -35px;
+    top: 50%;
+    content: "";
+    transform: translateY(-50%);
+    border-radius: 100%;
+    opacity: 1;
+    animation: customOne 1.2s infinite;
+}
+
+@keyframes customOne {
+    0% {
+        -webkit-transform: translateY(-50%) scale(0);
+        transform: translateY(-50%) scale(0);
+        opacity: 1
+    }
+
+    100% {
+        -webkit-transform: translateY(-50%) scale(1.3);
+        transform: translateY(-50%) scale(1.3);
+        opacity: 0
+    }
+}
+
+#user-box img,
+h3 {
+    transition: all 0.2s;
+
+}
+
+#user-box:hover img {
+    scale: 115%;
+    transition: all 0.2s;
+}
+
+#user-box:hover h3 {
+    transition: all 0.2s;
+    scale: 85%;
+}
+#nft-steps:hover{
+box-shadow: 0px 10px 40px -8px #8d125e72;
+}
