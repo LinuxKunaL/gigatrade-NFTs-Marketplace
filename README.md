@@ -1,3 +1,5 @@
+## This Project is Working Process 🚧 
+
 # GigaTrade - NFT Marketplace
 
 GigaTrade is a decentralized NFT marketplace that empowers creators and collectors to seamlessly trade unique digital assets on the Ethereum blockchain. This project combines the power of smart contracts, a robust backend, and an intuitive frontend to provide a secure and user-friendly experience.
