@@ -4,6 +4,12 @@
 
 GigaTrade is a decentralized NFT marketplace that empowers creators and collectors to seamlessly trade unique digital assets on the Ethereum blockchain. This project combines the power of smart contracts, a robust backend, and an intuitive frontend to provide a secure and user-friendly experience.
 
+## screenshot 
+
+![image](https://github.com/LinuxKunaL/gigatrade-NFTs-Marketplace/assets/75113218/cffb8fab-f45b-4558-96a4-7a6314c8e3d8)
+##
+![image](https://github.com/LinuxKunaL/gigatrade-NFTs-Marketplace/assets/75113218/5d7df3b0-d397-4d94-b3c8-d0d3ef29edf7)
+
 ## Features:
 
 ### ERC-721 Smart Contracts:
