@@ -8,6 +8,7 @@ import Footer from "./components/Footer";
 
 import Home from "./pages/Home";
 import ExploreNFTs from "./pages/ExploreNFTs";
+import NftDetail from "./components/NftDetail";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -18,6 +19,7 @@ root.render(
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/explore" element={<ExploreNFTs />} />
+          <Route path="/nftDetail" element={<NftDetail />} />
         </Routes>
         <Footer />
       </div>

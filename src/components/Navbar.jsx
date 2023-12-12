@@ -4,7 +4,7 @@ import metamaskLogo from "../assets/images/metamask.svg";
 import { Link } from "react-router-dom";
 function Navbar() {
   return (
-    <nav class="bg-white rounded-b-xl sticky top-0 z-50 border-gray-200 dark:bg-darkBlue-500/80 backdrop-blur-lg">
+    <nav class="bg-white rounded-b-xl sticky top-0 z-50  dark:bg-darkBlue-500/80 backdrop-blur-lg border-darkBlue-400 border-[1px]">
       <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
           <img src={logo} class="h-12" alt="Logo" />

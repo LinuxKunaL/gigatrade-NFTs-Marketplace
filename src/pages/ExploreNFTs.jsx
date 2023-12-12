@@ -2,7 +2,8 @@ import React from "react";
 import { MdRestartAlt } from "react-icons/md";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { FaEthereum } from "react-icons/fa";
-
+import { HiOutlineMenuAlt1 } from "react-icons/hi";
+import { IoEyeOutline } from "react-icons/io5";
 function ExploreNFTs() {
   const k = [
     {
@@ -46,7 +47,7 @@ function ExploreNFTs() {
     <div>
       <div
         id="section-1"
-        className="flex flex-col gap-3 w-full h-[10pc] items-center justify-center "
+        className="flex flex-col gap-3 w-full h-[15pc] items-center justify-center "
       >
         <h2 className="text-3xl dark:text-white/90 font-semibold">
           Explore NFTs
@@ -57,7 +58,10 @@ function ExploreNFTs() {
         </div>
       </div>
       <div id="section-2" className="flex gap-10">
-        <div className="flex z-10 flex-col gap-5 self-start sticky top-[8pc]">
+        {/* <div className="h-9 w-20 fixed z-30 bottom-10 left-10 bg-gradient-to-br from-pink-500 to-purple-600 rounded-lg flex items-center justify-center text-white/90 gap-2">
+          <HiOutlineMenuAlt1 /> Filter
+        </div> */}
+        <div className="flex lg:z-10 flex-col gap-5 self-start res => z-20 bg-darkBlue-500 p-5 fixed lg:bg-transparent lg:p-0 lg:sticky lg:top-[8pc]">
           <div className="flex justify-between items-center">
             <span className="dark:text-white/90 font-semibold font-xl">
               Filters
@@ -69,10 +73,10 @@ function ExploreNFTs() {
               <MdRestartAlt /> Reset
             </button>
           </div>
-          <div className="flex flex-col gap-3 h-[40pc] w-[19pc] ">
+          <div className="flex flex-col gap-3 w-[19pc] ">
             <div
               id="status"
-              className="border-2 rounded-xl flex flex-col gap-3 p-4 border-darkBlue-400/50 bg-darkBlue-500"
+              className="border-[1px] rounded-xl flex flex-col gap-3 p-4 border-darkBlue-400/50 bg-darkBlue-600/50 backdrop-blur-xl"
             >
               <div className="flex justify-between items-center">
                 <span className="dark:text-white/90">Status</span>
@@ -80,23 +84,23 @@ function ExploreNFTs() {
                 {/* <IoIosArrowUp /> */}
               </div>
               <div className="flex gap-2">
-                <span className="flex flex-wrap items-center justify-center rounded-full cursor-pointer transition-all hover:bg-purple-500 active:bg-purple-700 h-8 w-16 border-2 bg-darkBlue-400 border-purple-600 text-white font-s">
+                <span className="flex flex-wrap items-center justify-center rounded-full cursor-pointer transition-all hover:bg-purple-500 active:bg-purple-700 h-8 w-16  bg-darkBlue-400  text-white font-s">
                   All
                 </span>
                 <span className="flex flex-wrap items-center justify-center rounded-full cursor-pointer transition-all hover:bg-purple-500 active:bg-purple-700 h-8 w-16 border-0 bg-purple-600 text-white font-s">
                   Best
                 </span>
-                <span className="flex flex-wrap items-center justify-center rounded-full cursor-pointer transition-all hover:bg-purple-500 active:bg-purple-700 h-8 w-16 border-2 bg-darkBlue-400 border-purple-600 text-white font-s">
+                <span className="flex flex-wrap items-center justify-center rounded-full cursor-pointer transition-all hover:bg-purple-500 active:bg-purple-700 h-8 w-16 b bg-darkBlue-400  text-white font-s">
                   Offer
                 </span>
-                <span className="flex flex-wrap items-center justify-center rounded-full cursor-pointer transition-all hover:bg-purple-500 active:bg-purple-700 h-8 w-16 border-2 bg-darkBlue-400 border-purple-600 text-white font-s">
+                <span className="flex flex-wrap items-center justify-center rounded-full cursor-pointer transition-all hover:bg-purple-500 active:bg-purple-700 h-8 w-16 bg-darkBlue-400 text-white font-s">
                   New
                 </span>
               </div>
             </div>
             <div
               id="price"
-              className="border-2 rounded-xl flex flex-col gap-3 p-4 border-darkBlue-400/50 bg-darkBlue-500"
+              className="border-[1px]  rounded-xl flex flex-col gap-3 p-4 border-darkBlue-400/50 bg-darkBlue-600/50 backdrop-blur-xl"
             >
               <div className="flex justify-between items-center">
                 <span className="dark:text-white/90">Price</span>
@@ -131,27 +135,27 @@ function ExploreNFTs() {
             </div>
             <div
               id="rating"
-              className="border-2 rounded-xl flex flex-col justify-center gap-3 p-4 border-darkBlue-400/50 bg-darkBlue-500"
+              className="border-[1px] rounded-xl flex flex-col justify-center gap-3 p-4 border-darkBlue-400/50 bg-darkBlue-600/50 backdrop-blur-xl"
             >
               <div className="flex justify-between items-center">
                 <span className="dark:text-white/90">Rating</span>
                 <IoIosArrowDown className="text-white h-4 w-7 active:bg-purple-700 transition-all rounded-full cursor-pointer hover:bg-purple-800/50" />
                 {/* <IoIosArrowUp /> */}
               </div>
-              <div className="flex gap-2 w-full justify-evenly flex-wrap items-center">
-                <span className="flex flex-wrap items-center justify-center rounded-full cursor-pointer transition-all hover:bg-purple-500 active:bg-purple-700 h-8 w-16 border-2 bg-darkBlue-400 border-purple-600 text-white font-s">
+              <div className="flex gap-2 w-full flex-wrap items-center">
+                <span className="flex flex-wrap items-center justify-center rounded-full cursor-pointer transition-all hover:bg-purple-500 active:bg-purple-700 h-8 w-16 bg-darkBlue-400  text-white font-s">
                   1
                 </span>
                 <span className="flex flex-wrap items-center justify-center rounded-full cursor-pointer transition-all hover:bg-purple-500 active:bg-purple-700 h-8 w-16 border-0 bg-purple-600 text-white font-s">
                   2
                 </span>
-                <span className="flex flex-wrap items-center justify-center rounded-full cursor-pointer transition-all hover:bg-purple-500 active:bg-purple-700 h-8 w-16 border-2 bg-darkBlue-400 border-purple-600 text-white font-s">
+                <span className="flex flex-wrap items-center justify-center rounded-full cursor-pointer transition-all hover:bg-purple-500 active:bg-purple-700 h-8 w-16 bg-darkBlue-400 text-white font-s">
                   3
                 </span>
-                <span className="flex flex-wrap items-center justify-center rounded-full cursor-pointer transition-all hover:bg-purple-500 active:bg-purple-700 h-8 w-16 border-2 bg-darkBlue-400 border-purple-600 text-white font-s">
+                <span className="flex flex-wrap items-center justify-center rounded-full cursor-pointer transition-all hover:bg-purple-500 active:bg-purple-700 h-8 w-16 bg-darkBlue-400 text-white font-s">
                   4
                 </span>
-                <span className="flex flex-wrap items-center justify-center rounded-full cursor-pointer transition-all hover:bg-purple-500 active:bg-purple-700 h-8 w-16 border-2 bg-darkBlue-400 border-purple-600 text-white font-s">
+                <span className="flex flex-wrap items-center justify-center rounded-full cursor-pointer transition-all hover:bg-purple-500 active:bg-purple-700 h-8 w-16  bg-darkBlue-400 text-white font-s">
                   5
                 </span>
               </div>
@@ -161,30 +165,30 @@ function ExploreNFTs() {
         <div className="w-full relative flex flex-col gap-14">
           <div className="bg-gradient-to-r from-purple-800 to-pink-600 absolute right-1 bottom-[50%] h-96 w-96 blur-[10pc] opacity-[30%]" />
           <div className="flex gap-7 relative z-10 flex-wrap">
-            <span className="flex flex-wrap items-center justify-center rounded-full cursor-pointer transition-all hover:bg-purple-500 active:bg-purple-700 px-6 py-2 border-2 bg-darkBlue-400 border-purple-600 text-white">
+            <span className="flex flex-wrap items-center justify-center rounded-full cursor-pointer transition-all hover:bg-purple-500 active:bg-purple-700 px-6 py-2 bg-purple-600 text-white">
               All NFTs
             </span>
-            <span className="flex flex-wrap items-center justify-center rounded-full cursor-pointer transition-all hover:bg-purple-500 active:bg-purple-700 px-6 py-2 border-2 bg-darkBlue-400 border-purple-600 text-white">
+            <span className="flex flex-wrap items-center justify-center rounded-full cursor-pointer transition-all hover:bg-purple-500 active:bg-purple-700 px-6 py-2 bg-darkBlue-400 text-white">
               Sports
             </span>
-            <span className="flex flex-wrap items-center justify-center rounded-full cursor-pointer transition-all hover:bg-purple-500 active:bg-purple-700 px-6 py-2 border-2 bg-darkBlue-400 border-purple-600 text-white">
+            <span className="flex flex-wrap items-center justify-center rounded-full cursor-pointer transition-all hover:bg-purple-500 active:bg-purple-700 px-6 py-2 bg-darkBlue-400 text-white">
               Music
             </span>
-            <span className="flex flex-wrap items-center justify-center rounded-full cursor-pointer transition-all hover:bg-purple-500 active:bg-purple-700 px-6 py-2 border-2 bg-darkBlue-400 border-purple-600 text-white">
+            <span className="flex flex-wrap items-center justify-center rounded-full cursor-pointer transition-all hover:bg-purple-500 active:bg-purple-700 px-6 py-2 bg-darkBlue-400 text-white">
               Art
             </span>
-            <span className="flex flex-wrap items-center justify-center rounded-full cursor-pointer transition-all hover:bg-purple-500 active:bg-purple-700 px-6 py-2 border-2 bg-darkBlue-400 border-purple-600 text-white">
+            <span className="flex flex-wrap items-center justify-center rounded-full cursor-pointer transition-all hover:bg-purple-500 active:bg-purple-700 px-6 py-2 bg-darkBlue-400 text-white">
               Photography
             </span>
-            <span className="flex flex-wrap items-center justify-center rounded-full cursor-pointer transition-all hover:bg-purple-500 active:bg-purple-700 px-6 py-2 border-2 bg-darkBlue-400 border-purple-600 text-white">
+            <span className="flex flex-wrap items-center justify-center rounded-full cursor-pointer transition-all hover:bg-purple-500 active:bg-purple-700 px-6 py-2 bg-darkBlue-400 text-white">
               Utility
             </span>
           </div>
           <div className="bg-gradient-to-r from-purple-800 to-pink-600 absolute h-96 w-96 blur-[10pc] opacity-[30%]" />
           <div className="flex relative z-10 flex-wrap gap-7 justify-evenly">
             {k.map((i) => (
-              <div className=" transition-all w-[17pc] bg-gradient-to-r from-darkBlue-400 to-darkBlue-300 rounded-lg hover:shadow-lg hover:-translate-y-3 0 p-[3px] cursor-pointer">
-                <div className="p-4 bg-gradient-to-r from-darkBlue-600 via-darkBlue-400 to-darkBlue-500 rounded-lg flex flex-col gap-5">
+              <div className=" transition-all w-[17pc] bg-gradient-to-r from-darkBlue-400 to-darkBlue-300 rounded-lg hover:shadow-lg hover:-translate-y-3 0 p-[1px] cursor-pointer">
+                <div className="p-3 bg-gradient-to-r from-darkBlue-600 via-darkBlue-400 to-darkBlue-500 rounded-lg flex flex-col gap-5">
                   <div
                     style={{ backgroundImage: `url(${i.img})` }}
                     className="bg-cover rounded-lg bg-center bg-[url('https://nftix-html.vercel.app/assets/img/images/sebastian-svenson.jpg')] h-[12pc] flex items-center justify-center"
