@@ -8,7 +8,13 @@
 }
 
 ::-webkit-scrollbar {
-    display: none;
+    width: 0.3pc;
+    background: #1b1f28;
+    border-left: solid #2e3442 1px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-image: linear-gradient(#e74694, #9161f986);
 }
 
 #root {
@@ -60,6 +66,34 @@
     animation: customOne 1.2s infinite;
 }
 
+#LiveAuction::before {
+    width: 22px;
+    height: 22px;
+    background: #8d125e;
+    position: absolute;
+    right: -1.7pc;
+    top: 50%;
+    content: "";
+    transform: translateY(-50%);
+    border-radius: 100%;
+    opacity: 1;
+    animation: customOne 1s infinite;
+}
+
+#LiveAuction::after {
+    width: 22px;
+    height: 22px;
+    border: 4px solid #8d125e;
+    position: absolute;
+    right: -1.7pc;
+    top: 50%;
+    content: "";
+    transform: translateY(-50%);
+    border-radius: 100%;
+    opacity: 1;
+    animation: customOne 1.2s infinite;
+}
+
 @keyframes customOne {
     0% {
         -webkit-transform: translateY(-50%) scale(0);
@@ -98,4 +132,79 @@ h3 {
     outline: solid #b100ec 8px;
     outline-offset: -1rem;
     border-radius: 20px;
+}
+
+#user-profile-row-image-animation-1 {
+    animation: slider 30s infinite;
+    transform: translateY(-20pc);
+}
+
+@keyframes slider {
+    0% {
+        transform: translateY(-20pc);
+    }
+
+    100% {
+        transform: translateY(-5pc);
+    }
+}
+
+#user-profile-row-image-animation-2 {
+    animation: slider-2 12s infinite;
+    transform: translateY(10pc);
+}
+
+@keyframes slider-2 {
+    0% {
+        transform: translateY(10pc);
+    }
+
+    50% {
+        transform: translateY(-12pc);
+    }
+
+    70% {
+        transform: translateY(-5pc);
+    }
+
+    100% {
+        transform: translateY(10pc);
+    }
+}
+
+#user-profile-row-image-animation-3 {
+    animation: slider-3 30s infinite ease-in-out;
+    transform: translateY(-30pc);
+}
+
+@keyframes slider-3 {
+    0% {
+        transform: translateY(-30pc);
+    }
+
+    100% {
+        transform: translateY(-5pc);
+    }
+}
+
+
+.swiper-wrapper {
+    /* gap: 2pc; */
+}
+
+.active>span {
+    color: #d61f69;
+}
+
+.active>span .line {
+    display: flex;
+}
+
+.active>span .Outline {
+    display: none;
+}
+
+.active>span .solid {
+    color: #d61f69;
+    display: flex;
 }
