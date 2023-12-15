@@ -9,6 +9,8 @@ GigaTrade is a decentralized NFT marketplace that empowers creators and collecto
 ![image](https://github.com/LinuxKunaL/gigatrade-NFTs-Marketplace/assets/75113218/cffb8fab-f45b-4558-96a4-7a6314c8e3d8)
 ##
 ![image](https://github.com/LinuxKunaL/gigatrade-NFTs-Marketplace/assets/75113218/5d7df3b0-d397-4d94-b3c8-d0d3ef29edf7)
+##
+![image](https://github.com/LinuxKunaL/gigatrade-NFTs-Marketplace/assets/75113218/afacdcad-89cb-46ff-8a79-ab460e8c04f4)
 
 ## Features:
 
