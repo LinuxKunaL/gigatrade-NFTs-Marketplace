@@ -133,7 +133,7 @@ function CollectionDetail() {
                 <input
                   type="text"
                   id="search"
-                  className="bg-gray-50  text-gray-900 text-sm rounded-lg  block ps-4 p-2.5 w-[inherit] border-darkBlue-400/50 dark:bg-darkBlue-600/50 backdrop-blur-xl dark:placeholder-gray-400 dark:text-white focus:ring-purple-600/50 ring-transparent ring-offset-0"
+                  className="bg-gray-50  text-gray-900 text-sm rounded-lg  block ps-4 p-2.5 w-[inherit] border-darkBlue-400/50 dark:bg-darkBlue-600/50 backdrop-blur-xl dark:placeholder-gray-500 dark:text-white focus:ring-purple-600/50 ring-transparent ring-offset-0"
                   placeholder="Search By Title...."
                   required
                 />

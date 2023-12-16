@@ -21,7 +21,7 @@ function AddNewCollection() {
                   Collection Name *
                 </label>
                 <input
-                  className=" bg-gray-50 text-gray-900 text-md rounded-lg focus:ring-0 focus:dark:border-pink-500 block w-full p-2.5 dark:bg-darkBlue-600 dark:border-gray-600/30 dark:placeholder-gray-400 dark:text-white/70"
+                  className=" bg-gray-50 text-gray-900 text-md rounded-lg focus:ring-0 focus:dark:border-pink-500 block w-full p-2.5 dark:bg-darkBlue-600 dark:border-gray-600/30 dark:placeholder-gray-500 dark:text-white/70"
                   type="text"
                   placeholder="Collection Name"
                 />
@@ -31,7 +31,7 @@ function AddNewCollection() {
                   Collection tag *
                 </label>
                 <select
-                  className="bg-gray-50 text-gray-900 text-md rounded-lg focus:ring-0 focus:dark:border-pink-500 block w-full p-2.5 dark:bg-darkBlue-600 dark:border-gray-600/30 dark:placeholder-gray-400 dark:text-white/70"
+                  className="bg-gray-50 text-gray-900 text-md rounded-lg focus:ring-0 focus:dark:border-pink-500 block w-full p-2.5 dark:bg-darkBlue-600 dark:border-gray-600/30 dark:placeholder-gray-500 dark:text-white/70"
                   name=""
                   id=""
                 >

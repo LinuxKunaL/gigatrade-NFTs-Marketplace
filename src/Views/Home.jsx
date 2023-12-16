@@ -2,6 +2,16 @@ import React from "react";
 import Nft from "../assets/images/NFT.png";
 import logo from "../assets/images/logo.png";
 function Home() {
+  
+  document.addEventListener("mousemove", (e) => {
+    var items = document.querySelectorAll("h1,#NFTimage div");
+    for (let index = 0; index < items.length; index++) {
+      items[index].style.transform = `translateY(${
+        e.clientY / 100
+      }px) translateX(${(items[index].dataset.move * e.clientX) / 100}px)`;
+    }
+  });
+
   return (
     <div id="home" className="flex flex-col justify-around">
       <div id="section-1" className="flex mt-20 items-center h-[40pc]">
@@ -54,14 +64,18 @@ function Home() {
           id="side-right "
           className="flex-1 h-full flex items-center relative justify-center"
         >
-          <div className="relative z-10 -skew-x-12">
+          <div id="NFTimage" className="relative z-10 -skew-x-12">
             <div
+              data-move="1"
               id="float-4"
               style={{ top: "-2pc" }}
               className="absolute -left-10 border-[1px] border-darkBlue-100/20 rounded-2xl backdrop-blur-lg w-[28pc] -z-2 h-[14pc] flex flex-col dark:bg-darkBlue-400/30 p-3 gap-1 items-center justify-start"
             />
-            <img src={Nft} className=" relative w-[27pc]" alt="" />
+            <div data-move="2">
+              <img src={Nft} className=" relative w-[27pc]" alt="" />
+            </div>
             <div
+              data-move="3"
               id="float-3"
               className="absolute -top-10 -right-6 border-[1px] border-darkBlue-100/20 rounded-2xl backdrop-blur-lg w-44 flex flex-col dark:bg-darkBlue-400/30 p-3 gap-1 items-center justify-start"
             >
@@ -69,6 +83,7 @@ function Home() {
               <span className="text-white/60">latest Collections</span>
             </div>
             <div
+              data-move="-1"
               id="float-2"
               className="absolute bottom-20 -right-20 border-[1px] border-darkBlue-100/20 rounded-2xl backdrop-blur-lg dark:bg-darkBlue-400/30 p-2 w-48 gap-3 flex justify-start"
             >
@@ -81,6 +96,7 @@ function Home() {
               </div>
             </div>
             <div
+              data-move="-1"
               id="float-1"
               className="absolute -bottom-10 -left-14 border-2 border-darkBlue-100/50 rounded-2xl backdrop-blur-lg dark:bg-darkBlue-400/30 bg-gradient-to-t from-darkBlue-100/40 to-darkBlue-500/60 p-3 w-56 flex justify-between"
             >
@@ -94,10 +110,12 @@ function Home() {
               </div>
             </div>
             <div
+              data-move="4"
               id="float-5"
               className="absolute -bottom-20 left-5 border-[1px] border-darkBlue-100/20 rounded-2xl backdrop-blur-lg w-[24pc] -z-10 h-[14pc] flex flex-col dark:bg-darkBlue-400/30 p-3 gap-1 items-center justify-start"
             />
             <div
+              data-move="1"
               id="float-6"
               className="absolute right-0 -bottom-28 border-[1px] border-darkBlue-100/20 rounded-2xl backdrop-blur-lg flex flex-row dark:bg-darkBlue-400/30 p-3 gap-3 items-center justify-start"
             >

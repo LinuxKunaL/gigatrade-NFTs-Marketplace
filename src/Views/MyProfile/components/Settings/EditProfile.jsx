@@ -1,5 +1,6 @@
 import React from "react";
-
+import { FaTelegramPlane, FaFacebook } from "react-icons/fa";
+import { RiWhatsappFill } from "react-icons/ri";
 function EditProfile() {
   return (
     <div className="text-white/90 mt-5 gap-5 flex flex-col">
@@ -13,7 +14,7 @@ function EditProfile() {
                 Your name *
               </label>
               <input
-                className="bg-gray-50 text-gray-900 text-md rounded-lg focus:ring-0 focus:dark:border-pink-500 block w-full p-2.5 dark:bg-darkBlue-600 dark:border-gray-600/30 dark:placeholder-gray-400 dark:text-white/70"
+                className="bg-gray-50 text-gray-900 text-md rounded-lg focus:ring-0 focus:dark:border-pink-500 block w-full p-2.5 dark:bg-darkBlue-600 dark:border-gray-600/30 dark:placeholder-gray-500 dark:text-white/70"
                 type="text"
                 placeholder="Enter your name"
               />
@@ -23,7 +24,7 @@ function EditProfile() {
                 Phone number
               </label>
               <input
-                className="bg-gray-50 text-gray-900 text-md rounded-lg focus:ring-0 focus:dark:border-pink-500 block w-full p-2.5 dark:bg-darkBlue-600 dark:border-gray-600/30 dark:placeholder-gray-400 dark:text-white/70"
+                className="bg-gray-50 text-gray-900 text-md rounded-lg focus:ring-0 focus:dark:border-pink-500 block w-full p-2.5 dark:bg-darkBlue-600 dark:border-gray-600/30 dark:placeholder-gray-500 dark:text-white/70"
                 type="text"
                 placeholder="Your phone"
               />
@@ -33,7 +34,7 @@ function EditProfile() {
                 Store name
               </label>
               <input
-                className="bg-gray-50 text-gray-900 text-md rounded-lg focus:ring-0 focus:dark:border-pink-500 block w-full p-2.5 dark:bg-darkBlue-600 dark:border-gray-600/30 dark:placeholder-gray-400 dark:text-white/70"
+                className="bg-gray-50 text-gray-900 text-md rounded-lg focus:ring-0 focus:dark:border-pink-500 block w-full p-2.5 dark:bg-darkBlue-600 dark:border-gray-600/30 dark:placeholder-gray-500 dark:text-white/70"
                 type="text"
                 placeholder="Store name"
               />
@@ -43,7 +44,7 @@ function EditProfile() {
                 Email address *
               </label>
               <input
-                className="bg-gray-50 text-gray-900 text-md rounded-lg focus:ring-0 focus:dark:border-pink-500 block w-full p-2.5 dark:bg-darkBlue-600 dark:border-gray-600/30 dark:placeholder-gray-400 dark:text-white/70"
+                className="bg-gray-50 text-gray-900 text-md rounded-lg focus:ring-0 focus:dark:border-pink-500 block w-full p-2.5 dark:bg-darkBlue-600 dark:border-gray-600/30 dark:placeholder-gray-500 dark:text-white/70"
                 type="text"
                 placeholder="Your email"
               />
@@ -55,7 +56,7 @@ function EditProfile() {
             </label>
             <textarea
               rows={5}
-              className="bg-gray-50 text-gray-900 text-md rounded-lg focus:ring-0 focus:dark:border-pink-500 block w-full p-2.5 dark:bg-darkBlue-600 dark:border-gray-600/30 dark:placeholder-gray-400 dark:text-white/70"
+              className="bg-gray-50 text-gray-900 text-md rounded-lg focus:ring-0 focus:dark:border-pink-500 block w-full p-2.5 dark:bg-darkBlue-600 dark:border-gray-600/30 dark:placeholder-gray-500 dark:text-white/70"
               type="text"
               placeholder="Say something about yourself"
             />
@@ -65,51 +66,62 @@ function EditProfile() {
               Properties
             </label>
             <input
-              className="bg-gray-50 text-gray-900 text-md rounded-lg focus:ring-0 focus:dark:border-pink-500 block w-full p-2.5 dark:bg-darkBlue-600 dark:border-gray-600/30 dark:placeholder-gray-400 dark:text-white/70"
+              className="bg-gray-50 text-gray-900 text-md rounded-lg focus:ring-0 focus:dark:border-pink-500 block w-full p-2.5 dark:bg-darkBlue-600 dark:border-gray-600/30 dark:placeholder-gray-500 dark:text-white/70"
               type="text"
               placeholder="Properties"
             />
           </div>
           <div className="flex justify-between flex-row">
-            <div className="flex flex-col gap-4">
+            <div class="flex flex-col gap-4">
               <label htmlFor="" className="text-white/70 font-semibold">
-                Your name *
+                Telegram Link
               </label>
-              <input
-                className="bg-gray-50 text-gray-900 text-md rounded-lg focus:ring-0 focus:dark:border-pink-500 block w-full p-2.5 dark:bg-darkBlue-600 dark:border-gray-600/30 dark:placeholder-gray-400 dark:text-white/70"
-                type="text"
-                placeholder="Enter your name"
-              />
+              <div class="relative w-full">
+                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                  <FaTelegramPlane className="text-white/70" />
+                </div>
+                <input
+                  type="text"
+                  id="simple-search"
+                  class="bg-gray-50 text-gray-900 text-md rounded-lg focus:ring-0 focus:dark:border-pink-500 block w-full p-2.5 ps-10 dark:bg-darkBlue-600 dark:border-gray-600/30 dark:placeholder-gray-500 dark:text-white/70"
+                  placeholder="telegram url"
+                  required
+                />
+              </div>
             </div>
-            <div className="flex flex-col gap-4">
+            <div class="flex flex-col gap-4">
               <label htmlFor="" className="text-white/70 font-semibold">
-                Phone number
+                Whatsapp Link
               </label>
-              <input
-                className="bg-gray-50 text-gray-900 text-md rounded-lg focus:ring-0 focus:dark:border-pink-500 block w-full p-2.5 dark:bg-darkBlue-600 dark:border-gray-600/30 dark:placeholder-gray-400 dark:text-white/70"
-                type="text"
-                placeholder="Your phone"
-              />
+              <div class="relative w-full">
+                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                  <RiWhatsappFill className="text-white/70"/>
+                </div>
+                <input
+                  type="text"
+                  id="simple-search"
+                  class="bg-gray-50 text-gray-900 text-md rounded-lg focus:ring-0 focus:dark:border-pink-500 block w-full p-2.5 ps-10 dark:bg-darkBlue-600 dark:border-gray-600/30 dark:placeholder-gray-500 dark:text-white/70"
+                  placeholder="whatsapp url"
+                  required
+                />
+              </div>
             </div>
-            <div className="flex flex-col gap-4">
+            <div class="flex flex-col gap-4">
               <label htmlFor="" className="text-white/70 font-semibold">
-                Store name
+                Facebook Link
               </label>
-              <input
-                className="bg-gray-50 text-gray-900 text-md rounded-lg focus:ring-0 focus:dark:border-pink-500 block w-full p-2.5 dark:bg-darkBlue-600 dark:border-gray-600/30 dark:placeholder-gray-400 dark:text-white/70"
-                type="text"
-                placeholder="Store name"
-              />
-            </div>
-            <div className="flex flex-col gap-4">
-              <label htmlFor="" className="text-white/70 font-semibold">
-                Email address *
-              </label>
-              <input
-                className="bg-gray-50 text-gray-900 text-md rounded-lg focus:ring-0 focus:dark:border-pink-500 block w-full p-2.5 dark:bg-darkBlue-600 dark:border-gray-600/30 dark:placeholder-gray-400 dark:text-white/70"
-                type="text"
-                placeholder="Your email"
-              />
+              <div class="relative w-full">
+                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                  <FaFacebook className="text-white/70"/>
+                </div>
+                <input
+                  type="text"
+                  id="simple-search"
+                  class="bg-gray-50 text-gray-900 text-md rounded-lg focus:ring-0 focus:dark:border-pink-500 block w-full p-2.5 ps-10 dark:bg-darkBlue-600 dark:border-gray-600/30 dark:placeholder-gray-500 dark:text-white/70"
+                  placeholder="Facebook url"
+                  required
+                />
+              </div>
             </div>
           </div>
           <div className="flex gap-5">

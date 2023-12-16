@@ -41,7 +41,7 @@ function MyNFTs() {
       <div className="text-white/90 mt-10 text-2xl gap-5 flex flex-col font-semibold">
         <div className="flex gap-4">
           <input
-            className=" bg-gray-50 text-gray-900 text-md rounded-lg focus:ring-0 focus:dark:border-pink-500 block  p-2.5 dark:bg-darkBlue-600 dark:border-gray-600/30  dark:placeholder-gray-400 dark:text-white/50"
+            className=" bg-gray-50 text-gray-900 text-md rounded-lg focus:ring-0 focus:dark:border-pink-500 block  p-2.5 dark:bg-darkBlue-600 dark:border-gray-600/30  dark:placeholder-gray-500 dark:text-white/50"
             type="text"
             placeholder="Search NFT by title"
           />

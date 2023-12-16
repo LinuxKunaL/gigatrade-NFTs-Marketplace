@@ -64,7 +64,7 @@ function Navbar() {
             <input
               type="text"
               id="search-navbar"
-              className="block w-36 p-3 ps-10 text-sm text-gray-900  rounded-lg bg-gray-50 focus:ring-purple-500 focus:border-purple-500 dark:bg-darkBlue-300  dark:placeholder-gray-400 dark:text-white outline-none dark:focus:ring-purple-500 "
+              className="block w-36 p-3 ps-10 text-sm text-gray-900  rounded-lg bg-gray-50 focus:ring-purple-500 focus:border-purple-500 dark:bg-darkBlue-300  dark:placeholder-gray-500 dark:text-white outline-none dark:focus:ring-purple-500 "
               placeholder="Search NFt ..."
             />
           </div>
@@ -139,7 +139,7 @@ function Navbar() {
             <input
               type="text"
               id="search-navbar"
-              className="block w-40 p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-purple-500 focus:border-purple-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-purple-500 dark:focus:border-purple-500"
+              className="block w-40 p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-purple-500 focus:border-purple-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-500 dark:text-white dark:focus:ring-purple-500 dark:focus:border-purple-500"
               placeholder="Search..."
             />
           </div>
