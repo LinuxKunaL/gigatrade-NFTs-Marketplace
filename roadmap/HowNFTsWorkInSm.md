@@ -50,9 +50,10 @@ NFT smart contracts often include mechanisms to store metadata associated with e
 ```solidity
 // Storing metadata in ERC-721
 mapping(uint256 => string) public tokenURIs;
-Royalties and Custom Logic
-Smart contracts can be customized to include royalty mechanisms, allowing creators to earn a percentage of subsequent sales. Custom logic for specific use cases, such as auctions or time-limited access to content, can also be implemented in NFT smart contracts.
+
 ```
+## Royalties and Custom Logic
+Smart contracts can be customized to include royalty mechanisms, allowing creators to earn a percentage of subsequent sales. Custom logic for specific use cases, such as auctions or time-limited access to content, can also be implemented in NFT smart contracts.
 
 ## Summary
 In summary, NFTs in smart contracts leverage unique identifiers, ownership tracking, and standardized interfaces to represent ownership and authenticity of digital assets on the blockchain. Smart contracts provide the foundational functionality for creating, transferring, and interacting with these non-fungible tokens. Standards like ERC-721 and ERC-1155 ensure that NFTs can be recognized and utilized across different platforms and applications.
