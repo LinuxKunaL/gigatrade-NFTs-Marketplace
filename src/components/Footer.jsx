@@ -16,7 +16,7 @@ function Footer() {
                 GigaTrade
               </span>
             </a>
-            <p className="w-[32pc] text-sm text-white/60">
+            <p className="sm:w-[32pc] text-sm text-white/60">
               GigaTrade is a decentralized NFT marketplace that empowers
               creators and collectors to seamlessly trade unique digital assets
               on the Ethereum blockchain. This project combines the power of

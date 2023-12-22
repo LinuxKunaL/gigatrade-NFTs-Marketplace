@@ -2,6 +2,7 @@ import React from "react";
 import { FaArrowRightLong, FaArrowLeftLong } from "react-icons/fa6";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
+import { ProductCollection } from "../../../../components/UiComponents/ProductCollection";
 
 import "swiper/css";
 
@@ -26,72 +27,48 @@ function TrendingCollections() {
   ];
   return (
     <div className="text-white/90 text-2xl gap-5 flex flex-col font-semibold">
-      <h2>Trending Collections</h2>
-      <div className="flex flex-col gap-5">
+      <h2 className="sm:text-2xl text-lg">Trending Collections</h2>
+      <div className="flex flex-col gap-5 overflow-y-auto">
         <div>
           <Swiper
             slidesPerView={3}
             centeredSlides={false}
-            spaceBetween={30}
-            modules={[Autoplay]}
+            breakpoints={{
+              200: {
+                slidesPerView: 1,
+                spaceBetween: 20,
+                centeredSlides: false,
+              },
+              450: {
+                slidesPerView: 2,
+                spaceBetween: 20,
+                centeredSlides: false,
+              },
+              600: {
+                slidesPerView: 3,
+                spaceBetween: 20,
+              },
+              1200: {
+                slidesPerView: 4,
+                spaceBetween: 20,
+              },
+              1500: {
+                slidesPerView: 4,
+                spaceBetween: 30,
+              },
+            }}
+            spaceBetween={20}
             autoplay={{
               delay: 3000,
               disableOnInteraction: false,
             }}
             grabCursor={true}
             onBeforeInit={(swiper) => (Change = swiper)}
+            modules={[Autoplay]}
           >
-            {k.map((i) => (
+            {k.map((i, index) => (
               <SwiperSlide>
-                <div
-                  id="collections"
-                  className="flex relative z-10 flex-wrap gap-7 justify-evenly"
-                >
-                  <div className="transition-all bg-gradient-to-r from-darkBlue-400 to-darkBlue-300 rounded-lg hover:shadow-lg hover:-translate-y-3 0 p-[1px] cursor-pointer">
-                    <div className="p-3 w-max bg-gradient-to-r relative from-darkBlue-600 via-darkBlue-400 to-darkBlue-500 rounded-lg flex flex-col gap-5">
-                      <div className="relative">
-                        <img
-                          className=" rounded-md  border-darkBlue-200"
-                          src="https://rainbowit.net/html/nuron/assets/images/collection/collection-lg-01.jpg"
-                          alt=""
-                        />
-                      </div>
-                      <img
-                        className="w-14 h-14 rounded-full border-2 absolute top-[12pc] left-[8.5pc] border-darkBlue-200"
-                        src="https://rainbowit.net/html/nuron/assets/images/client/client-14.png"
-                        alt=""
-                      />
-                      <div className="flex gap-2">
-                        <img
-                          className=" rounded-md  border-darkBlue-200"
-                          src="https://rainbowit.net/html/nuron/assets/images/collection/collection-sm-01.jpg"
-                          alt=""
-                        />
-                        <img
-                          className=" rounded-md  border-darkBlue-200"
-                          src="https://rainbowit.net/html/nuron/assets/images/collection/collection-sm-02.jpg"
-                          alt=""
-                        />
-                        <img
-                          className=" rounded-md  border-darkBlue-200"
-                          src="https://rainbowit.net/html/nuron/assets/images/collection/collection-sm-03.jpg"
-                          alt=""
-                        />
-                      </div>
-                      <div className="flex w-full justify-between items-center">
-                        <span className="text-white/70 text-lg hover:underline">
-                          Orthogon#720
-                        </span>
-                        <button
-                          type="button"
-                          className="py-2 px-4 text-sm font-medium flex items-center gap-4 text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-purple-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-purple-600 dark:text-gray-100 border-none dark:hover:text-white dark:hover:bg-purple-700 bg-gradient-to-r from-purple-800 to-pink-600"
-                        >
-                          10 Items
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <ProductCollection key={index} data={i} />
               </SwiperSlide>
             ))}
           </Swiper>

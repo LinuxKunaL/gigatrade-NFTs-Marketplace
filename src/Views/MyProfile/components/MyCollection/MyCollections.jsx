@@ -22,37 +22,37 @@ function MyCollections() {
   ];
   return (
     <div className="flex flex-col">
-      <div className="h-[10pc] mt-5 rounded-3xl flex flex-row justify-between items-center w-full dark:bg-darkBlue-500/80 outline-dashed outline-offset-2  outline-pink-500/40 p-5">
-        <div className="flex flex-col gap-2">
-          <h2 className="flex gap-2 items-center text-pink-500 text-xl">
+      <div className="h-full gap-4 ssm:gap-0 ssm:h-[10pc] flex-col mt-5 rounded-3xl flex ssm:flex-row justify-between items-center w-full dark:bg-darkBlue-500/80  outline-dashed outline-offset-2 outline-pink-500/40 p-3 ssm:p-5">
+        <div className="flex flex-col gap-2 sm:items-start items-center">
+          <h2 className="flex gap-2 sm:text-start text-center items-center text-pink-500 text-sm sm:text-xl">
             <FiPlusCircle /> Add new collection
           </h2>
-          <p className="dark:text-white/50">
+          <p className="dark:text-white/50 text-sm sm:text-xl sm:text-start text-center">
             create and store the best collections of NFTs
           </p>
         </div>
-        <Link to="/myProfile/addCollection">
-          <button className="py-3 px-10 flex flex-row items-center gap-2 text-white/90 font-semibold text-md  bg-gradient-to-tr from-pink-500 to-purple-500 rounded-xl ">
+        <Link className="w-full ssm:w-auto" to="/myProfile/addCollection">
+          <button className="py-3 px-10 justify-center ssm:justify-start text-sm sm:text-base flex flex-row items-center gap-2 text-white/90 font-semibold text-md bg-gradient-to-tr w-full from-pink-500 to-purple-500 rounded-xl ">
             Create <FaArrowLeftLong className="-rotate-[-140deg]" />
           </button>
         </Link>
       </div>
       <div className="text-white/90 mt-10 text-2xl gap-5 flex flex-col font-semibold">
-        <div className="flex gap-4">
+        <div className="flex gap-4 w-full sm:w-auto">
           <input
-            className="bg-gray-50 text-gray-900 text-md rounded-lg focus:ring-0 focus:dark:border-pink-500 block  p-2.5 dark:bg-darkBlue-600 dark:border-gray-600/30  dark:placeholder-gray-500 dark:text-white/50"
+            className="bg-gray-50 text-gray-900 sm:text-base text-sm rounded-lg focus:ring-0 focus:dark:border-pink-500 block p-2.5 dark:bg-darkBlue-600 dark:border-gray-600/30 dark:placeholder-gray-500 dark:text-white/50 w-full sm:w-auto"
             type="text"
             placeholder="Search Collection by title"
           />
           <button
             type="submit"
-            class="text-white end-2.5 bottom-2.5 bg-pink-700 hover:bg-pink-800 focus:ring-4 focus:outline-none focus:ring-pink-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-pink-600 dark:hover:bg-pink-700 dark:focus:ring-pink-800"
+            className="text-white end-2.5 bottom-2.5 sm:text-base text-sm bg-pink-700 hover:bg-pink-800 focus:ring-4 focus:outline-none focus:ring-pink-300 font-medium rounded-lg px-4 py-2 dark:bg-pink-600 dark:hover:bg-pink-700 dark:focus:ring-pink-800"
           >
             Search
           </button>
         </div>
-        <h2 className="text-2xl">My Collections</h2>
-        <div className="flex mt-5 flex-row flex-wrap justify-evenly gap-5">
+        <h2 className="text-xl sm:text-2xl">My Collections</h2>
+        <div className="flex mt-2 sm:mt-5 flex-row flex-wrap justify-evenly gap-5">
           {k.map((i) => (
             <div
               id="collections"
