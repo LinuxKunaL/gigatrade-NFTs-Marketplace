@@ -19,7 +19,10 @@ module.exports = {
       },
     },
     screens: {
-      ssm: "450px",
+      xxs: "400px",
+      // => @media (min-width: 400px) { ... }
+
+      xs: "450px",
       // => @media (min-width: 450px) { ... }
 
       sm: "640px",
@@ -38,7 +41,7 @@ module.exports = {
       // => @media (min-width: 1536px) { ... }
     },
   },
-  darkMode: 'media',
+  darkMode: "media",
   plugins: [
     require("flowbite/plugin")({
       charts: true,

@@ -269,7 +269,7 @@ function CollectionDetail() {
               >
                 {IsLoading
                   ? NFTsItems.map((item, index) => (
-                      <ProductNFT kay={index} data={item} />
+                      <ProductNFT kay={index} AuthorHide="hidde" data={item} />
                     ))
                   : DummySkeletonData.map((item, index) => (
                       <SkeletonProductNFT key={index} />

@@ -1,10 +1,12 @@
 import React from "react";
 import Nft from "../../assets/images/NFT.png";
+import iM from "../../assets/images/Group.png";
 import logo from "../../assets/images/logo.png";
 import { Link } from "react-router-dom";
 import eth from "../../assets/images/eth.svg";
 import nft from "../../assets/images/nft.svg";
 import metaHome from "../../assets/images/metamaskHome.svg";
+import { ProductNFT } from "../../components/UiComponents/ProductNFT";
 
 function Home() {
   document.addEventListener("mousemove", (e) => {
@@ -15,6 +17,7 @@ function Home() {
       }px) translateX(${(items[index].dataset.move * e.clientX) / 100}px)`;
     }
   });
+
   const k = [
     {
       img: "https://i.seadn.io/s/raw/files/cc8159e0ae3bb8191a60a243d72f0e2e.png?auto=format&dpr=1&w=256",
@@ -27,6 +30,9 @@ function Home() {
     },
     {
       img: "https://i.seadn.io/s/raw/files/e7af4802b383764a1f6693b708d0a5cf.png?auto=format&dpr=1&w=256",
+    },
+    {
+      img: "https://i.seadn.io/s/raw/files/db06245a1a357a3c20af708a3621c7ab.png?auto=format&dpr=1&w=256",
     },
     {
       img: "https://i.seadn.io/s/raw/files/db06245a1a357a3c20af708a3621c7ab.png?auto=format&dpr=1&w=256",
@@ -45,19 +51,19 @@ function Home() {
         >
           <img
             src={eth}
-            className=" ssm:hidden block absolute left-[70%] -z-10 w-14 top-[-2pc] rotate-12"
+            className=" xs:hidden block absolute left-[70%] -z-10 w-14 top-[-2pc] rotate-12"
             alt=""
           />
 
           <img
             src={nft}
-            className=" ssm:hidden block absolute left-[70%] -z-10 w-[6pc] top-[4pc] rotate-12"
+            className=" xs:hidden block absolute left-[70%] -z-10 w-[6pc] top-[4pc] rotate-12"
             alt=""
           />
 
           <img
             src={metaHome}
-            className=" ssm:hidden block absolute  w-[6pc] top-[-4pc] -z-10 -rotate-12"
+            className=" xs:hidden block absolute  w-[6pc] top-[-4pc] -z-10 -rotate-12"
             alt=""
           />
           <h1 className="dark:text-white text-4xl sm:text-7xl text-gray-900/90 font-semibold leading-tight lg:text-start text-center">
@@ -242,71 +248,76 @@ function Home() {
         </div>
         <div className="w-full  mt-1 sm:mt-20 flex justify-center gap-10 sm:justify-between flex-wrap">
           {k.map((data, index) => (
-            <Link
-              to="/nft?info=details"
+            <ProductNFT
               key={index}
-              className="transition-all w-[17pc] bg-gradient-to-r from-darkBlue-500 to-darkBlue-100 rounded-lg hover:shadow-lg hover:-translate-y-3 0 p-[1px] cursor-pointer"
-            >
-              <div className="p-3 bg-gradient-to-r from-darkBlue-600 via-darkBlue-500 to-darkBlue-500 rounded-lg flex flex-col gap-5">
-                <div
-                  style={{ backgroundImage: `url(${data.img})` }}
-                  className="bg-cover rounded-lg bg-center  bg-[url('https://nftix-html.vercel.app/assets/img/images/sebastian-svenson.jpg')] h-[12pc] w-full flex items-center justify-center"
-                />
-                <div className="flex gap-2 items-center justify-between">
-                  <img
-                    className="w-11 rounded-md bg-darkBlue-300 h-11"
-                    src="https://nftix-html.vercel.app/assets/img/avatar/avatar2.jpg"
-                    alt="error in image"
-                    onError={(e) =>
-                      (e.target.src =
-                        "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=")
-                    }
-                  />
-                  <div className="flex flex-col gap-1">
-                    <h2 className="text-white/90 rounded-md w-[9pc] h-[1.5pc]  line-clamp-1 text-sm font-semibold">
-                      Baby doge #2123ssssssssssss
-                    </h2>
-                    <span className="text-white/50 text-sm line-clamp-1 rounded-md  w-[6pc] h-[1.5pc]">
-                      lldlds sdsd
-                    </span>
-                  </div>
-                  <img
-                    className="rounded-full w-7 h-7 0"
-                    src="https://w7.pngwing.com/pngs/268/1013/png-transparent-ethereum-eth-hd-logo-thumbnail.png"
-                    alt="error in image"
-                  />
-                </div>
-                <div className="flex justify-between text-sm">
-                  <div className="flex gap-[0.4pc] flex-col">
-                    <b className="dark:text-white/90 w-[4pc] h-[1.4pc] rounded-sm">
-                      25.5 ETH
-                    </b>
-                    <span className="dark:text-white/50 w-[3.7pc] h-[1.4pc] rounded-sm">
-                      Bid Price
-                    </span>
-                  </div>
-                  <div className="flex gap-[0.4pc] flex-col">
-                    <b className="dark:text-white/90 w-[4pc] h-[1.4pc] rounded-sm">
-                      21.5 ETH
-                    </b>
-                    <span className="dark:text-white/50 w-[3.7pc] h-[1.4pc]rounded-sm">
-                      Offer for
-                    </span>
-                  </div>{" "}
-                  <div className="flex gap-[0.4pc] flex-col">
-                    <b className="dark:text-white/90 w-[4pc] h-[1.4pc] rounded-sm">
-                      1334 $
-                    </b>
-                    <span className="dark:text-white/50 w-[3.7pc] h-[1.4pc]rounded-sm">
-                      in Doller
-                    </span>
-                  </div>
-                </div>
-                <button className=" transition-all items-center justify-center py-3 px-7 text-sm font-medium flex  gap-4 text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-purple-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-purple-600 dark:text-gray-100 border-none dark:hover:text-white bg-gradient-to-r from-purple-800 to-purple-400 hover:from-purple-800 hover:to-purple-600 active:from-purple-600 active:to-purple-700">
-                  Collect Now
-                </button>
-              </div>
-            </Link>
+              className="xl:!flex-initial"
+              data={data}
+            />
+            // <Link
+            //   to="/nft?info=details"
+            //   key={index}
+            //   className="transition-all w-[17pc] bg-gradient-to-r from-darkBlue-500 to-darkBlue-100 rounded-lg hover:shadow-lg hover:-translate-y-3 0 p-[1px] cursor-pointer"
+            // >
+            //   <div className="p-3 bg-gradient-to-r from-darkBlue-600 via-darkBlue-500 to-darkBlue-500 rounded-lg flex flex-col gap-5">
+            //     <div
+            //       style={{ backgroundImage: `url(${data.img})` }}
+            //       className="bg-cover rounded-lg bg-center  bg-[url('https://nftix-html.vercel.app/assets/img/images/sebastian-svenson.jpg')] h-[12pc] w-full flex items-center justify-center"
+            //     />
+            //     <div className="flex gap-2 items-center justify-between">
+            //       <img
+            //         className="w-11 rounded-md bg-darkBlue-300 h-11"
+            //         src="https://nftix-html.vercel.app/assets/img/avatar/avatar2.jpg"
+            //         alt="error in image"
+            //         onError={(e) =>
+            //           (e.target.src =
+            //             "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=")
+            //         }
+            //       />
+            //       <div className="flex flex-col gap-1">
+            //         <h2 className="text-white/90 rounded-md w-[9pc] h-[1.5pc]  line-clamp-1 text-sm font-semibold">
+            //           Baby doge #2123ssssssssssss
+            //         </h2>
+            //         <span className="text-white/50 text-sm line-clamp-1 rounded-md  w-[6pc] h-[1.5pc]">
+            //           lldlds sdsd
+            //         </span>
+            //       </div>
+            //       <img
+            //         className="rounded-full w-7 h-7 0"
+            //         src="https://w7.pngwing.com/pngs/268/1013/png-transparent-ethereum-eth-hd-logo-thumbnail.png"
+            //         alt="error in image"
+            //       />
+            //     </div>
+            //     <div className="flex justify-between text-sm">
+            //       <div className="flex gap-[0.4pc] flex-col">
+            //         <b className="dark:text-white/90 w-[4pc] h-[1.4pc] rounded-sm">
+            //           25.5 ETH
+            //         </b>
+            //         <span className="dark:text-white/50 w-[3.7pc] h-[1.4pc] rounded-sm">
+            //           Bid Price
+            //         </span>
+            //       </div>
+            //       <div className="flex gap-[0.4pc] flex-col">
+            //         <b className="dark:text-white/90 w-[4pc] h-[1.4pc] rounded-sm">
+            //           21.5 ETH
+            //         </b>
+            //         <span className="dark:text-white/50 w-[3.7pc] h-[1.4pc]rounded-sm">
+            //           Offer for
+            //         </span>
+            //       </div>{" "}
+            //       <div className="flex gap-[0.4pc] flex-col">
+            //         <b className="dark:text-white/90 w-[4pc] h-[1.4pc] rounded-sm">
+            //           1334 $
+            //         </b>
+            //         <span className="dark:text-white/50 w-[3.7pc] h-[1.4pc]rounded-sm">
+            //           in Doller
+            //         </span>
+            //       </div>
+            //     </div>
+            //     <button className=" transition-all items-center justify-center py-3 px-7 text-sm font-medium flex  gap-4 text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-purple-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-purple-600 dark:text-gray-100 border-none dark:hover:text-white bg-gradient-to-r from-purple-800 to-purple-400 hover:from-purple-800 hover:to-purple-600 active:from-purple-600 active:to-purple-700">
+            //       Collect Now
+            //     </button>
+            //   </div>
+            // </Link>
           ))}
         </div>
       </div>

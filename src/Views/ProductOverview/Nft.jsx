@@ -17,7 +17,7 @@ function Nft() {
   const [paramState, setParamState] = useSearchParams({
     info: "details",
   });
-  const [NFTsItems, setNFTsItems] = useState([]);
+  const [NFTsItems, setNFTsItems] = useState([1,2,23,3,3,3,3,3,3]);
 
   const NftComponents = {
     details: <NftDetail />,
@@ -219,7 +219,7 @@ function Nft() {
       </div>
       <div
         id="section-3"
-        className="flex-col gap-5  flex h-full mt-10 2xl:h-[50pc] justify-evenly"
+        className="flex-col gap-5 flex h-full mt-10 justify-evenly"
       >
         <div className="flex flex-row justify-between items-center">
           <h1 className="dark:text-white/90 text-2xl sm:text-4xl">
@@ -229,10 +229,10 @@ function Nft() {
             </b>
           </h1>
         </div>
-        <div className="flex relative z-10 flex-wrap gap-7 justify-evenly">
-          {/* {NFTsItems.map((item, index) => (
+        <div className="flex mt-10 relative z-10 flex-wrap gap-7 justify-evenly">
+          {NFTsItems.map((item, index) => (
             <ProductNFT kay={index} data={item} />
-          ))} */}
+          ))}
         </div>
       </div>
     </div>

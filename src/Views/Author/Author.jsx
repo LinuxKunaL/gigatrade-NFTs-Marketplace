@@ -35,7 +35,7 @@ function Author() {
         id="profile"
         className="relative h-[25pc] flex justify-center items-center"
       >
-        <div className="absolute lg:h-auto lg-w-auto h-[50%] w-[60pc] top-0 rounded-lg opacity-40">
+        <div className="absolute lg:h-auto lg-w-auto h-[50%] w-[60pc] xl:w-full top-0 rounded-lg opacity-40">
           <img
             id="bg-image"
             className="h-full w-full"
@@ -50,7 +50,6 @@ function Author() {
             alt=""
           />
           {/* <div className="z-[-1] bg-gradient-to-r from-purple-800 to-pink-600 absolute bottom-0 h-96 w-96 blur-[10pc] opacity-[30%]" /> */}
-
           <h2 className="dark:text-white/90 text-xl sm:text-2xl font-semibold p-1 px-5 rounded-lg backdrop-blur-md">
             MRS SUNAYRA AHSAN
           </h2>
@@ -63,7 +62,7 @@ function Author() {
           </p>
           <div className="text-white/90 flex sm:gap-2 gap-5">
             <FaXTwitter className="sm:h-7 sm:p-1 sm:w-8 active:bg-pink-700 transition-all rounded-md cursor-pointer hover:bg-pink-700/80 " />
-            <FaFacebook className="hsm:h-7 sm:p-1 sm:w-8 active:bg-pink-700 transition-all rounded-md cursor-pointer hover:bg-pink-700/80" />
+            <FaFacebook className="sm:h-7 sm:p-1 sm:w-8 active:bg-pink-700 transition-all rounded-md cursor-pointer hover:bg-pink-700/80" />
             <FaTelegramPlane className="sm:h-7 sm:p-1 sm:w-8 active:bg-pink-700 transition-all rounded-md cursor-pointer hover:bg-pink-700/80" />
           </div>
         </div>

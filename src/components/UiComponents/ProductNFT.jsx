@@ -4,7 +4,7 @@ import { FaEthereum } from "react-icons/fa6";
 import Aos from "aos";
 import "aos/dist/aos.css";
 
-export function ProductNFT({ key, data, className }) {
+export function ProductNFT({ key, data, className, AuthorHide }) {
   useEffect(() => {
     Aos.init();
   }, []);
@@ -12,9 +12,9 @@ export function ProductNFT({ key, data, className }) {
     <Link
       to="/nft"
       key={key}
-      className={`${className}  group transition-all hover:-translate-y-3 rounded-xl flex flex-col gap-3 w-[15pc] bg-darkBlue-500 p-3 sm:flex-auto`}
+      className={`${className} group transition-all hover:-translate-y-3 rounded-xl flex flex-col gap-2 flex-2 w-[15pc] bg-darkBlue-500 p-3 xs:flex-1`}
     >
-      <div className="flex gap-3 items-center">
+      <div className={`${AuthorHide} flex gap-3 items-center`}>
         <img
           className="w-11 rounded-full bg-darkBlue-300 h-11"
           src="https://nftix-html.vercel.app/assets/img/avatar/avatar2.jpg"
@@ -41,20 +41,20 @@ export function ProductNFT({ key, data, className }) {
       <h2 className="text-white/90 transition-all font-semibold hover:text-pink-500">
         Dayco serpentine belt
       </h2>
-      <div className="flex w-full h-[2.4pc] justify-between items-center">
-        <div>
-          <span className="text-white/50 text-xs">Current Bid</span>
+      <div className="flex w-full xs:h-[2.4pc] justify-between items-center">
+        <div className="flex justify-between items-center w-full">
+          <span className="text-white/50 text-xs">Current Price</span>
           <b className="flex text-sm text-white/90 items-center gap-1">
             <FaEthereum />
             34.45
           </b>
         </div>
-        <div
+        {/* <div
           className="p-1 hover:bg-pink-600 font-semibold
           text-darkBlue-400 hover:text-white bg-white/80 backdrop-blur-lg flex items-center justify-center  rounded-lg hover:scale-90 transition-all px-4 h-full "
         >
           Collect
-        </div>
+        </div> */}
       </div>
     </Link>
   );
@@ -63,7 +63,7 @@ export function SkeletonProductNFT({ key }) {
   return (
     <div
       key={key}
-      className="animate-pulse rounded-xl flex flex-col gap-3 w-[15pc] bg-darkBlue-500 p-3 sm:flex-auto"
+      className="animate-pulse rounded-xl flex flex-col gap-2 flex-2 w-[15pc] bg-darkBlue-500 p-3 xs:flex-1"
     >
       <div className="flex gap-3 items-center">
         <img
@@ -84,12 +84,12 @@ export function SkeletonProductNFT({ key }) {
         />
       </div>
       <h2 className="text-white/90 transition-all  rounded-md bg-darkBlue-300 w-[13pc] h-[1.5pc] line-clamp-1 font-semibold hover:text-pink-500" />
-      <div className="flex w-full h-[2.4pc] justify-between items-center">
-        <div className="flex flex-col gap-1">
+      <div className="flex w-full xs:h-[2.4pc] justify-between items-center">
+        <div className="flex justify-between items-center w-full">
           <span className="text-white/50 text-xs rounded-md bg-darkBlue-300 w-[4pc] h-[1pc]" />
           <b className="flex text-sm text-white/90 items-center gap-1 rounded-md bg-darkBlue-300 line-clamp-1 w-[5pc] h-[1.4pc]" />
         </div>
-        <div className="w-[5pc] rounded-md bg-darkBlue-300  px-4 h-full " />
+        {/* <div className="w-[5pc] rounded-md bg-darkBlue-300  px-4 h-full " /> */}
       </div>
     </div>
   );

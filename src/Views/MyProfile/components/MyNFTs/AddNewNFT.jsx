@@ -26,7 +26,7 @@ function AddNewNFT() {
           <p className="text-white/50 text-sm sm:text-base">
             PNG, GIF, WEBP, MP4 or MP3.Max 1Gb.
           </p>
-          <button className="py-3 px-10 flex flex-row items-center gap-2 text-white/90 font-semibold justify-center ssm:justify-start text-sm sm:text-base w-full ssm:w-auto bg-gradient-to-tr from-pink-500 to-purple-500 rounded-xl ">
+          <button className="py-3 px-10 flex flex-row items-center gap-2 text-white/90 font-semibold justify-center xs:justify-start text-sm sm:text-base w-full xs:w-auto bg-gradient-to-tr from-pink-500 to-purple-500 rounded-xl ">
             Create <FaArrowLeftLong className="-rotate-[-140deg]" />
           </button>
         </div>

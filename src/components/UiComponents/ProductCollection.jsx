@@ -9,7 +9,7 @@ export function ProductCollection({ data, key }) {
       className="transition-all rounded-lg hover:shadow-lg hover:-translate-y-3 cursor-pointer p-3 bg-gradient-to-r relative border-[1px] border-gray-700/60 from-darkBlue-600 via-darkBlue-400 to-darkBlue-500 flex flex-col gap-5"
     >
       {/* <div className="p-3 bg-gradient-to-r relative from-darkBlue-600 via-darkBlue-400 to-darkBlue-500 rounded-lg flex flex-col gap-5"> */}
-      <div className="relative flex overflow-hidden items-center justify-center h-[13pc] w-full ssm:w-[19pc] rounded-lg">
+      <div className="relative flex overflow-hidden items-center justify-center h-[13pc] w-full xs:w-[19pc] rounded-lg">
         <img
           className="rounded-md w-full bg-darkBlue-300"
           src={data.thumbnailUrl}
