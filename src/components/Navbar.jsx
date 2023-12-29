@@ -5,7 +5,12 @@ import { Link, NavLink } from "react-router-dom";
 import { DarkThemeToggle, Flowbite } from "flowbite-react";
 import { SiEthereum } from "react-icons/si";
 import { RiMenu4Fill } from "react-icons/ri";
+import { Connect } from "../hooks/useConnectWallet";
+import { useSelector } from "react-redux";
+
 function Navbar() {
+  const AccountState = useSelector((state) => state.EthAccountStates);
+
   const openCloseMenu = () => {
     const NavLinks = document.getElementById("nav-links").classList;
     if (NavLinks.contains("activeNavLinks")) {
@@ -16,6 +21,7 @@ function Navbar() {
       NavLinks.remove("closeNavLinks");
     }
   };
+
   return (
     <nav
       id="navbar"
@@ -137,29 +143,38 @@ function Navbar() {
               placeholder="Search NFt ..."
             />
           </div>
-          {/* <button
-            type="button"
-            className="py-2.5 px-5  text-sm font-medium flex items-center gap-4 text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-purple-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-purple-600 dark:text-gray-100 border-none dark:hover:text-white dark:hover:bg-purple-700 bg-gradient-to-r from-purple-800 to-pink-600"
-          >
-            <img className="w-7" src={metamaskLogo} alt="metamask" /> Connect
-          </button> */}
-          <NavLink
-            to="/myProfile"
-            id="profile"
-            className="md:flex hidden gap-4 items-center"
-          >
-            <img
-              src="https://opne9reactnext.vercel.app/assets/images/avatar/avatar-small-09.png"
-              alt=""
-            />
-            <span className="dark:text-white/60 text-gray-800/90 font-semibold cursor-pointer hover:dark:bg-darkBlue-500 transition-all rounded-lg p-1 px-2">
-              0x234..3443
-              <div className="flex gap-3 items-center cursor-pointer">
-                <b className="dark:text-white/80 text-gray-700/90">34.455</b>
-                <SiEthereum className="dark:text-white/60 text-gray-700/90" />
-              </div>
-            </span>
-          </NavLink>
+          {AccountState.isConnect ? (
+            <NavLink
+              to="/myProfile"
+              id="profile"
+              className="md:flex hidden gap-4 items-center"
+            >
+              <img
+                src="https://opne9reactnext.vercel.app/assets/images/avatar/avatar-small-09.png"
+                alt=""
+              />
+              <span className="dark:text-white/60 text-gray-800/90 font-semibold cursor-pointer hover:dark:bg-darkBlue-500 transition-all rounded-lg p-1 px-2">
+                {AccountState.account.slice(0, 7) +
+                  "..." +
+                  AccountState.account.slice(38)}
+                <div className="flex gap-3 items-center cursor-pointer">
+                  <b className="dark:text-white/80 text-gray-700/90">
+                    {AccountState.balance.slice(0, 6)}
+                  </b>
+                  <SiEthereum className="dark:text-white/60 text-gray-700/90" />
+                </div>
+              </span>
+            </NavLink>
+          ) : (
+            <button
+              type="button"
+              className="py-2.5 px-5  text-sm font-medium flex items-center gap-4 text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-purple-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-purple-600 dark:text-gray-100 border-none dark:hover:text-white dark:hover:bg-purple-700 bg-gradient-to-r from-purple-800 to-pink-600"
+              onClick={Connect}
+            >
+              <img className="w-7" src={metamaskLogo} alt="metamask" /> Connect
+            </button>
+          )}
+
           {/* <DarkThemeToggle /> */}
           <div
             id="menu-ham"

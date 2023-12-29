@@ -5,42 +5,57 @@ import {
   ProductNFT,
   SkeletonProductNFT,
 } from "../../../components/UiComponents/ProductNFT";
+import { fetchAllNFTs } from "../../../hooks/ContractControllers/useFetchAllNFTs";
+import { web3 } from "../../../hooks/useContract";
 
 function ShopNFTs({ filters }) {
   const DummySkeletonData = [1, 2, 3, 4, 5, 6, 81, 2];
+
   const [NFTsItems, setNFTsItems] = useState([]);
   const [IsLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [progress, setProgress] = useState(30);
 
   const fetchPhotos = async () => {
-    setTimeout(async () => {
-      const response = await axios.get(
-        `https://jsonplaceholder.typicode.com/photos?_page=${page}&_limit=10`
-      );
-      var data = response.data;
-      setNFTsItems((pre) => [...pre, ...data]);
-      setPage((pre) => pre + 1);
-      setProgress(100);
-      setIsLoading(true);
-    }, 1000);
+    const response = await fetchAllNFTs();
+    const NFTsData = await Promise.all(
+      response.map(async (items) => {
+        const metadataJson = (await getMetadata(items.Uri)).data;
+        return {
+          NFTId: items.NFTid,
+          Price: web3.utils.fromWei(items.Price.toString(), "ether"),
+          Image:
+            "https://gateway.pinata.cloud/ipfs/" + metadataJson.image.slice(7),
+          Name: metadataJson.name + " #" + items.NFTid,
+          Owner: items.Owner,
+        };
+      })
+    );
+    console.log(NFTsData);
+    setNFTsItems(NFTsData);
+    setProgress(100);
+    setIsLoading(true);
   };
-  const handleScroll = () => {
-    const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
-    if (scrollTop + clientHeight >= scrollHeight - 10) {
-      fetchPhotos();
-    }
+  const getMetadata = async (uri) => {
+    return await axios.get("https://gateway.pinata.cloud/ipfs/" + uri.slice(7));
   };
+  // const handleScroll = () => {
+  //   // const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+  //   // if (scrollTop + clientHeight >= scrollHeight - 10) {
+  //   fetchPhotos();
+  //   // }
+  // };
+
   useEffect(() => {
     fetchPhotos();
   }, []);
 
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+  // useEffect(() => {
+  //   window.addEventListener("scroll", handleScroll);
+  //   return () => {
+  //     window.removeEventListener("scroll", handleScroll);
+  //   };
+  // }, []);
 
   return (
     <>
@@ -51,7 +66,7 @@ function ShopNFTs({ filters }) {
       />
       <div
         id="all"
-        className="flex relative z-10 flex-wrap gap-7 justify-evenly"
+        className="flex relative z-10 flex-wrap gap-7 justify-start"
       >
         {IsLoading
           ? NFTsItems.map((item, index) => (

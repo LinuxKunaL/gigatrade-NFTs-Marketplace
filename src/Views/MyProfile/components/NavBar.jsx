@@ -3,12 +3,17 @@ import { SiEthereum } from "react-icons/si";
 import { Tooltip } from "flowbite-react";
 import { RiSettings3Line } from "react-icons/ri";
 import { FaBarsStaggered } from "react-icons/fa6";
+import { useSelector } from "react-redux";
+
 function NavBar({ ClickEvent }) {
+
+  const AccountState = useSelector((state) => state.EthAccountStates);
+
   return (
     <nav className="sm:h-[6.31pc] h-[5pc] flex items-center justify-between border-b-[1px] border-darkBlue-300 w-full dark:bg-darkBlue-600">
       <div
         onClick={() => ClickEvent()}
-        className="sm:p-4 p-3 sm:ml-12 ml-2 w-max rounded-lg text-white/90 bg-darkBlue-300 hover:bg-darkBlue-200 active:bg-darkBlue-400 transition-all xl:hidden cursor-pointer"
+        className="sm:p-4 p-3 sm:ml-12 ml-2 w-max rounded-lg text-white/90 bg-darkBlue-300 hover:bg-darkBlue-200 active:bg-darkBlue-400 transition-all xl:opacity-0 cursor-pointer"
       >
         <FaBarsStaggered />
       </div>
@@ -19,11 +24,13 @@ function NavBar({ ClickEvent }) {
             src="https://opne9reactnext.vercel.app/assets/images/avatar/avatar-small-09.png"
             alt=""
           />
-          <span className="dark:text-white/60 text-[0.8rem] sm:text-lg font-semibold cursor-pointer hover:dark:bg-darkBlue-500 transition-all rounded-lg p-1 px-2">
-            0x234..3443
+          <span className="dark:text-white/60 text-[0.8rem] sm:text-base font-semibold cursor-pointer hover:dark:bg-darkBlue-500 transition-all rounded-lg p-1 px-2">
+            {AccountState.account.slice(0, 7) +
+              "..." +
+              AccountState.account.slice(38)}
             <div className="flex sm:gap-3 gap-1 items-center cursor-pointer">
               <b className="dark:text-white/80 sm:font-semibold font-medium">
-                34.455
+                {AccountState.balance.slice(0, 6)}
               </b>
               <SiEthereum className="dark:text-white/60" />
             </div>

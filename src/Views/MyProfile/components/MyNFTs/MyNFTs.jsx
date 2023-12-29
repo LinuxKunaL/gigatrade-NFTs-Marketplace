@@ -1,26 +1,64 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FiPlusCircle } from "react-icons/fi";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { Link } from "react-router-dom";
+import { ProductNFT } from "../../../../components/UiComponents/ProductNFT";
+import { fetchNFT } from "../../../../hooks/ContractControllers/useFetchNFT";
+import { useSelector } from "react-redux";
+import { FaEthereum } from "react-icons/fa6";
+import axios from "axios";
+import { web3 } from "../../../../hooks/useContract";
 
 function MyNFTs() {
-  const k = [
-    {
-      img: "https://i.seadn.io/s/raw/files/cc8159e0ae3bb8191a60a243d72f0e2e.png?auto=format&dpr=1&w=256",
-    },
-    {
-      img: "https://i.seadn.io/s/raw/files/84624d83e4cef9e045c6f8c7e36b7028.png?auto=format&dpr=1&w=256",
-    },
-    {
-      img: "https://i.seadn.io/s/raw/files/db06245a1a357a3c20af708a3621c7ab.png?auto=format&dpr=1&w=256",
-    },
-    {
-      img: "https://i.seadn.io/s/raw/files/e7af4802b383764a1f6693b708d0a5cf.png?auto=format&dpr=1&w=256",
-    },
-    {
-      img: "https://i.seadn.io/s/raw/files/e7af4802b383764a1f6693b708d0a5cf.png?auto=format&dpr=1&w=256",
-    },
-  ];
+  const [RowNFTsData, setRowNFTsData] = useState([{}]);
+  const [ClearNFTData, setClearNFTData] = useState([]);
+
+  const _from = useSelector((state) => state.EthAccountStates.account);
+
+  useEffect(() => {
+    const fetchingNfts = async () => {
+      try {
+        const result = await fetchNFT(_from);
+        setRowNFTsData(result);
+      } catch (error) {
+        console.error("Error fetching NFTs:", error);
+      }
+    };
+    fetchingNfts();
+  }, [_from]);
+
+  useEffect(() => {
+    const loading = async () => {
+      try {
+        const updatedNFTData = await Promise.all(
+          RowNFTsData.map(async (items) => {
+            const metaDataObject = (await getMetadata(items.uri)).data;
+            const imageData =
+              "https://gateway.pinata.cloud/ipfs/" +
+              metaDataObject.image.slice(7);
+            return {
+              price: items["price"].toString(),
+              NftId: parseInt(items["tokenId"]),
+              name: metaDataObject.name + " #" + items["tokenId"],
+              description: metaDataObject.description,
+              properties: metaDataObject.properties,
+              image: imageData,
+            };
+          })
+        );
+        setClearNFTData(updatedNFTData);
+      } catch (error) {
+        console.error("Error loading NFTs:", error);
+      }
+    };
+    loading();
+  }, [RowNFTsData]);
+
+  const getMetadata = async (uri) => {
+    return await axios.get("https://gateway.pinata.cloud/ipfs/" + uri.slice(7));
+  };
+  console.log(ClearNFTData);
+
   return (
     <div className="flex flex-col">
       <div className="h-full gap-4 xs:gap-0 xs:h-[10pc] flex-col mt-5 rounded-3xl flex xs:flex-row justify-between items-center w-full dark:bg-darkBlue-500/80  outline-dashed outline-offset-2 outline-pink-500/40 p-3 xs:p-5">
@@ -53,52 +91,54 @@ function MyNFTs() {
           </button>
         </div>
         <h2 className="text-xl sm:text-2xl">My Created NFTs</h2>
-        <div className="flex mt-2 sm:mt-5 flex-row flex-wrap justify-evenly gap-5">
-          {k.map((i) => (
-            <div className="transition-all bg-gradient-to-r from-darkBlue-400 to-darkBlue-300 rounded-lg hover:shadow-lg hover:-translate-y-3 w-[16pc] p-[1px] cursor-pointer">
-              <div className="p-3 bg-gradient-to-r from-darkBlue-600 via-darkBlue-400 to-darkBlue-500 rounded-lg flex flex-col gap-5">
-                <div
-                  style={{ backgroundImage: `url(${i.img})` }}
-                  className="bg-cover rounded-lg bg-center bg-[url('https://nftix-html.vercel.app/assets/img/images/sebastian-svenson.jpg')] h-[12pc] flex items-center justify-center"
+        <div className="flex mt-2 sm:mt-5 flex-row flex-wrap justify-start gap-5">
+          {ClearNFTData.map((item, index) => (
+            <Link
+              to="/nft"
+              key={index}
+              className={`group transition-all hover:-translate-y-3 rounded-xl flex flex-col gap-2 w-[15pc] bg-darkBlue-500 p-3`}
+            >
+              <div className={`flex gap-3 items-center`}>
+                <img
+                  className="w-11 rounded-full bg-darkBlue-300 h-11"
+                  src="https://nftix-html.vercel.app/assets/img/avatar/avatar2.jpg"
+                  alt="error in image"
                 />
-                <div className="flex gap-2 items-center justify-between">
-                  <img
-                    className="w-11 h-11"
-                    src="https://nftix-html.vercel.app/assets/img/avatar/avatar2.jpg"
-                    alt=""
-                  />
-                  <div>
-                    <h2 className="text-white/90 text-sm font-semibold">
-                      Baby doge #2123
-                    </h2>
-                    <span className="text-white/50 text-sm">lldlds sdsd</span>
-                  </div>
-                  <img
-                    className="rounded-full w-7 h-7"
-                    src="https://w7.pngwing.com/pngs/268/1013/png-transparent-ethereum-eth-hd-logo-thumbnail.png"
-                    alt=""
-                  />
+                <div className="flex flex-col">
+                  <span className="text-white/50 text-xs line-clamp-1 rounded-md  w-[6pc] h-[1pc]">
+                    Created by :
+                  </span>{" "}
+                  <h2 className="text-white/90 rounded-md w-[9pc] h-[1.5pc]  line-clamp-1 text-sm font-normal">
+                    Baby doge #2123ssssssssssss
+                  </h2>
                 </div>
-                <div className="flex justify-between text-sm">
-                  <div className="flex gap-[0.1pc] flex-col">
-                    <b className="dark:text-white/90">25.5 ETH</b>
-                    <span className="dark:text-white/50">Bid Price</span>
-                  </div>
-                  <div className="flex gap-[0.1pc] flex-col">
-                    <b className="dark:text-white/90">21.5 ETH</b>
-                    <span className="dark:text-white/50">Offer for</span>
-                  </div>{" "}
-                  <div className="flex gap-[0.1pc] flex-col">
-                    <b className="dark:text-white/90">1334 $</b>
-                    <span className="dark:text-white/50">in Doller</span>
-                  </div>
-                </div>
-                <button className=" items-center justify-center py-3 px-7 text-sm font-medium flex  gap-4 text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-purple-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-purple-600 dark:text-gray-100 border-none dark:hover:text-white bg-gradient-to-r from-purple-800 to-purple-400 hover:from-purple-800 hover:to-purple-600 active:from-purple-600 active:to-purple-700">
-                  Collect Now
-                </button>
               </div>
-            </div>
+              <div
+                className={`h-[12pc] transition-all relative w-full overflow-hidden rounded-xl flex items-center justify-center`}
+              >
+                <img
+                  className="h-full w-full group-hover:scale-125 transition-all"
+                  src={item.image}
+                  alt=""
+                />
+              </div>
+              <h2 className="text-white/90 text-base transition-all font-semibold hover:text-pink-500">
+                {item.name}
+              </h2>
+              <div className="flex w-full xs:h-[2.4pc] justify-between items-center">
+                <div className="flex justify-between items-center w-full">
+                  <span className="text-white/50 text-xs">Current Price</span>
+                  <b className="flex text-sm text-white/90 items-center gap-1">
+                    <FaEthereum />
+                    {web3.utils.fromWei(item.price, "ether")}
+                  </b>
+                </div>
+              </div>
+            </Link>
           ))}
+          {/* {k.map((i, index) => (
+            <ProductNFT key={index} data={i} className="" AuthorHide="hidden" />
+          ))} */}
         </div>
       </div>
     </div>

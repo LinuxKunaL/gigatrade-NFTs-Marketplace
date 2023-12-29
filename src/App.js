@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import "./assets/styles/index.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -11,12 +12,22 @@ import Author from "./Views/Author/Author";
 import MyProfile from "./Views/MyProfile/MyProfile";
 import ShopNFTs from "./Views/ExploreShop/Components/ShopNFTs";
 import Nft from "./Views/ProductOverview/Nft";
-import React from "react";
+
+import { Connect, WalletInstance } from "./hooks/useConnectWallet";
+import ContractInstance from "./hooks/useContract";
 
 function App() {
+  const [Reload, setReload] = useState(0);
+  WalletInstance.on("accountsChanged", () => setReload(Reload + 1));
+  useEffect(() => {
+    if (localStorage.getItem("IsMetamaskConnect")) {
+      Connect();
+    }
+  }, [Reload]);
+
   return (
-    <BrowserRouter>
-      <React.StrictMode>
+    <React.StrictMode>
+      <BrowserRouter>
         <div className="flex justify-center items-center min-h-full max-w-full dark:bg-darkBlue-700">
           <div className="container h-full">
             <Navbar />
@@ -42,8 +53,8 @@ function App() {
             <Footer />
           </div>
         </div>
-      </React.StrictMode>
-    </BrowserRouter>
+      </BrowserRouter>
+    </React.StrictMode>
   );
 }
 

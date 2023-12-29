@@ -46,7 +46,7 @@ function MenuBar({ className, close }) {
         <div className="h-[1px] w-full bg-darkBlue-300" />
         <Link
           to="/myProfile/addNFT"
-          className="py-2.5 px-8 sm:px-14 text-[0.8rem] sm:text-md font-medium flex items-center gap-2  text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-purple-700 focus:z-10 focus:ring-4 focus:ring-gray-200 self-center dark:focus:ring-gray-700 dark:bg-purple-600 dark:text-gray-100 border-none dark:hover:text-white dark:hover:bg-purple-700 bg-gradient-to-r from-purple-800 to-pink-600"
+          className="py-2.5 px-8 sm:px-14 text-[0.8rem] sm:text-base font-medium flex items-center gap-2  text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-purple-700 focus:z-10 focus:ring-4 focus:ring-gray-200 self-center dark:focus:ring-gray-700 dark:bg-purple-600 dark:text-gray-100 border-none dark:hover:text-white dark:hover:bg-purple-700 bg-gradient-to-r from-purple-800 to-pink-600"
         >
           Create
           <IoIosCreate className="text-md" />

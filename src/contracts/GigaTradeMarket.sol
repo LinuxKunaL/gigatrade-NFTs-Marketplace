@@ -52,6 +52,29 @@ contract GigatradeMarketplace is ERC721URIStorage, Ownable(msg.sender) {
         return NFTsPrices[nftId];
     }
 
+    struct NftInfo {
+        uint256 price;
+        string uri;
+        uint256 tokenId;
+    }
+
+    function NftByUserAddress(address  _from) public view returns (NftInfo[] memory) {
+        uint256 leg = _nftOfAddress[_from].length;
+
+        NftInfo[] memory nfts = new NftInfo[](leg);
+
+        for (uint256 i = 0; i < leg; i++) {
+            uint256 nftId = _nftOfAddress[_from][i];
+            nfts[i] = NftInfo({
+                price: GetPriceOfNft(nftId),
+                uri: tokenURI(nftId),
+                tokenId: nftId
+            });
+        }
+
+        return nfts;
+    }
+
     modifier verifyEdit(uint256 nftid) {
         if (msg.sender == ownerOf(nftid)) {
             _;
