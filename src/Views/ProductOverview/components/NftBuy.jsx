@@ -1,20 +1,20 @@
 import React from "react";
 import { FaEthereum, FaRegHeart } from "react-icons/fa";
 
-function NftBuy() {
+function NftBuy({ price }) {
   return (
     <div className="flex flex-col gap-3 rounded-lg p-4 flex-aut border-darkBlue-300/50 border-[1px] bg-darkBlue-500/70 sm:w-auto w-full">
       <span className="dark:text-white/80 sm:text-base text-sm font-semibold">
         Current Price
       </span>
       <div className="flex gap-3 items-baseline">
-        <b className="text-2xl sm:text-5xl dark:text-white/90">~6.78 ETH</b>{" "}
+        <b className="text-2xl sm:text-5xl dark:text-white/90">~{price} ETH</b>{" "}
         <span className="dark:text-white/60 text-sm sm:text-base">
-          ($3,566.34)
+          (${2365 * (price * 82)})
         </span>
       </div>
       <b className="dark:text-white/50 font-normal text-sm sm:text-base">
-        Last sale price ~5.67 ETH
+        Last sale price ~{price - 1.5} ETH
       </b>
       <button
         type="button"
@@ -22,7 +22,7 @@ function NftBuy() {
       >
         Buy now for
         <div className="flex gap-2 items-center">
-          <FaEthereum /> 6.78 ETH
+          <FaEthereum /> {price} ETH
         </div>
       </button>
     </div>

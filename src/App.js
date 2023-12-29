@@ -37,11 +37,12 @@ function App() {
                 <Route index element={<ShopNFTs />} />
                 <Route path="collections" />
               </Route>
-              <Route path="/nft" element={<Nft />} />
+              <Route path="/nft/:id" element={<Nft />} />
               <Route path="/collectionDetail" element={<CollectionDetail />} />
               <Route path="/author" element={<Author />} />
               <Route path="/myProfile" element={<MyProfile />}>
                 <Route path="addNFT" />
+                <Route path="editNFT/:id"/>
                 <Route path="myNFTs" />
                 <Route path="setting" />
                 <Route path="myFavorites" />

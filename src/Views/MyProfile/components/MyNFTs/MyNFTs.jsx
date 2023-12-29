@@ -3,7 +3,7 @@ import { FiPlusCircle } from "react-icons/fi";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { ProductNFT } from "../../../../components/UiComponents/ProductNFT";
-import { fetchNFT } from "../../../../hooks/ContractControllers/useFetchNFT";
+import { fetchNFT } from "../../../../hooks/ContractControllers/useFetchNFTByUser";
 import { useSelector } from "react-redux";
 import { FaEthereum } from "react-icons/fa6";
 import axios from "axios";
@@ -94,7 +94,7 @@ function MyNFTs() {
         <div className="flex mt-2 sm:mt-5 flex-row flex-wrap justify-start gap-5">
           {ClearNFTData.map((item, index) => (
             <Link
-              to="/nft"
+              to={"/myProfile/EditNFT/"+item.NftId}
               key={index}
               className={`group transition-all hover:-translate-y-3 rounded-xl flex flex-col gap-2 w-[15pc] bg-darkBlue-500 p-3`}
             >

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaEthereum, FaRegHeart } from "react-icons/fa";
 import { BsFillShareFill } from "react-icons/bs";
 import { IoEyeOutline } from "react-icons/io5";
@@ -12,12 +12,17 @@ import NftChart from "./components/NftChart";
 import NftListing from "./components/NftListing";
 import NftBuy from "./components/NftBuy";
 import NftBid from "./components/NftBId";
+import { useParams } from "react-router-dom";
+import { fetchNFTById } from "../../hooks/ContractControllers/useFetchNFTById";
+import { web3 } from "../../hooks/useContract";
 
 function Nft() {
+  const { id } = useParams();
+
   const [paramState, setParamState] = useSearchParams({
     info: "details",
   });
-  const [NFTsItems, setNFTsItems] = useState([1,2,23,3,3,3,3,3,3]);
+  const [NFTsItems, setNFTsItems] = useState([]);
 
   const NftComponents = {
     details: <NftDetail />,
@@ -26,16 +31,17 @@ function Nft() {
     activity: <NftActivity />,
   };
 
-  // const fetchPhotos = async () => {
-  //   setTimeout(async () => {
-  //     const response = await axios.get(
-  //       `https://jsonplaceholder.typicode.com/photos?_page=${1}&_limit=10`
-  //     );
-  //     var data = response.data;
-  //     setNFTsItems((pre) => [...pre, ...data]);
-  //   }, 1000);
-  // };
-  // fetchPhotos()
+  useEffect(() => {
+    const fetching = async () => {
+      try {
+        const response = await fetchNFTById(id);
+        setNFTsItems(response);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetching();
+  }, [id]);
 
   return (
     <div className="sm:p-0 p-4">
@@ -51,11 +57,11 @@ function Nft() {
           <span className="dark:text-white/50">NFT Details</span>
         </div>
       </div>
-      <div id="section-2" className="flex xl:flex-row flex-col gap-5">
+      <div id="section-2" className="flex xl:flex-row flex-col gap-8 xl:gap-28">
         <div className="flex-1 relative">
           <img
             className="z-10 sticky top-[10pc] xl:w-auto w-full rounded-2xl"
-            src="https://nftix-html.vercel.app/assets/img/images/hands/hand-6.jpg"
+            src={NFTsItems.Image}
             alt=""
           />
           <div className="bg-gradient-to-r from-purple-800/20 to-purple-600/40 absolute right-1 bottom-[50%] h-96 w-96 blur-[10pc] opacity-[30%]" />
@@ -65,7 +71,11 @@ function Nft() {
             <div className="sm:text-base text-sm">
               by{" "}
               <span className="font-semibold text-pink-600">
-                Billionaires NTFt Club
+                {NFTsItems.Owner
+                  ? NFTsItems.Owner.slice(0, 7) +
+                    ".." +
+                    NFTsItems.Owner.slice(38)
+                  : null}
               </span>
             </div>
             <div className="flex gap-3 items-center">
@@ -80,12 +90,10 @@ function Nft() {
             </div>
           </div>
           <h1 className="font-semibold dark:text-white text-2xl sm:text-5xl">
-            Golden Skull
+            {NFTsItems.Name}
           </h1>
           <p className="dark:text-white/80 sm:text-base text-sm">
-            Hey guys! New exploration about NFT Marketplace Web Design, this
-            time I'm inspired by one of my favorite NFT website called Rarible
-            (with crypto payment)! What do you think?
+            {NFTsItems.Description}
           </p>
           <div className="flex sm:gap-10 sm:justify-start justify-between">
             <div className="flex flex-col gap-2">
@@ -98,8 +106,12 @@ function Nft() {
                   src="https://nftix-html.vercel.app/assets/img/avatar/avatar3.jpg"
                   alt=""
                 />
-                <span className="dark:text-white/60 sm:text-base text-sm">
-                  0x3233...334
+                <span className="dark:text-white/60 hover:text-pink-500 transition-all cursor-pointer sm:text-base text-sm">
+                  {NFTsItems.Owner
+                    ? NFTsItems.Owner.slice(0, 6) +
+                      ".." +
+                      NFTsItems.Owner.slice(38)
+                    : null}
                 </span>
               </div>
             </div>
@@ -139,8 +151,8 @@ function Nft() {
             </div>
           </div>
           <div className="flex justify-between gap-8">
-            {/* <NftBuy/> */}
-            <NftBid />
+            <NftBuy price={NFTsItems.Price} />
+            {/* <NftBid /> */}
           </div>
           <div className="">
             <ul className="flex gap-2 flex-wrap text-sm font-medium text-center text-gray-500 border-b border-darkBlue-600 dark:border-darkBlue-500 dark:text-gray-400">
@@ -230,9 +242,9 @@ function Nft() {
           </h1>
         </div>
         <div className="flex mt-10 relative z-10 flex-wrap gap-7 justify-evenly">
-          {NFTsItems.map((item, index) => (
+          {/* {NFTsItems.map((item, index) => (
             <ProductNFT kay={index} data={item} />
-          ))}
+          ))} */}
         </div>
       </div>
     </div>

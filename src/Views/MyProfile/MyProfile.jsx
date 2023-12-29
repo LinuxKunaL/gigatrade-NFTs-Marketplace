@@ -5,7 +5,9 @@ import Body from "./components/Body";
 import { Route, Routes } from "react-router-dom";
 import AddNewCollection from "./components/MyCollection/AddNewCollection";
 import AddNewNFT from "./components/MyNFTs/AddNewNFT";
+import EditNFT from "./components/MyNFTs/EditNFT";
 import EditCollection from "./components/MyCollection/EditCollection";
+
 function MyProfile() {
   var css = "#navbar{display:none;}footer{display:none;}";
 
@@ -14,7 +16,7 @@ function MyProfile() {
   var changeCssClass = () => {
     setStateMenuBar("activeMenuBar");
   };
-  
+
   var closeMenu = () => {
     setStateMenuBar("closeMenuBar");
   };
@@ -38,6 +40,7 @@ function MyProfile() {
             <Route path="/editCollection" element={<EditCollection />} />
             <Route path="/addCollection" element={<AddNewCollection />} />
             <Route path="/addNFT" element={<AddNewNFT />} />
+            <Route path="/editNFT/:id" element={<EditNFT />} />
           </Routes>
         </div>
       </div>
