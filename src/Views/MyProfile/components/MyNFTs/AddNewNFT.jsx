@@ -22,9 +22,9 @@ function AddNewNFT() {
     description: "",
     properties: "",
     royalties: "",
+    approve: false,
   });
   const UserEthAccount = useSelector((state) => state.EthAccountStates);
-
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -83,7 +83,13 @@ function AddNewNFT() {
       // var Uri = {
       //   url: "testURI",
       // };
-      await MintNFT(UserEthAccount.account, formNftData.price, Uri.url)
+      await MintNFT(
+        UserEthAccount.account,
+        formNftData.price,
+        Uri.url,
+        formNftData.royalties,
+        formNftData.approve
+      )
         .then((response) => {
           SuccessToast(
             <div>
@@ -116,6 +122,12 @@ function AddNewNFT() {
       ...formNftData,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const HandleProperties = (e) => {
+    const arrayOfProperties = e.target.value.split(" ");
+    const FilterArray = arrayOfProperties.filter((item) => item !== "");
+    setFormNftData({ ...formNftData, properties: FilterArray });
   };
 
   return (
@@ -225,27 +237,35 @@ function AddNewNFT() {
                 </label>
                 <input
                   className="bg-gray-50 text-gray-900 rounded-lg focus:ring-0 focus:dark:border-pink-500 block w-full p-2.5 dark:bg-darkBlue-600 dark:border-gray-600/30 dark:placeholder-gray-500 dark:text-white/70 text-sm sm:text-base"
-                  type="text"
+                  type="number"
                   placeholder="Royalties ex. 4%"
                   name="royalties"
                   onChange={HandleOnChange}
                   required
                 />
               </div>
-              {/* <div className="flex flex-col gap-4">
+              <div className="flex flex-1 flex-col gap-4 justify-between items-center">
                 <label
                   htmlFor=""
                   className="text-white/70 font-semibold text-sm sm:text-base"
                 >
-                  Size
+                  Enable to trade *
                 </label>
-                <input
-                  className="bg-gray-50 text-gray-900 rounded-lg focus:ring-0 focus:dark:border-pink-500 block w-full p-2.5 dark:bg-darkBlue-600 dark:border-gray-600/30 dark:placeholder-gray-500 dark:text-white/70 text-sm sm:text-base"
-                  type="text"
-                  placeholder="Size"
-                  required
-                />
-              </div> */}
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input
+                    type="checkbox"
+                    class="sr-only peer"
+                    name="approve"
+                    onChange={(e) =>
+                      setFormNftData({
+                        ...formNftData,
+                        [e.target.name]: e.target.checked,
+                      })
+                    }
+                  />
+                  <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-pink-300 dark:peer-focus:ring-pink-800 rounded-full peer dark:bg-darkBlue-600 dark:border-gray-600/30 border-[1px] peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white/70 after:border-gray-300/70 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-pink-600"></div>
+                </label>
+              </div>
             </div>
             <div className="flex flex-col gap-4">
               <label
@@ -257,7 +277,8 @@ function AddNewNFT() {
               <input
                 className="bg-gray-50 text-gray-900 rounded-lg focus:ring-0 focus:dark:border-pink-500 block w-full p-2.5 dark:bg-darkBlue-600 dark:border-gray-600/30 dark:placeholder-gray-500 dark:text-white/70 text-sm sm:text-base"
                 type="text"
-                placeholder="Properties"
+                placeholder="Properties ex. red,blue,sky"
+                onChange={HandleProperties}
                 required
               />
             </div>

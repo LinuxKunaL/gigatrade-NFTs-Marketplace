@@ -1,8 +1,7 @@
-// SPDX-License-Identifier: MIT OR MIT
+// SPDX-License-Identifier: MIT
 pragma solidity 0.8.20;
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
-import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract GigatradeMarketplace is ERC721URIStorage, Ownable(msg.sender) {
@@ -12,36 +11,67 @@ contract GigatradeMarketplace is ERC721URIStorage, Ownable(msg.sender) {
 
     uint256 platformFee = 2;
 
-    mapping(uint256 => uint256) private NFTsPrices;
+    struct NFTDetailsObject {
+        uint256 createAt;
+        uint256 creatorFees;
+        bool isListed;
+        uint256 price;
+        address creator;
+        address owner;
+    }
 
-    function MintNFT(string calldata TokenURI, uint256 priceOfNFT) public {
+    struct NFTAcctivity {
+        uint256 NFTId;
+        address to;
+        address from;
+        uint256 time;
+        uint256 price;
+    }
+
+    struct NftObjectReturn {
+        uint256 price;
+        string uri;
+        uint256 tokenId;
+    }
+
+    mapping(uint256 => NFTDetailsObject) public NFTsDetails;
+
+    function MintNFT(
+        string calldata TokenURI,
+        uint256 CreatorFee,
+        uint256 priceOfNFT,
+        bool ApproveNft
+    ) public {
         _safeMint(msg.sender, NFTsId);
-
         _setTokenURI(NFTsId, TokenURI);
-
-        NFTsPrices[NFTsId] = priceOfNFT * 1 ether;
-
-        _setNFTApprove(false, NFTsId);
-
+        uint256 price = priceOfNFT * 1 ether;
+        NFTsDetails[NFTsId] = NFTDetailsObject(
+            block.timestamp,
+            CreatorFee,
+            ApproveNft,
+            price,
+            msg.sender,
+            address(0)
+        );
+        ApproveNFT(NFTsId, ApproveNft);
         NFTsId += 1;
     }
 
     function BuyNFT(uint256 Nftid) public payable {
-        if (NFTsPrices[Nftid] == msg.value) {
+        if (NFTsDetails[Nftid].price == msg.value) {
             address payable NFTOwner = payable(ownerOf(Nftid));
-
             address payable OwnerOfMarketPlace = payable(owner());
-
             PlatformFeeForOwner(OwnerOfMarketPlace, NFTOwner);
-
+            NFTsDetails[Nftid].owner = msg.sender;
             transferFrom(NFTOwner, msg.sender, Nftid);
+            // emit Transfer(NFTOwner, msg.sender, Nftid);
         } else {
             revert("Payment was Revert");
         }
     }
 
-    function ApproveNFT(uint256 Nftid) public {
-        _setNFTApprove(true, Nftid);
+    function ApproveNFT(uint256 Nftid, bool IsApproved) public {
+        _setNFTApprove(IsApproved, Nftid);
     }
 
     function GetListOfNfts() public view returns (uint256) {
@@ -49,23 +79,19 @@ contract GigatradeMarketplace is ERC721URIStorage, Ownable(msg.sender) {
     }
 
     function GetPriceOfNft(uint256 nftId) public view returns (uint256) {
-        return NFTsPrices[nftId];
+        return NFTsDetails[nftId].price;
     }
 
-    struct NftInfo {
-        uint256 price;
-        string uri;
-        uint256 tokenId;
-    }
-
-    function NftByUserAddress(address  _from) public view returns (NftInfo[] memory) {
+    function NftByUserAddress(address _from)
+        public
+        view
+        returns (NftObjectReturn[] memory)
+    {
         uint256 leg = _nftOfAddress[_from].length;
-
-        NftInfo[] memory nfts = new NftInfo[](leg);
-
+        NftObjectReturn[] memory nfts = new NftObjectReturn[](leg);
         for (uint256 i = 0; i < leg; i++) {
             uint256 nftId = _nftOfAddress[_from][i];
-            nfts[i] = NftInfo({
+            nfts[i] = NftObjectReturn({
                 price: GetPriceOfNft(nftId),
                 uri: tokenURI(nftId),
                 tokenId: nftId
@@ -87,7 +113,7 @@ contract GigatradeMarketplace is ERC721URIStorage, Ownable(msg.sender) {
         public
         verifyEdit(nftid)
     {
-        NFTsPrices[nftid] = _price;
+        NFTsDetails[nftid].price = _price;
     }
 
     function UpdateNFTUri(string calldata _uri, uint256 nftid)
@@ -102,11 +128,12 @@ contract GigatradeMarketplace is ERC721URIStorage, Ownable(msg.sender) {
         payable
     {
         uint256 amountForOwner = (msg.value * platformFee) / 100;
-
         uint256 amountForSeller = msg.value - amountForOwner;
-
         Owner.transfer(amountForOwner);
-
         Seller.transfer(amountForSeller);
+    }
+
+    function totalSupply() public view returns (uint256) {
+        return GetListOfNfts();
     }
 }

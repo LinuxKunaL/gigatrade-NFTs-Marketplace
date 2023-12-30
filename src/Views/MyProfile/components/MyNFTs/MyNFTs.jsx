@@ -10,54 +10,68 @@ import axios from "axios";
 import { web3 } from "../../../../hooks/useContract";
 
 function MyNFTs() {
-  const [RowNFTsData, setRowNFTsData] = useState([{}]);
-  const [ClearNFTData, setClearNFTData] = useState([]);
-
-  const _from = useSelector((state) => state.EthAccountStates.account);
+  const [rowNFTsData, setRowNFTsData] = useState([]);
+  const [clearNFTData, setClearNFTData] = useState([]);
+  const ethAccount = useSelector((state) => state.EthAccountStates.account);
 
   useEffect(() => {
     const fetchingNfts = async () => {
       try {
-        const result = await fetchNFT(_from);
-        setRowNFTsData(result);
+        if (ethAccount) {
+          const result = await fetchNFT(ethAccount);
+          setRowNFTsData(result);
+        }
       } catch (error) {
         console.error("Error fetching NFTs:", error);
       }
     };
+
     fetchingNfts();
-  }, [_from]);
+  }, [ethAccount]);
 
   useEffect(() => {
     const loading = async () => {
       try {
         const updatedNFTData = await Promise.all(
-          RowNFTsData.map(async (items) => {
-            const metaDataObject = (await getMetadata(items.uri)).data;
-            const imageData =
-              "https://gateway.pinata.cloud/ipfs/" +
-              metaDataObject.image.slice(7);
-            return {
-              price: items["price"].toString(),
-              NftId: parseInt(items["tokenId"]),
-              name: metaDataObject.name + " #" + items["tokenId"],
-              description: metaDataObject.description,
-              properties: metaDataObject.properties,
-              image: imageData,
-            };
+          rowNFTsData.map(async (item) => {
+            const metaDataObject = await getMetadata(item.uri.slice(7));
+            if (metaDataObject) {
+              return {
+                price: item.price.toString(),
+                NftId: parseInt(item.tokenId),
+                name: `${metaDataObject.name} #${item.tokenId}`,
+                description: metaDataObject.description,
+                properties: metaDataObject.properties,
+                image: `https://cloudflare-ipfs.com/ipfs/${metaDataObject.image.slice(
+                  7
+                )}`,
+              };
+            }
+            return null;
           })
         );
-        setClearNFTData(updatedNFTData);
+        const filteredNFTData = updatedNFTData.filter(Boolean);
+        setClearNFTData(filteredNFTData);
       } catch (error) {
         console.error("Error loading NFTs:", error);
       }
     };
+
     loading();
-  }, [RowNFTsData]);
+  }, [rowNFTsData]);
 
   const getMetadata = async (uri) => {
-    return await axios.get("https://gateway.pinata.cloud/ipfs/" + uri.slice(7));
+    try {
+      if (uri) {
+        const response = await axios.get(
+          `https://cloudflare-ipfs.com/ipfs/${uri}`
+        );
+        return response.data;
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
-  console.log(ClearNFTData);
 
   return (
     <div className="flex flex-col">
@@ -92,9 +106,9 @@ function MyNFTs() {
         </div>
         <h2 className="text-xl sm:text-2xl">My Created NFTs</h2>
         <div className="flex mt-2 sm:mt-5 flex-row flex-wrap justify-start gap-5">
-          {ClearNFTData.map((item, index) => (
+          {clearNFTData.map((item, index) => (
             <Link
-              to={"/myProfile/EditNFT/"+item.NftId}
+              to={"/myProfile/EditNFT/" + item.NftId}
               key={index}
               className={`group transition-all hover:-translate-y-3 rounded-xl flex flex-col gap-2 w-[15pc] bg-darkBlue-500 p-3`}
             >
@@ -136,9 +150,6 @@ function MyNFTs() {
               </div>
             </Link>
           ))}
-          {/* {k.map((i, index) => (
-            <ProductNFT key={index} data={i} className="" AuthorHide="hidden" />
-          ))} */}
         </div>
       </div>
     </div>

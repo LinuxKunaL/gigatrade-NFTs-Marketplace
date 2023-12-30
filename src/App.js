@@ -15,6 +15,7 @@ import Nft from "./Views/ProductOverview/Nft";
 
 import { Connect, WalletInstance } from "./hooks/useConnectWallet";
 import ContractInstance from "./hooks/useContract";
+import axios from "axios";
 
 function App() {
   const [Reload, setReload] = useState(0);
@@ -24,37 +25,36 @@ function App() {
       Connect();
     }
   }, [Reload]);
-
   return (
     <React.StrictMode>
-      <BrowserRouter>
-        <div className="flex justify-center items-center min-h-full max-w-full dark:bg-darkBlue-700">
-          <div className="container h-full">
-            <Navbar />
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/explore" element={<Explore />}>
-                <Route index element={<ShopNFTs />} />
-                <Route path="collections" />
-              </Route>
-              <Route path="/nft/:id" element={<Nft />} />
-              <Route path="/collectionDetail" element={<CollectionDetail />} />
-              <Route path="/author" element={<Author />} />
-              <Route path="/myProfile" element={<MyProfile />}>
-                <Route path="addNFT" />
-                <Route path="editNFT/:id"/>
-                <Route path="myNFTs" />
-                <Route path="setting" />
-                <Route path="myFavorites" />
-                <Route path="myCollection" />
-                <Route path="addCollection" />
-                <Route path="editCollection" />
-              </Route>
-            </Routes>
-            <Footer />
-          </div>
+    <BrowserRouter>
+      <div className="flex justify-center items-center min-h-full max-w-full dark:bg-darkBlue-700">
+        <div className="container h-full">
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/explore" element={<Explore />}>
+              <Route index element={<ShopNFTs />} />
+              <Route path="collections" />
+            </Route>
+            <Route path="/nft/:id" element={<Nft />} />
+            <Route path="/collectionDetail" element={<CollectionDetail />} />
+            <Route path="/author" element={<Author />} />
+            <Route path="/myProfile" element={<MyProfile />}>
+              <Route path="addNFT" />
+              <Route path="editNFT/:id" />
+              <Route path="myNFTs" />
+              <Route path="setting" />
+              <Route path="myFavorites" />
+              <Route path="myCollection" />
+              <Route path="addCollection" />
+              <Route path="editCollection" />
+            </Route>
+          </Routes>
+          <Footer />
         </div>
-      </BrowserRouter>
+      </div>
+    </BrowserRouter>
     </React.StrictMode>
   );
 }

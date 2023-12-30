@@ -13,49 +13,48 @@ function ShopNFTs({ filters }) {
 
   const [NFTsItems, setNFTsItems] = useState([]);
   const [IsLoading, setIsLoading] = useState(false);
-  const [page, setPage] = useState(1);
   const [progress, setProgress] = useState(30);
 
-  const fetchPhotos = async () => {
-    const response = await fetchAllNFTs();
-    const NFTsData = await Promise.all(
-      response.map(async (items) => {
-        const metadataJson = (await getMetadata(items.Uri)).data;
-        return {
-          NFTId: items.NFTid,
-          Price: web3.utils.fromWei(items.Price.toString(), "ether"),
-          Image:
-            "https://gateway.pinata.cloud/ipfs/" + metadataJson.image.slice(7),
-          Name: metadataJson.name + " #" + items.NFTid,
-          Owner: items.Owner,
-        };
-      })
-    );
-    console.log(NFTsData);
-    setNFTsItems(NFTsData);
-    setProgress(100);
-    setIsLoading(true);
-  };
-  const getMetadata = async (uri) => {
-    return await axios.get("https://gateway.pinata.cloud/ipfs/" + uri.slice(7));
-  };
-  // const handleScroll = () => {
-  //   // const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
-  //   // if (scrollTop + clientHeight >= scrollHeight - 10) {
-  //   fetchPhotos();
-  //   // }
-  // };
-
   useEffect(() => {
-    fetchPhotos();
-  }, []);
+    const fetchNFTs = async () => {
+      try {
+        const response = await fetchAllNFTs();
+        const NFTsData = await Promise.all(
+          response.map(async (items) => {
+            const metadataJson = await getMetadata(items.Uri.slice(7));
+            if (metadataJson) {
+              return {
+                NFTId: items.NFTid,
+                Price: web3.utils.fromWei(items.Price.toString(), "ether"),
+                Image: `https://cloudflare-ipfs.com/ipfs/${metadataJson.image.slice(
+                  7
+                )}`,
+                Name: metadataJson.name + " #" + items.NFTid,
+                Owner: items.Owner,
+              };
+            }
+          })
+        );
+        setNFTsItems(NFTsData);
+        console.log(NFTsData);
+      } catch (error) {}
+      setProgress(100);
+      setIsLoading(true);
+    };
+    fetchNFTs();
+  }, [filters]);
 
-  // useEffect(() => {
-  //   window.addEventListener("scroll", handleScroll);
-  //   return () => {
-  //     window.removeEventListener("scroll", handleScroll);
-  //   };
-  // }, []);
+  const getMetadata = async (uri) => {
+    try {
+      const response = await axios.get(
+        `https://cloudflare-ipfs.com/ipfs/${uri}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  };
 
   return (
     <>
@@ -76,7 +75,6 @@ function ShopNFTs({ filters }) {
               <SkeletonProductNFT key={index} />
             ))}
       </div>
-      <div className="bg-gradient-to-r from-purple-800 to-pink-600 absolute bottom-2 left-1 h-96 w-96 blur-[10pc] opacity-[30%]" />
       <button
         type="button"
         className="py-2.5 px-5 self-center text-sm font-medium flex items-center gap-4 text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-purple-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-purple-600 dark:text-gray-100 border-none dark:hover:text-white dark:hover:bg-purple-700 bg-gradient-to-r from-purple-800 to-pink-600"

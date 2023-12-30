@@ -14,7 +14,6 @@ import { Link, useNavigate } from "react-router-dom";
 // https://gateway.pinata.cloud/ipfs/ ==> preview the IPFS data / metadata
 
 function EditNFT() {
-
   const Navigate = useNavigate();
 
   const [formNftData, setFormNftData] = useState({
@@ -25,7 +24,7 @@ function EditNFT() {
     properties: "",
     royalties: "",
   });
-  
+
   const UserEthAccount = useSelector((state) => state.EthAccountStates);
 
   const handleImageChange = (e) => {
@@ -70,7 +69,7 @@ function EditNFT() {
     return new Blob([arrayBuffer], { type: mimeString });
   };
 
-  const HandleMintNFT = async (event) => {
+  const HandleUpdateNFT = async (event) => {
     event.preventDefault();
     if (!formNftData.image) {
       return ErrorToast("Upload a NFT image !");
@@ -168,7 +167,7 @@ function EditNFT() {
           hidden
         />
         <div className="flex-auto">
-          <form onSubmit={HandleMintNFT} className="flex flex-col gap-6">
+          <form onSubmit={HandleUpdateNFT} className="flex flex-col gap-6">
             <div className="flex flex-col gap-4">
               <label
                 htmlFor=""
@@ -235,20 +234,24 @@ function EditNFT() {
                   required
                 />
               </div>
-              {/* <div className="flex flex-col gap-4">
+              <div className="flex flex-1 flex-col gap-4 justify-between items-center">
                 <label
                   htmlFor=""
                   className="text-white/70 font-semibold text-sm sm:text-base"
                 >
-                  Size
+                  Enable to trade *
                 </label>
-                <input
-                  className="bg-gray-50 text-gray-900 rounded-lg focus:ring-0 focus:dark:border-pink-500 block w-full p-2.5 dark:bg-darkBlue-600 dark:border-gray-600/30 dark:placeholder-gray-500 dark:text-white/70 text-sm sm:text-base"
-                  type="text"
-                  placeholder="Size"
-                  required
-                />
-              </div> */}
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input
+                    type="checkbox"
+                    value=""
+                    class="sr-only peer"
+                    required
+                    required
+                  />
+                  <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-pink-300 dark:peer-focus:ring-pink-800 rounded-full peer dark:bg-darkBlue-600 dark:border-gray-600/30 border-[1px] peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white/70 after:border-gray-300/70 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-pink-600"></div>
+                </label>
+              </div>
             </div>
             <div className="flex flex-col gap-4">
               <label

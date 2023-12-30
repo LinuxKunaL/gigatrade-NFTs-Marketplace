@@ -11,7 +11,6 @@ import ShopCollections from "./Components/ShopCollections";
 
 function Explore() {
   const URLpath = useLocation();
-
   return (
     <div className="sm:px-0 px-3">
       <div

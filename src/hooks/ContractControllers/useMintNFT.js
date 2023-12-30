@@ -5,15 +5,14 @@ import { Await } from "react-router-dom";
 
 // const EthAccount = store.getState().EthAccountStates.account;
 
-const MintNFT = async (_account, _price, _uri) => {
-  // const count = await web3.eth.getBlockTransactionCount("0x90F79bf6EB2c4f870365E785982E1f101E93b906");
-  // console.log(count.toString());
-
+const MintNFT = async (_account, _price, _uri, _creatorFee, _approveNft) => {
   try {
-    const response = await ContractInstance.methods.MintNFT(_uri, _price).send({
-      from: _account,
-      // nonce: count,
-    });
+    const response = await ContractInstance.methods
+      .MintNFT(_uri, _creatorFee, _price, _approveNft)
+      .send({
+        from: _account,
+        // nonce: count,
+      });
     return response;
   } catch (error) {
     console.log(error + " in useMintNFT ( Hook )");
