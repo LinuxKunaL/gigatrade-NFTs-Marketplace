@@ -24,7 +24,9 @@ function AddNewNFT() {
     royalties: "",
     approve: false,
   });
+
   const UserEthAccount = useSelector((state) => state.EthAccountStates);
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -69,24 +71,25 @@ function AddNewNFT() {
 
   const HandleMintNFT = async (event) => {
     event.preventDefault();
-    if (!formNftData.image) {
-      return ErrorToast("Upload a NFT image !");
-    }
+    // if (!formNftData.image) {
+    //   return ErrorToast("Upload a NFT image !");
+    // }
     try {
-      const Uri = await promiseToast(
-        "NFT Minting please wait... ⛓",
-        "NFT uploaded Sign the transaction ! 🎉",
-        "Something Error happened ! 💔",
-        UploadMetadata,
-        formNftData
-      );
+      // const Uri = await promiseToast(
+      //   "NFT Minting please wait... ⛓",
+      //   "NFT uploaded Sign the transaction ! 🎉",
+      //   "Something Error happened ! 💔",
+      //   UploadMetadata,
+      //   formNftData
+      // );
       // var Uri = {
       //   url: "testURI",
       // };
       await MintNFT(
         UserEthAccount.account,
         formNftData.price,
-        Uri.url,
+        // Uri.url,
+        "ipfs://bafyreigxhqmrqsujey5hzb33xbai25j2yr6223hf2qxml243sptjboyzye/metadata.json",
         formNftData.royalties,
         formNftData.approve
       )

@@ -2,7 +2,7 @@ import React from "react";
 import { MdOutlineOpenInNew, MdShoppingCart } from "react-icons/md";
 import { BsStars } from "react-icons/bs";
 
-function NftActivity() {
+function NftActivity({ data }) {
   return (
     <div id="Activity" className="flex h-full  w-full flex-col gap-4">
       <div className="">
@@ -44,52 +44,36 @@ function NftActivity() {
             </tr>
           </thead>
           <tbody>
-            <tr className="bg-white border-b dark:bg-darkBlue-500 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-darkBlue-400">
-              <th
-                scope="row"
-                className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-              >
-                <div className="flex items-center gap-1">
-                  {" "}
-                  <MdShoppingCart />
-                  Sell
-                </div>
-              </th>
-              <td className="px-6 py-4">0.49 ETH</td>
-              <td className="px-6 py-4">saytam_233</td>
-              <td className="px-6 py-4">Kunal34@</td>
-              <td className="px-6 py-4">
-                <a
-                  href=""
-                  className="font-medium flex gap-1 items-center text-blue-600 dark:text-blue-500 hover:underline"
+            {data.map((item) => (
+              <tr className="bg-white border-b dark:bg-darkBlue-500 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-darkBlue-400">
+                <th
+                  scope="row"
+                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                 >
-                  4 day ago <MdOutlineOpenInNew />
-                </a>
-              </td>
-            </tr>
-            <tr className="bg-white border-b dark:bg-darkBlue-500 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-darkBlue-400">
-              <th
-                scope="row"
-                className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-              >
-                <div className="flex items-center gap-1">
-                  {" "}
-                  <BsStars />
-                  Mint
-                </div>
-              </th>
-              <td className="px-6 py-4"></td>
-              <td className="px-6 py-4">0000</td>
-              <td className="px-6 py-4">Kunal34@</td>
-              <td className="px-6 py-4">
-                <a
-                  href=""
-                  className="font-medium flex gap-1 items-center text-blue-600 dark:text-blue-500 hover:underline"
-                >
-                  7 day ago <MdOutlineOpenInNew />
-                </a>
-              </td>
-            </tr>
+                  <div className="flex items-center gap-1">
+                    {item.action == "mint" ? <BsStars /> : <MdShoppingCart />}
+                    {item.action}
+                  </div>
+                </th>
+                <td className="px-6 py-4">{item.price} ETH</td>
+                <td className="px-6 py-4">{`${item.from.slice(
+                  0,
+                  6
+                )}...${item.from.slice(39)}`}</td>
+                <td className="px-6 py-4">{`${item.to.slice(
+                  0,
+                  6
+                )}...${item.to.slice(39)}`}</td>
+                <td className="px-6 py-4">
+                  <a
+                    href=""
+                    className="font-medium flex gap-1 items-center text-blue-600 dark:text-blue-500 hover:underline"
+                  >
+                    7 day ago <MdOutlineOpenInNew />
+                  </a>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

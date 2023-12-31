@@ -29,7 +29,7 @@ function ShopNFTs({ filters }) {
                 Image: `https://cloudflare-ipfs.com/ipfs/${metadataJson.image.slice(
                   7
                 )}`,
-                Name: metadataJson.name + " #" + items.NFTid,
+                Name: `${metadataJson.name} #${items.NFTid}`,
                 Owner: items.Owner,
               };
             }
@@ -37,7 +37,9 @@ function ShopNFTs({ filters }) {
         );
         setNFTsItems(NFTsData);
         console.log(NFTsData);
-      } catch (error) {}
+      } catch (error) {
+        console.log(error);
+      }
       setProgress(100);
       setIsLoading(true);
     };

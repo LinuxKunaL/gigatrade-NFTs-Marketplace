@@ -11,6 +11,21 @@ contract GigatradeMarketplace is ERC721URIStorage, Ownable(msg.sender) {
 
     uint256 platformFee = 2;
 
+    /*
+     * @dev `indexed` keyword is used in event declarations to specify that the
+     *       value of a particular parameter should be searchable or filterable
+     *       when querying for events
+     */
+
+    event NFTsActivityEvent(
+        uint256 indexed action,
+        uint256 indexed NFTid,
+        address from,
+        address to,
+        uint256 time,
+        uint256 price
+    );
+
     struct NFTDetailsObject {
         uint256 createAt;
         uint256 creatorFees;
@@ -20,18 +35,16 @@ contract GigatradeMarketplace is ERC721URIStorage, Ownable(msg.sender) {
         address owner;
     }
 
-    struct NFTAcctivity {
-        uint256 NFTId;
-        address to;
-        address from;
-        uint256 time;
-        uint256 price;
-    }
-
     struct NftObjectReturn {
         uint256 price;
         string uri;
         uint256 tokenId;
+    }
+
+    struct NftDataObjectReturn {
+        uint256 price;
+        string uri;
+        address owner;
     }
 
     mapping(uint256 => NFTDetailsObject) public NFTsDetails;
@@ -54,6 +67,14 @@ contract GigatradeMarketplace is ERC721URIStorage, Ownable(msg.sender) {
             address(0)
         );
         ApproveNFT(NFTsId, ApproveNft);
+        emit NFTsActivityEvent(
+            98, // for mint code
+            NFTsId,
+            msg.sender,
+            address(0),
+            block.timestamp,
+            price
+        );
         NFTsId += 1;
     }
 
@@ -61,32 +82,54 @@ contract GigatradeMarketplace is ERC721URIStorage, Ownable(msg.sender) {
         if (NFTsDetails[Nftid].price == msg.value) {
             address payable NFTOwner = payable(ownerOf(Nftid));
             address payable OwnerOfMarketPlace = payable(owner());
-            PlatformFeeForOwner(OwnerOfMarketPlace, NFTOwner);
+            uint256 RemeinNFTPrice = PlatformFeeForOwner(
+                OwnerOfMarketPlace,
+                NFTOwner
+            );
             NFTsDetails[Nftid].owner = msg.sender;
             transferFrom(NFTOwner, msg.sender, Nftid);
-            // emit Transfer(NFTOwner, msg.sender, Nftid);
+            emit NFTsActivityEvent(
+                76, // for BuyNFT code
+                Nftid,
+                NFTOwner,
+                msg.sender,
+                block.timestamp,
+                RemeinNFTPrice
+            );
         } else {
             revert("Payment was Revert");
         }
     }
 
     function ApproveNFT(uint256 Nftid, bool IsApproved) public {
+        NFTsDetails[Nftid].isListed = IsApproved;
         _setNFTApprove(IsApproved, Nftid);
-    }
-
-    function GetListOfNfts() public view returns (uint256) {
-        return NFTsId;
     }
 
     function GetPriceOfNft(uint256 nftId) public view returns (uint256) {
         return NFTsDetails[nftId].price;
     }
 
-    function NftByUserAddress(address _from)
-        public
-        view
-        returns (NftObjectReturn[] memory)
-    {
+    function GetNFTById(
+        uint256 NFTid
+    ) public view returns (NftDataObjectReturn memory) {
+        NftDataObjectReturn memory nft;
+        address onwerOfNFT = ownerOf(NFTid);
+        string memory uriOfNFT = tokenURI(NFTid);
+        uint256 price = NFTsDetails[NFTid].price;
+        nft = NftDataObjectReturn({
+            price: price,
+            uri: uriOfNFT,
+            owner: onwerOfNFT
+        });
+        return nft;
+    }
+
+    function GetNFTByIdForOverviewPage(uint256 NFTid) public {}
+
+    function NftByUserAddress(
+        address _from
+    ) public view returns (NftObjectReturn[] memory) {
         uint256 leg = _nftOfAddress[_from].length;
         NftObjectReturn[] memory nfts = new NftObjectReturn[](leg);
         for (uint256 i = 0; i < leg; i++) {
@@ -97,7 +140,6 @@ contract GigatradeMarketplace is ERC721URIStorage, Ownable(msg.sender) {
                 tokenId: nftId
             });
         }
-
         return nfts;
     }
 
@@ -109,31 +151,32 @@ contract GigatradeMarketplace is ERC721URIStorage, Ownable(msg.sender) {
         }
     }
 
-    function UpdateNftPrice(uint256 nftid, uint256 _price)
-        public
-        verifyEdit(nftid)
-    {
+    function UpdateNftPrice(
+        uint256 nftid,
+        uint256 _price
+    ) public verifyEdit(nftid) {
         NFTsDetails[nftid].price = _price;
     }
 
-    function UpdateNFTUri(string calldata _uri, uint256 nftid)
-        public
-        verifyEdit(nftid)
-    {
+    function UpdateNFTUri(
+        string calldata _uri,
+        uint256 nftid
+    ) public verifyEdit(nftid) {
         _setTokenURI(nftid, _uri);
     }
 
-    function PlatformFeeForOwner(address payable Owner, address payable Seller)
-        public
-        payable
-    {
+    function PlatformFeeForOwner(
+        address payable Owner,
+        address payable Seller
+    ) public payable returns (uint256) {
         uint256 amountForOwner = (msg.value * platformFee) / 100;
         uint256 amountForSeller = msg.value - amountForOwner;
         Owner.transfer(amountForOwner);
         Seller.transfer(amountForSeller);
+        return amountForSeller;
     }
 
     function totalSupply() public view returns (uint256) {
-        return GetListOfNfts();
+        return NFTsId;
     }
 }

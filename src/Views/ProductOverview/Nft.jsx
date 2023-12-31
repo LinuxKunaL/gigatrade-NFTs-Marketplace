@@ -15,6 +15,7 @@ import NftBid from "./components/NftBId";
 import { useParams } from "react-router-dom";
 import { fetchNFTById } from "../../hooks/ContractControllers/useFetchNFTById";
 import { web3 } from "../../hooks/useContract";
+import { NFTsActivityEvent } from "../../hooks/ContractControllers/useFetchEventForNFT";
 
 function Nft() {
   const { id } = useParams();
@@ -24,18 +25,31 @@ function Nft() {
   });
   const [NFTsItems, setNFTsItems] = useState([]);
 
+  const [NFTActivityTable, setNFTActivityTable] = useState([]);
+
   const NftComponents = {
-    details: <NftDetail />,
+    details: (
+      <NftDetail
+        data={{
+          TokenId: id,
+          Description: NFTsItems.Description,
+          CreateAt: NFTsItems.CreateAt,
+          creatorFees: NFTsItems.creatorFees,
+        }}
+      />
+    ),
     chart: <NftChart />,
     listing: <NftListing />,
-    activity: <NftActivity />,
+    activity: <NftActivity data={NFTActivityTable} />,
   };
 
   useEffect(() => {
     const fetching = async () => {
       try {
         const response = await fetchNFTById(id);
+        const activityTable = await NFTsActivityEvent(id);
         setNFTsItems(response);
+        setNFTActivityTable(activityTable);
       } catch (error) {
         console.log(error);
       }
@@ -43,6 +57,7 @@ function Nft() {
     fetching();
   }, [id]);
 
+// console.log(NFTsItems);
   return (
     <div className="sm:p-0 p-4">
       <div
@@ -71,10 +86,10 @@ function Nft() {
             <div className="sm:text-base text-sm">
               by{" "}
               <span className="font-semibold text-pink-600">
-                {NFTsItems.Owner
-                  ? NFTsItems.Owner.slice(0, 7) +
+                {NFTsItems.Creator
+                  ? NFTsItems.Creator.slice(0, 7) +
                     ".." +
-                    NFTsItems.Owner.slice(38)
+                    NFTsItems.Creator.slice(38)
                   : null}
               </span>
             </div>
@@ -107,10 +122,10 @@ function Nft() {
                   alt=""
                 />
                 <span className="dark:text-white/60 hover:text-pink-500 transition-all cursor-pointer sm:text-base text-sm">
-                  {NFTsItems.Owner
-                    ? NFTsItems.Owner.slice(0, 6) +
+                  {NFTsItems.Creator
+                    ? NFTsItems.Creator.slice(0, 6) +
                       ".." +
-                      NFTsItems.Owner.slice(38)
+                      NFTsItems.Creator.slice(38)
                     : null}
                 </span>
               </div>
@@ -125,8 +140,12 @@ function Nft() {
                   src="https://nftix-html.vercel.app/assets/img/avatar/avatar3.jpg"
                   alt=""
                 />
-                <span className="dark:text-white/60 sm:text-base text-sm">
-                  0x32323..334
+                <span className="dark:text-white/60 hover:text-pink-500 transition-all cursor-pointer sm:text-base text-sm">
+                  {NFTsItems.CurrentOwner
+                    ? `${NFTsItems.CurrentOwner.slice(0, 6)}
+                    ...
+                    ${NFTsItems.CurrentOwner.slice(38)}`
+                    : null}
                 </span>
               </div>
             </div>
@@ -136,22 +155,17 @@ function Nft() {
               NFT Properties
             </span>
             <div className="flex gap-3 flex-wrap">
-              <span className="flex flex-wrap items-center justify-center rounded-full cursor-pointer transition-all hover:bg-purple-500 active:bg-purple-700 px-4 py-1 bg-darkBlue-400  text-white sm:flex-none flex-1 sm:text-base text-sm">
-                Pink
-              </span>
-              <span className="flex flex-wrap items-center justify-center rounded-full cursor-pointer transition-all hover:bg-purple-500 active:bg-purple-700 px-4 py-1  bg-darkBlue-400  text-white sm:flex-none flex-1 sm:text-base text-sm">
-                Skeleton
-              </span>{" "}
-              <span className="flex flex-wrap items-center justify-center rounded-full cursor-pointer transition-all hover:bg-purple-500 active:bg-purple-700 px-4 py-1  bg-darkBlue-400  text-white sm:flex-none flex-1 sm:text-base text-sm">
-                Box
-              </span>
-              <span className="flex flex-wrap items-center justify-center rounded-full cursor-pointer transition-all hover:bg-purple-500 active:bg-purple-700 px-4 py-1  bg-darkBlue-400  text-white sm:flex-none flex-1 sm:text-base text-sm">
-                Mounted
-              </span>
+              {NFTsItems.Properties
+                ? NFTsItems.Properties.map((items) => (
+                    <span className="flex flex-wrap items-center justify-center rounded-full cursor-pointer transition-all hover:bg-purple-500 active:bg-purple-700 px-4 py-1 bg-darkBlue-400  text-white sm:flex-none flex-1 sm:text-base text-sm">
+                      {items}
+                    </span>
+                  ))
+                : null}
             </div>
           </div>
           <div className="flex justify-between gap-8">
-            <NftBuy price={NFTsItems.Price} />
+            <NftBuy price={NFTsItems.Price} nftId={id} />
             {/* <NftBid /> */}
           </div>
           <div className="">

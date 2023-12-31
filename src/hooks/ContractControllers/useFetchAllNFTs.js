@@ -3,18 +3,14 @@ import ContractInstance from "../useContract";
 const fetchAllNFTs = async () => {
   var AllNFTsData = [];
   try {
-    const AllNumberOfNFTs = await ContractInstance.methods
-      .GetListOfNfts()
-      .call();
+    const AllNumberOfNFTs = await ContractInstance.methods.totalSupply().call();
     for (let i = 0; i < AllNumberOfNFTs; i++) {
-      const Owner = await ContractInstance.methods.ownerOf(i).call();
-      const NFTUri = await ContractInstance.methods.tokenURI(i).call();
-      const Price = await ContractInstance.methods.GetPriceOfNft(i).call();
+      const response = await ContractInstance.methods.GetNFTById(i).call();
       AllNFTsData.push({
         NFTid: i,
-        Price: Price,
-        Owner: Owner,
-        Uri: NFTUri,
+        Price: response.price,
+        Owner: response.owner,
+        Uri: response.uri,
       });
     }
   } catch (error) {
