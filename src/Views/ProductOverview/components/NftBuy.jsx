@@ -5,12 +5,24 @@ import store from "../../../app/redux/ReduxStore";
 import { SuccessToast } from "../../../app/Toast/Success";
 import { Toaster } from "react-hot-toast";
 
-function NftBuy({ price, nftId }) {
+function NftBuy({ price, nftId, ComponentLoad }) {
   const HandleBuyNFT = async () => {
     try {
       const response = await BuyNFT(nftId);
-      console.log(response);
-      SuccessToast("NFT Buy successfully ! 🤑");
+      ComponentLoad((pre) => pre + 1);
+      SuccessToast(
+        <div>
+          NFT Buy successfully 🎉 ! <br />
+          <div className=" line-clamp-1">
+            Gas used :
+            <b className=" font-normal text-darkBlue-50">
+              {" "}
+              {response.gasUsed.toString()}
+            </b>{" "}
+            in wei
+          </div>
+        </div>
+      );
     } catch (error) {
       console.log(error);
     }
@@ -18,7 +30,7 @@ function NftBuy({ price, nftId }) {
 
   return (
     <div className="flex flex-col gap-3 rounded-lg p-4 flex-aut border-darkBlue-300/50 border-[1px] bg-darkBlue-500/70 sm:w-auto w-full">
-      <Toaster position="leftbottom"/>
+      <Toaster position="leftbottom" />
       <span className="dark:text-white/80 sm:text-base text-sm font-semibold">
         Current Price
       </span>

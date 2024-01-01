@@ -8,8 +8,8 @@ const fetchNFTById = async (NftId) => {
     const response_2 = await ContractInstance.methods.NFTsDetails(NftId).call();
     const metadataJson = (await getMetadata(response.uri)).data;
 
-    console.log(response);
-    console.log(response_2);
+    // console.log(response);
+    // console.log(response_2);
 
     return {
       NFTId: NftId,

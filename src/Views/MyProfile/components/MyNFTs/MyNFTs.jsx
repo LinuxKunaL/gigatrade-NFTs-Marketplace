@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import { FaEthereum } from "react-icons/fa6";
 import axios from "axios";
 import { web3 } from "../../../../hooks/useContract";
-
+import { TbMoodEmpty } from "react-icons/tb";
 function MyNFTs() {
   const [rowNFTsData, setRowNFTsData] = useState([]);
   const [clearNFTData, setClearNFTData] = useState([]);
@@ -73,6 +73,8 @@ function MyNFTs() {
     }
   };
 
+  console.log(clearNFTData);
+
   return (
     <div className="flex flex-col">
       <div className="h-full gap-4 xs:gap-0 xs:h-[10pc] flex-col mt-5 rounded-3xl flex xs:flex-row justify-between items-center w-full dark:bg-darkBlue-500/80  outline-dashed outline-offset-2 outline-pink-500/40 p-3 xs:p-5">
@@ -104,52 +106,127 @@ function MyNFTs() {
             Search
           </button>
         </div>
-        <h2 className="text-xl sm:text-2xl">My Created NFTs</h2>
-        <div className="flex mt-2 sm:mt-5 flex-row flex-wrap justify-start gap-5">
-          {clearNFTData.map((item, index) => (
-            <Link
-              to={"/myProfile/EditNFT/" + item.NftId}
-              key={index}
-              className={`group transition-all hover:-translate-y-3 rounded-xl flex flex-col gap-2 w-[15pc] bg-darkBlue-500 p-3`}
-            >
-              <div className={`flex gap-3 items-center`}>
-                <img
-                  className="w-11 rounded-full bg-darkBlue-300 h-11"
-                  src="https://nftix-html.vercel.app/assets/img/avatar/avatar2.jpg"
-                  alt="error in image"
-                />
-                <div className="flex flex-col">
-                  <span className="text-white/50 text-xs line-clamp-1 rounded-md  w-[6pc] h-[1pc]">
-                    Created by :
-                  </span>{" "}
-                  <h2 className="text-white/90 rounded-md w-[9pc] h-[1.5pc]  line-clamp-1 text-sm font-normal">
-                    Baby doge #2123ssssssssssss
+        <div>
+          <h2 className="text-xl sm:text-2xl">My Created NFTs</h2>
+          <div className="flex mt-2 sm:mt-5 flex-row flex-wrap justify-start gap-5">
+            {clearNFTData.length != 0 ? (
+              clearNFTData.map((item, index) => (
+                <Link
+                  to={"/myProfile/EditNFT/" + item.NftId}
+                  key={index}
+                  className={`group transition-all hover:-translate-y-3 rounded-xl flex flex-col gap-2 w-[15pc] bg-darkBlue-500 p-3`}
+                >
+                  <div className={`flex gap-3 items-center`}>
+                    <img
+                      className="w-11 rounded-full bg-darkBlue-300 h-11"
+                      src="https://nftix-html.vercel.app/assets/img/avatar/avatar2.jpg"
+                      alt="error in image"
+                    />
+                    <div className="flex flex-col">
+                      <span className="text-white/50 text-xs line-clamp-1 rounded-md  w-[6pc] h-[1pc]">
+                        Created by :
+                      </span>{" "}
+                      <h2 className="text-white/90 rounded-md w-[9pc] h-[1.5pc]  line-clamp-1 text-sm font-normal">
+                        Baby doge #2123ssssssssssss
+                      </h2>
+                    </div>
+                  </div>
+                  <div
+                    className={`h-[12pc] transition-all relative w-full overflow-hidden rounded-xl flex items-center justify-center`}
+                  >
+                    <img
+                      className="h-full w-full group-hover:scale-125 transition-all"
+                      src={item.image}
+                      alt=""
+                    />
+                  </div>
+                  <h2 className="text-white/90 text-base transition-all font-semibold hover:text-pink-500">
+                    {item.name}
                   </h2>
-                </div>
+                  <div className="flex w-full xs:h-[2.4pc] justify-between items-center">
+                    <div className="flex justify-between items-center w-full">
+                      <span className="text-white/50 text-xs">
+                        Current Price
+                      </span>
+                      <b className="flex text-sm text-white/90 items-center gap-1">
+                        <FaEthereum />
+                        {web3.utils.fromWei(item.price, "ether")}
+                      </b>
+                    </div>
+                  </div>
+                </Link>
+              ))
+            ) : (
+              <div className="text-xl sm:text-2xl flex gap-3 items-center flex-col justify-center w-full p-4">
+                <TbMoodEmpty className="text-pink-500" />
+                <h3>NFTs Are not Created</h3>
+                <p className="text-base text-white/50 font-normal">
+                  Create a nft{" "}
+                </p>
               </div>
-              <div
-                className={`h-[12pc] transition-all relative w-full overflow-hidden rounded-xl flex items-center justify-center`}
-              >
-                <img
-                  className="h-full w-full group-hover:scale-125 transition-all"
-                  src={item.image}
-                  alt=""
-                />
+            )}
+          </div>
+        </div>
+        <div>
+          <h2 className="text-xl sm:text-2xl">My Owned NFTs</h2>
+          <div className="flex mt-2 sm:mt-5 flex-row flex-wrap justify-start gap-5">
+            {clearNFTData.length != 0 ? (
+              clearNFTData.map((item, index) => (
+                <Link
+                  to={"/myProfile/EditNFT/" + item.NftId}
+                  key={index}
+                  className={`group transition-all hover:-translate-y-3 rounded-xl flex flex-col gap-2 w-[15pc] bg-darkBlue-500 p-3`}
+                >
+                  <div className={`flex gap-3 items-center`}>
+                    <img
+                      className="w-11 rounded-full bg-darkBlue-300 h-11"
+                      src="https://nftix-html.vercel.app/assets/img/avatar/avatar2.jpg"
+                      alt="error in image"
+                    />
+                    <div className="flex flex-col">
+                      <span className="text-white/50 text-xs line-clamp-1 rounded-md  w-[6pc] h-[1pc]">
+                        Created by :
+                      </span>{" "}
+                      <h2 className="text-white/90 rounded-md w-[9pc] h-[1.5pc]  line-clamp-1 text-sm font-normal">
+                        Baby doge #2123ssssssssssss
+                      </h2>
+                    </div>
+                  </div>
+                  <div
+                    className={`h-[12pc] transition-all relative w-full overflow-hidden rounded-xl flex items-center justify-center`}
+                  >
+                    <img
+                      className="h-full w-full group-hover:scale-125 transition-all"
+                      src={item.image}
+                      alt=""
+                    />
+                  </div>
+                  <h2 className="text-white/90 text-base transition-all font-semibold hover:text-pink-500">
+                    {item.name}
+                  </h2>
+                  <div className="flex w-full xs:h-[2.4pc] justify-between items-center">
+                    <div className="flex justify-between items-center w-full">
+                      <span className="text-white/50 text-xs">
+                        Current Price
+                      </span>
+                      <b className="flex text-sm text-white/90 items-center gap-1">
+                        <FaEthereum />
+                        {web3.utils.fromWei(item.price, "ether")}
+                      </b>
+                    </div>
+                  </div>
+                </Link>
+              ))
+            ) : (
+              <div className="text-xl sm:text-2xl flex gap-3 items-center flex-col justify-center w-full p-4">
+                <TbMoodEmpty className="text-pink-500" />
+                <h3>NFTs Are not Created</h3>
+                <p className="text-base text-white/50 font-normal">
+                  Create a nft{" "}
+                </p>
               </div>
-              <h2 className="text-white/90 text-base transition-all font-semibold hover:text-pink-500">
-                {item.name}
-              </h2>
-              <div className="flex w-full xs:h-[2.4pc] justify-between items-center">
-                <div className="flex justify-between items-center w-full">
-                  <span className="text-white/50 text-xs">Current Price</span>
-                  <b className="flex text-sm text-white/90 items-center gap-1">
-                    <FaEthereum />
-                    {web3.utils.fromWei(item.price, "ether")}
-                  </b>
-                </div>
-              </div>
-            </Link>
-          ))}
+            )}
+          </div>
         </div>
       </div>
     </div>

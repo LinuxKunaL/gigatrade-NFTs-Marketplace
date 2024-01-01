@@ -39,6 +39,8 @@ contract GigatradeMarketplace is ERC721URIStorage, Ownable(msg.sender) {
         uint256 price;
         string uri;
         uint256 tokenId;
+        address cretor;
+        address owner;
     }
 
     struct NftDataObjectReturn {
@@ -110,9 +112,11 @@ contract GigatradeMarketplace is ERC721URIStorage, Ownable(msg.sender) {
         return NFTsDetails[nftId].price;
     }
 
-    function GetNFTById(
-        uint256 NFTid
-    ) public view returns (NftDataObjectReturn memory) {
+    function GetNFTById(uint256 NFTid)
+        public
+        view
+        returns (NftDataObjectReturn memory)
+    {
         NftDataObjectReturn memory nft;
         address onwerOfNFT = ownerOf(NFTid);
         string memory uriOfNFT = tokenURI(NFTid);
@@ -127,9 +131,11 @@ contract GigatradeMarketplace is ERC721URIStorage, Ownable(msg.sender) {
 
     function GetNFTByIdForOverviewPage(uint256 NFTid) public {}
 
-    function NftByUserAddress(
-        address _from
-    ) public view returns (NftObjectReturn[] memory) {
+    function NftByUserAddress(address _from)
+        public
+        view
+        returns (NftObjectReturn[] memory)
+    {
         uint256 leg = _nftOfAddress[_from].length;
         NftObjectReturn[] memory nfts = new NftObjectReturn[](leg);
         for (uint256 i = 0; i < leg; i++) {
@@ -137,7 +143,9 @@ contract GigatradeMarketplace is ERC721URIStorage, Ownable(msg.sender) {
             nfts[i] = NftObjectReturn({
                 price: GetPriceOfNft(nftId),
                 uri: tokenURI(nftId),
-                tokenId: nftId
+                tokenId: nftId,
+                cretor: NFTsDetails[nftId].creator,
+                owner: NFTsDetails[nftId].owner
             });
         }
         return nfts;
@@ -151,24 +159,25 @@ contract GigatradeMarketplace is ERC721URIStorage, Ownable(msg.sender) {
         }
     }
 
-    function UpdateNftPrice(
-        uint256 nftid,
-        uint256 _price
-    ) public verifyEdit(nftid) {
-        NFTsDetails[nftid].price = _price;
+    function UpdateNftPrice(uint256 nftid, uint256 _price)
+        public
+        verifyEdit(nftid)
+    {
+        NFTsDetails[nftid].price = _price * 1 ether;
     }
 
-    function UpdateNFTUri(
-        string calldata _uri,
-        uint256 nftid
-    ) public verifyEdit(nftid) {
+    function UpdateNFTUri(string calldata _uri, uint256 nftid)
+        public
+        verifyEdit(nftid)
+    {
         _setTokenURI(nftid, _uri);
     }
 
-    function PlatformFeeForOwner(
-        address payable Owner,
-        address payable Seller
-    ) public payable returns (uint256) {
+    function PlatformFeeForOwner(address payable Owner, address payable Seller)
+        public
+        payable
+        returns (uint256)
+    {
         uint256 amountForOwner = (msg.value * platformFee) / 100;
         uint256 amountForSeller = msg.value - amountForOwner;
         Owner.transfer(amountForOwner);

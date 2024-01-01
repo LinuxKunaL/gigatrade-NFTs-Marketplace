@@ -27,6 +27,8 @@ function Nft() {
 
   const [NFTActivityTable, setNFTActivityTable] = useState([]);
 
+  const [ComponentLoad, setComponentLoad] = useState(0);
+
   const NftComponents = {
     details: (
       <NftDetail
@@ -43,6 +45,7 @@ function Nft() {
     activity: <NftActivity data={NFTActivityTable} />,
   };
 
+
   useEffect(() => {
     const fetching = async () => {
       try {
@@ -55,7 +58,7 @@ function Nft() {
       }
     };
     fetching();
-  }, [id]);
+  }, [id,ComponentLoad]);
 
 // console.log(NFTsItems);
   return (
@@ -165,7 +168,7 @@ function Nft() {
             </div>
           </div>
           <div className="flex justify-between gap-8">
-            <NftBuy price={NFTsItems.Price} nftId={id} />
+            <NftBuy price={NFTsItems.Price} ComponentLoad={setComponentLoad} nftId={id} />
             {/* <NftBid /> */}
           </div>
           <div className="">

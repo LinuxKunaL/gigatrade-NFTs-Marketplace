@@ -28,7 +28,7 @@ function AddNewNFT() {
   const UserEthAccount = useSelector((state) => state.EthAccountStates);
 
   const handleImageChange = (e) => {
-    const file = e.target.files[0];
+    const file = e.target.files ? e.target.files[0] : e.dataTransfer.files[0];
     if (file) {
       readImageAsDataURL(file, (imageDataUrl) => {
         const blobImage = dataURLtoBlob(imageDataUrl);
@@ -71,25 +71,21 @@ function AddNewNFT() {
 
   const HandleMintNFT = async (event) => {
     event.preventDefault();
-    // if (!formNftData.image) {
-    //   return ErrorToast("Upload a NFT image !");
-    // }
+    if (!formNftData.image) {
+      return ErrorToast("Upload a NFT image !");
+    }
     try {
-      // const Uri = await promiseToast(
-      //   "NFT Minting please wait... ⛓",
-      //   "NFT uploaded Sign the transaction ! 🎉",
-      //   "Something Error happened ! 💔",
-      //   UploadMetadata,
-      //   formNftData
-      // );
-      // var Uri = {
-      //   url: "testURI",
-      // };
+      const Uri = await promiseToast(
+        "NFT Minting please wait... ⛓",
+        "NFT uploaded Sign the transaction ! 🎉",
+        "Something Error happened ! 💔",
+        UploadMetadata,
+        formNftData
+      );
       await MintNFT(
         UserEthAccount.account,
         formNftData.price,
-        // Uri.url,
-        "ipfs://bafyreigxhqmrqsujey5hzb33xbai25j2yr6223hf2qxml243sptjboyzye/metadata.json",
+        Uri.url,
         formNftData.royalties,
         formNftData.approve
       )
@@ -133,6 +129,11 @@ function AddNewNFT() {
     setFormNftData({ ...formNftData, properties: FilterArray });
   };
 
+  const handleDrop = (e) => {
+    e.preventDefault();
+    handleImageChange(e);
+  };
+
   return (
     <div className="flex flex-col p-2 sm:p-5 gap-5 overflow-y-auto">
       <Toaster position="left" />
@@ -145,6 +146,9 @@ function AddNewNFT() {
       </div>
       <div className="flex lg:flex-row flex-col gap-8">
         <label
+          onDragOver={(e) => e.preventDefault()}
+          onDragLeave={(e) => e.preventDefault()}
+          onDrop={handleDrop}
           htmlFor="imageUpload"
           id="image-box"
           className="flex-auto xl:mx-10 xl:my-10 xl:w-[35%] w-full rounded-xl outline-dashed outline-pink-500/30 flex flex-col dark:bg-darkBlue-500 p-3 gap-3 items-center justify-center"
