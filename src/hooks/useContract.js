@@ -3,7 +3,7 @@ import marketAbi from "../contracts/Marketplace.json";
 
 export const web3 = new Web3(window.ethereum);
 
-export const ContractAddress = "0x4406202C3B7b2E029C7EEfdC71E2D22371c2E8D8";
+export const ContractAddress = "0x5a2D5a3Bb1aE6973F702220e62B5e51f71EBc584";
 
 const ContractInstance = new web3.eth.Contract(marketAbi, ContractAddress);
 

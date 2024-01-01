@@ -141,6 +141,19 @@
 	{
 		"inputs": [
 			{
+				"internalType": "uint256",
+				"name": "NFTid",
+				"type": "uint256"
+			}
+		],
+		"name": "GetNFTByIdForOverviewPage",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "string",
 				"name": "TokenURI",
 				"type": "string"
@@ -274,19 +287,6 @@
 		],
 		"name": "BatchMetadataUpdate",
 		"type": "event"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "NFTid",
-				"type": "uint256"
-			}
-		],
-		"name": "GetNFTByIdForOverviewPage",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
 	},
 	{
 		"anonymous": false,
@@ -564,16 +564,11 @@
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "",
+				"name": "owner",
 				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
 			}
 		],
-		"name": "_nftOfAddress",
+		"name": "balanceOf",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -588,16 +583,43 @@
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "owner",
+				"name": "_from",
 				"type": "address"
 			}
 		],
-		"name": "balanceOf",
+		"name": "CreatedNFTsByUserAddress",
 		"outputs": [
 			{
-				"internalType": "uint256",
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "price",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "uri",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "tokenId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "creator",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "owner",
+						"type": "address"
+					}
+				],
+				"internalType": "struct GigatradeMarketplace.NftObjectReturn[]",
 				"name": "",
-				"type": "uint256"
+				"type": "tuple[]"
 			}
 		],
 		"stateMutability": "view",
@@ -715,46 +737,57 @@
 		"type": "function"
 	},
 	{
+		"inputs": [],
+		"name": "NftByUserAddressCreated",
+		"outputs": [
+			{
+				"internalType": "uint256[]",
+				"name": "",
+				"type": "uint256[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "NftByUserAddressOwned",
+		"outputs": [
+			{
+				"internalType": "uint256[]",
+				"name": "",
+				"type": "uint256[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "_from",
+				"name": "_address",
 				"type": "address"
 			}
 		],
-		"name": "NftByUserAddress",
+		"name": "NFTOfAddress",
 		"outputs": [
 			{
 				"components": [
 					{
-						"internalType": "uint256",
-						"name": "price",
-						"type": "uint256"
+						"internalType": "uint256[]",
+						"name": "created",
+						"type": "uint256[]"
 					},
 					{
-						"internalType": "string",
-						"name": "uri",
-						"type": "string"
-					},
-					{
-						"internalType": "uint256",
-						"name": "tokenId",
-						"type": "uint256"
-					},
-					{
-						"internalType": "address",
-						"name": "cretor",
-						"type": "address"
-					},
-					{
-						"internalType": "address",
-						"name": "owner",
-						"type": "address"
+						"internalType": "uint256[]",
+						"name": "owned",
+						"type": "uint256[]"
 					}
 				],
-				"internalType": "struct GigatradeMarketplace.NftObjectReturn[]",
+				"internalType": "struct ERC721._AddressNFTsObject",
 				"name": "",
-				"type": "tuple[]"
+				"type": "tuple"
 			}
 		],
 		"stateMutability": "view",
@@ -799,6 +832,52 @@
 				"internalType": "address",
 				"name": "owner",
 				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_from",
+				"type": "address"
+			}
+		],
+		"name": "OwnedNFTsByUserAddress",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "price",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "uri",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "tokenId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "creator",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "owner",
+						"type": "address"
+					}
+				],
+				"internalType": "struct GigatradeMarketplace.NftObjectReturn[]",
+				"name": "",
+				"type": "tuple[]"
 			}
 		],
 		"stateMutability": "view",

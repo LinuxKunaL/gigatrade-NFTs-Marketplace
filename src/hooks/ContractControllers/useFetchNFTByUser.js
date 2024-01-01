@@ -1,14 +1,22 @@
-  import ContractInstance from "../useContract";
+import ContractInstance from "../useContract";
 
-  const fetchNFT = async (_from) => {
-    try {
-      const response = await ContractInstance.methods
-        .NftByUserAddress(_from)
-        .call();
-      return response;
-    } catch (error) {
-      console.log(error);
-    }
-  };
+const fetchNFT = async (_from) => {
+  try {
+    const CreatedNfts = await ContractInstance.methods
+      .CreatedNFTsByUserAddress(_from)
+      .call();
 
-  export { fetchNFT };
+    const OwnedNfts = await ContractInstance.methods
+      .OwnedNFTsByUserAddress(_from)
+      .call();
+
+    return {
+      Created: CreatedNfts,
+      Owned: OwnedNfts,
+    };
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export { fetchNFT };

@@ -11,9 +11,9 @@ import { web3 } from "../../../../hooks/useContract";
 import { TbMoodEmpty } from "react-icons/tb";
 function MyNFTs() {
   const [rowNFTsData, setRowNFTsData] = useState([]);
-  const [clearNFTData, setClearNFTData] = useState([]);
+  const [CreatedNFTData, setCreatedNFTData] = useState([]);
+  const [OwnedNFTData, setOwnedNFTData] = useState([]);
   const ethAccount = useSelector((state) => state.EthAccountStates.account);
-
   useEffect(() => {
     const fetchingNfts = async () => {
       try {
@@ -28,38 +28,29 @@ function MyNFTs() {
 
     fetchingNfts();
   }, [ethAccount]);
-
   useEffect(() => {
     const loading = async () => {
       try {
-        const updatedNFTData = await Promise.all(
-          rowNFTsData.map(async (item) => {
-            const metaDataObject = await getMetadata(item.uri.slice(7));
-            if (metaDataObject) {
-              return {
-                price: item.price.toString(),
-                NftId: parseInt(item.tokenId),
-                name: `${metaDataObject.name} #${item.tokenId}`,
-                description: metaDataObject.description,
-                properties: metaDataObject.properties,
-                image: `https://cloudflare-ipfs.com/ipfs/${metaDataObject.image.slice(
-                  7
-                )}`,
-              };
-            }
-            return null;
-          })
-        );
-        const filteredNFTData = updatedNFTData.filter(Boolean);
-        setClearNFTData(filteredNFTData);
+        if (rowNFTsData.Created || rowNFTsData.Owned) {
+          const CreatedData = await Promise.all(
+            rowNFTsData.Created.map(async (item) => {
+              return mapArray(item);
+            })
+          );
+          const OwnedData = await Promise.all(
+            rowNFTsData.Owned.map(async (item) => {
+              return mapArray(item);
+            })
+          );
+          setCreatedNFTData(CreatedData);
+          setOwnedNFTData(OwnedData);
+        }
       } catch (error) {
         console.error("Error loading NFTs:", error);
       }
     };
-
     loading();
   }, [rowNFTsData]);
-
   const getMetadata = async (uri) => {
     try {
       if (uri) {
@@ -72,9 +63,21 @@ function MyNFTs() {
       console.error(error);
     }
   };
-
-  console.log(clearNFTData);
-
+  const mapArray = async (item) => {
+    const metaDataObject = await getMetadata(item.uri.slice(7));
+    if (metaDataObject) {
+      return {
+        price: item.price.toString(),
+        NftId: parseInt(item.tokenId),
+        name: `${metaDataObject.name} #${item.tokenId}`,
+        description: metaDataObject.description,
+        properties: metaDataObject.properties,
+        image: `https://cloudflare-ipfs.com/ipfs/${metaDataObject.image.slice(
+          7
+        )}`,
+      };
+    }
+  };
   return (
     <div className="flex flex-col">
       <div className="h-full gap-4 xs:gap-0 xs:h-[10pc] flex-col mt-5 rounded-3xl flex xs:flex-row justify-between items-center w-full dark:bg-darkBlue-500/80  outline-dashed outline-offset-2 outline-pink-500/40 p-3 xs:p-5">
@@ -92,7 +95,7 @@ function MyNFTs() {
           </button>
         </Link>
       </div>
-      <div className="text-white/90 mt-10 text-2xl gap-5 flex flex-col font-semibold">
+      <div className="text-white/90 mt-10 gap-5 flex flex-col font-semibold">
         <div className="flex gap-4 w-full sm:w-auto">
           <input
             className="bg-gray-50 text-gray-900 sm:text-base text-sm rounded-lg focus:ring-0 focus:dark:border-pink-500 block p-2.5 dark:bg-darkBlue-600 dark:border-gray-600/30 dark:placeholder-gray-500 dark:text-white/50 w-full sm:w-auto"
@@ -109,8 +112,8 @@ function MyNFTs() {
         <div>
           <h2 className="text-xl sm:text-2xl">My Created NFTs</h2>
           <div className="flex mt-2 sm:mt-5 flex-row flex-wrap justify-start gap-5">
-            {clearNFTData.length != 0 ? (
-              clearNFTData.map((item, index) => (
+            {CreatedNFTData.length != 0 ? (
+              CreatedNFTData.map((item, index) => (
                 <Link
                   to={"/myProfile/EditNFT/" + item.NftId}
                   key={index}
@@ -170,8 +173,8 @@ function MyNFTs() {
         <div>
           <h2 className="text-xl sm:text-2xl">My Owned NFTs</h2>
           <div className="flex mt-2 sm:mt-5 flex-row flex-wrap justify-start gap-5">
-            {clearNFTData.length != 0 ? (
-              clearNFTData.map((item, index) => (
+            {OwnedNFTData.length != 0 ? (
+              OwnedNFTData.map((item, index) => (
                 <Link
                   to={"/myProfile/EditNFT/" + item.NftId}
                   key={index}
@@ -214,6 +217,11 @@ function MyNFTs() {
                         {web3.utils.fromWei(item.price, "ether")}
                       </b>
                     </div>
+                  </div>
+                  <div
+                    className="p-1 hover:bg-pink-600 font-semibold text-darkBlue-400 hover:text-white bg-white/80 backdrop-blur-lg flex items-center outline-darkBlue-700 outline-[0.9pc] outline justify-center rounded-sm self-end transition-all px-4"
+                  >
+                    view
                   </div>
                 </Link>
               ))

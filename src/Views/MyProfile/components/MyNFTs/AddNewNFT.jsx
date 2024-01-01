@@ -71,21 +71,22 @@ function AddNewNFT() {
 
   const HandleMintNFT = async (event) => {
     event.preventDefault();
-    if (!formNftData.image) {
-      return ErrorToast("Upload a NFT image !");
-    }
+    // if (!formNftData.image) {
+    //   return ErrorToast("Upload a NFT image !");
+    // }
     try {
-      const Uri = await promiseToast(
-        "NFT Minting please wait... ⛓",
-        "NFT uploaded Sign the transaction ! 🎉",
-        "Something Error happened ! 💔",
-        UploadMetadata,
-        formNftData
-      );
+      // const Uri = await promiseToast(
+      //   "NFT Minting please wait... ⛓",
+      //   "NFT uploaded Sign the transaction ! 🎉",
+      //   "Something Error happened ! 💔",
+      //   UploadMetadata,
+      //   formNftData
+      // );
       await MintNFT(
         UserEthAccount.account,
         formNftData.price,
-        Uri.url,
+        // Uri.url,
+        "ipfs://bafyreifyc2froe63rvnvm44qxgorz7vpjrea645z6dtm655hyideh4gffa/metadata.json",
         formNftData.royalties,
         formNftData.approve
       )

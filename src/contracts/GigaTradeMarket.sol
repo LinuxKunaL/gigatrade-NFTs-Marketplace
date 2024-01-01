@@ -39,7 +39,7 @@ contract GigatradeMarketplace is ERC721URIStorage, Ownable(msg.sender) {
         uint256 price;
         string uri;
         uint256 tokenId;
-        address cretor;
+        address creator;
         address owner;
     }
 
@@ -131,24 +131,54 @@ contract GigatradeMarketplace is ERC721URIStorage, Ownable(msg.sender) {
 
     function GetNFTByIdForOverviewPage(uint256 NFTid) public {}
 
-    function NftByUserAddress(address _from)
+    function NftByUserAddressCreated() public view returns (uint256[] memory) {
+        return NFTOfAddress(msg.sender).created;
+    }
+
+    function NftByUserAddressOwned() public view returns (uint256[] memory) {
+        return NFTOfAddress(msg.sender).owned;
+    }
+
+    function OwnedNFTsByUserAddress(address _from)
         public
         view
         returns (NftObjectReturn[] memory)
     {
-        uint256 leg = _nftOfAddress[_from].length;
-        NftObjectReturn[] memory nfts = new NftObjectReturn[](leg);
+        uint256 leg = NFTOfAddress(_from).owned.length;
+        NftObjectReturn[] memory userNfts = new NftObjectReturn[](leg);
+
         for (uint256 i = 0; i < leg; i++) {
-            uint256 nftId = _nftOfAddress[_from][i];
-            nfts[i] = NftObjectReturn({
+            uint256 nftId = NFTOfAddress(_from).owned[i];
+            userNfts[i] = NftObjectReturn({
                 price: GetPriceOfNft(nftId),
                 uri: tokenURI(nftId),
                 tokenId: nftId,
-                cretor: NFTsDetails[nftId].creator,
+                creator: NFTsDetails[nftId].creator,
                 owner: NFTsDetails[nftId].owner
             });
         }
-        return nfts;
+        return userNfts;
+    }
+
+    function CreatedNFTsByUserAddress(address _from)
+        public
+        view
+        returns (NftObjectReturn[] memory)
+    {
+        uint256 leg = NFTOfAddress(_from).created.length;
+        NftObjectReturn[] memory userNfts = new NftObjectReturn[](leg);
+
+        for (uint256 i = 0; i < leg; i++) {
+            uint256 nftId = NFTOfAddress(_from).created[i];
+            userNfts[i] = NftObjectReturn({
+                price: GetPriceOfNft(nftId),
+                uri: tokenURI(nftId),
+                tokenId: nftId,
+                creator: NFTsDetails[nftId].creator,
+                owner: NFTsDetails[nftId].owner
+            });
+        }
+        return userNfts;
     }
 
     modifier verifyEdit(uint256 nftid) {
