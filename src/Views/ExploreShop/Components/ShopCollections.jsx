@@ -43,7 +43,7 @@ function ShopCollections({ filters }) {
       <div id="collections" className="flex relative z-10 flex-wrap gap-10">
         {IsLoading
           ? CollectionsItems.map((item, index) => (
-              <ProductCollection kay={index} item={item} />
+              <ProductCollection link={"/collectionDetail/"} kay={index} item={item} />
             ))
           : DummySkeletonData.map((item, index) => (
               <SkeletonProductCollection key={index} />

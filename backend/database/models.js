@@ -14,6 +14,8 @@ const usersSchema = new mongoose.Schema({
     whatsapp: { type: String },
     facebook: { type: String },
   },
+  FavoriteNFTs: { type: Array, default: [], unique: true },
+  FavoriteCollections: { type: Array, default: [], unique: true },
 });
 
 const nftsSchema = new mongoose.Schema({
@@ -36,6 +38,7 @@ const collection = new mongoose.Schema({
     Three: { type: String },
     four: { type: String },
   },
+  createdTime: { type: Number },
 });
 
 const Users = mongoose.model("Users", usersSchema);

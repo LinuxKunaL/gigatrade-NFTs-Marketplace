@@ -98,6 +98,7 @@ function AddNewCollection() {
     e.preventDefault();
     handleImageChange(e, imageKey);
   };
+
   return (
     <div className="flex flex-col p-2 sm:p-5 gap-5 overflow-y-auto">
       <Toaster position="bottomleft" />
@@ -203,8 +204,8 @@ function AddNewCollection() {
                     type="file"
                     name={`image-${key}`}
                     onChange={(e) => handleImageChange(e, key)}
-                    hidden
-                    required
+                    // hidden
+                    // required
                   />
                 </label>
               ))}

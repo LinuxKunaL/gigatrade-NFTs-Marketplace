@@ -6,13 +6,16 @@ import Product404 from "../../../components/UiComponents/Product404";
 function AuthorOwned({ NFTs }) {
   return (
     <div id="Owned" className="flex w-full flex-wrap flex-row gap-4">
-      {NFTs
-        ? NFTs.map((item, index) => <ProductNFT kay={index} data={item} />)
-        : null}
-      <Product404
-        message="User doesn't have Owned NFTs"
-        subMessage="collection not found 404"
-      />
+      {NFTs ? (
+        NFTs.length > 0 ? (
+          NFTs.map((item, index) => <ProductNFT kay={index} data={item} />)
+        ) : (
+          <Product404
+            message="User doesn't have Owned NFTs"
+            subMessage="collection not found 404"
+          />
+        )
+      ) : null}
     </div>
   );
 }

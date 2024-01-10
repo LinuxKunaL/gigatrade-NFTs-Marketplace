@@ -8,10 +8,10 @@ import AddNewNFT from "./components/MyNFTs/AddNewNFT";
 import EditNFT from "./components/MyNFTs/EditNFT";
 import EditCollection from "./components/MyCollection/EditCollection";
 
+
 function MyProfile() {
   var css = "#navbar{display:none;}footer{display:none;}";
   const [stateMenuBar, setStateMenuBar] = useState("closeMenuBar");
-
 
 
   var changeCssClass = () => {
@@ -20,6 +20,8 @@ function MyProfile() {
   var closeMenu = () => {
     setStateMenuBar("closeMenuBar");
   };
+
+
   return (
     <div className="mt-5 relative flex flex-col gap-5 ">
       <style>{css}</style>

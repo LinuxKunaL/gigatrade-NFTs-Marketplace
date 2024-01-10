@@ -95,9 +95,49 @@ const getProfileDetailsByEthAddress = async (req, res) => {
   }
 };
 
+const getTopCreators = async (req, res) => {
+  const { limit } = req.body;
+  try {
+    const result = await Users.find(
+      {},
+      {
+        userEthAddress: 1,
+        userProfile: 1,
+        userName: 1,
+      }
+    ).limit(limit);
+    return res.status(200).json(result);
+  } catch (error) {
+    console.error("Error in getTopCreators:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+};
+
+const getProfileFavoriteByEthAddress = async (req, res) => {
+  const { EthUser } = req.body;
+  try {
+    const result = await Users.findOne(
+      {
+        userEthAddress: EthUser,
+      },
+      { FavoriteNFTs: 1, FavoriteCollections: 1 }
+    );
+
+    return res.status(200).send(result);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
 export {
+  getTopCreators,
   setProfilePhoto,
-  getProfileByEthAddress,
   setProfileDetails,
+  getProfileByEthAddress,
   getProfileDetailsByEthAddress,
+  getProfileFavoriteByEthAddress,
 };

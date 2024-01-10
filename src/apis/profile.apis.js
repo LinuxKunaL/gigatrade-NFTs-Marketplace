@@ -57,9 +57,37 @@ const getUserDetailsByEthAddress = async (EthUserId) => {
   }
 };
 
+const getTopCreators = async (limit) => {
+  try {
+    const response = await axios.post("http://localhost:90/getTopCreators", {
+      limit: limit,
+    });
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getUserFavoriteByEthAddress = async (EthUserId) => {
+  try {
+    const response = await axios.post(
+      "http://localhost:90/getUserFavoriteByEthAddress",
+      { EthUser: EthUserId }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
 export {
   setProfilePhoto,
-  getUserNamePicByEthAddress,
+  getTopCreators,
   setProfileDetails,
+  getUserNamePicByEthAddress,
   getUserDetailsByEthAddress,
+  getUserFavoriteByEthAddress
 };
+

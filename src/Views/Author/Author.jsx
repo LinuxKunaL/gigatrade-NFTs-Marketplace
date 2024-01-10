@@ -19,10 +19,12 @@ import AuthorDetails from "./components/AuthorDetails";
 import { getUserDetailsByEthAddress } from "../../apis/profile.apis";
 import { useSearchParams } from "react-router-dom";
 import { fetchNFT } from "../../hooks/ContractControllers/useFetchNFTByUser";
+import { getCollectionsByUser } from "../../apis/Collections.apis";
 
 function Author() {
   const { id } = useParams();
   const [AuthorDetailsData, setAuthorDetailsData] = useState({});
+  const [AuthorCollectionsData, setAuthorCollectionsData] = useState([]);
   const [AuthorNFTs, setAuthorNFTs] = useState([]);
 
   useEffect(() => {
@@ -53,6 +55,8 @@ function Author() {
   useEffect(() => {
     const fetching = async () => {
       const response = await getUserDetailsByEthAddress(id);
+      const result = await getCollectionsByUser(id);
+      setAuthorCollectionsData(result);
       setAuthorDetailsData(response);
       try {
       } catch (error) {
@@ -98,7 +102,7 @@ function Author() {
   const AuthorComponents = {
     details: <AuthorDetails AuthorId={id} />,
     owned: <AuthorOwned NFTs={AuthorNFTs ? AuthorNFTs.Owned : []} />,
-    collections: <AuthorCollections AuthorId={id} />,
+    collections: <AuthorCollections CollectionsData={AuthorCollectionsData} />,
     created: <AuthorCreated NFTs={AuthorNFTs ? AuthorNFTs.Created : []} />,
   };
 
@@ -108,11 +112,11 @@ function Author() {
         id="profile"
         className="relative h-[25pc] flex justify-center items-center"
       >
-        <div className="absolute lg:h-auto lg-w-auto h-[50%] w-[60pc] xl:w-full top-0 rounded-lg opacity-40">
+        <div className="absolute overflow-hidden lg:h-full lg-w-auto h-[50%] w-[60pc] xl:w-full top-0 rounded-lg opacity-40">
           <img
             id="bg-image"
-            className="h-full w-full"
-            src="https://rainbowit.net/html/nuron/assets/images/bg/bg-image-9.jpg"
+            className="w-full"
+            src="https://image.lexica.art/full_webp/152901c2-5a39-4b61-b178-16d5f0a8365d"
             alt=""
           />
         </div>
@@ -216,12 +220,12 @@ const UiOne = ({ AuthorComponents }) => {
       </div>
       <div
         id="collection"
-        className="flex flex-auto flex-col p-4 gap-3 rounded-lg dark:border-darkBlue-500 border-[1px]"
+        className="flex flex-auto flex-col p-4 gap-5 rounded-lg dark:border-darkBlue-500 border-[1px]"
       >
         <h2 className="text-white/90 font-semibold text-xl sm:text-2xl">
           All Collections
         </h2>
-        <div id="collection" className="flex flex-wrap justify-center">
+        <div id="collection" className="flex flex-wrap">
           {AuthorComponents["collections"]}
         </div>
       </div>

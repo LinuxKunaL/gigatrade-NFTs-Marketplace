@@ -25,6 +25,7 @@ const createCollection = async (req, res) => {
         four: `${Config.Server.HOST}${imageLinks[3]}`,
       },
       NFTs: [],
+      createdTime: new Date().getTime(),
     });
     return res
       .status(200)
@@ -150,6 +151,28 @@ const updateCollectionById = async (req, res) => {
   }
 };
 
+const getFewCollections = async (req, res) => {
+  try {
+    const result = await Collection.find(
+      {},
+      {
+        CollectionImages: {
+          one: 1,
+        },
+        CollectionTag: 1,
+        CollectionName: 1,
+        createdTime: 1,
+        EthUser: 1,
+      }
+    )
+      .sort({ createdTime: -1 })
+      .limit(4);
+    return res.send(result);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export {
   createCollection,
   getCollectionsByUser,
@@ -158,4 +181,5 @@ export {
   getCollectionImages,
   updateCollectionById,
   getCollectionDetailsById,
+  getFewCollections,
 };

@@ -11,7 +11,7 @@ import { IoEyeOutline } from "react-icons/io5";
 import { MdRestartAlt } from "react-icons/md";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { ProductNFT, SkeletonProductNFT } from "./UiComponents/ProductNFT";
-
+import { addCollectionFavorite } from "../apis/other.apis";
 import axios from "axios";
 
 import {
@@ -20,7 +20,7 @@ import {
   MdShoppingCart,
 } from "react-icons/md";
 import { BsStars } from "react-icons/bs";
-
+import { useSelector } from "react-redux";
 import { Button, Tooltip } from "flowbite-react";
 import ApexCharts from "apexcharts";
 import { Link, useParams } from "react-router-dom";
@@ -34,6 +34,7 @@ function CollectionDetail() {
   const [IsLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [progress, setProgress] = useState(30);
+  const EthAccount = useSelector((state) => state.EthAccountStates.account);
 
   const fetchPhotos = async () => {
     setTimeout(async () => {
@@ -53,6 +54,20 @@ function CollectionDetail() {
       fetchPhotos();
     }
   };
+
+  const handleFavorite = async () => {
+    try {
+      const result = await addCollectionFavorite(EthAccount, {
+        _id: id,
+        CollectionImages: CollectionDetails.CollectionImages,
+        NFTs: CollectionDetails.NFTs.length,
+        CollectionName: CollectionDetails.CollectionName,
+        CollectionTag: CollectionDetails.CollectionTag,
+        EthUser: CollectionDetails.EthUser,
+      });
+    } catch (error) {}
+  };
+
   useEffect(() => {
     // fetchPhotos();
     const fetching = async () => {
@@ -120,7 +135,6 @@ function CollectionDetail() {
         id="section-2"
         className="flex justify-center w-full flex-col gap-10"
       >
-        {/* shadow-2xl shadow-pink-800/50 */}
         <div className="flex flex-col gap-3 sm:mt-0 mt-8 items-center">
           <img
             className="w-32 z-10 relative h-auto rounded-lg"
@@ -156,6 +170,13 @@ function CollectionDetail() {
               </b>
             </Link>
           </span>
+          <div
+            onClick={handleFavorite}
+            className="flex gap-2 items-center p-2 text-white/80 dark:bg-darkBlue-500 rounded-xl"
+          >
+            <span className="sm:text-base text-xs">23</span>
+            <FaRegHeart className="cursor-pointer rounded-sm transition-all hover:text-purple-500 active:text-purple-700  h-5 w-5 sm:h-6 sm:w-6 p-1" />
+          </div>
         </div>
         <div className="flex gap-5 flex-col lg:flex-row">
           <div className="w-full relative flex flex-col gap-14">

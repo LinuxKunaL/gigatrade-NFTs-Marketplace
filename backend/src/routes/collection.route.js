@@ -6,8 +6,10 @@ import {
   getCollections,
   getCollectionById,
   updateCollectionById,
-  getCollectionDetailsById
+  getCollectionDetailsById,
+  getFewCollections,
 } from "../controllers/collection.controller.js";
+import { addCollectionFavorite } from "../controllers/favorite.controller.js";
 import { Upload } from "../controllers/multer.controller.js";
 
 const routerCollection = Router();
@@ -20,8 +22,11 @@ routerCollection.post(
   Upload.any("file"),
   updateCollectionById
 );
-routerCollection.post("/getCollections",getCollections)
+routerCollection.post("/addCollectionFavorite", addCollectionFavorite);
+
+routerCollection.post("/getCollections", getCollections);
 routerCollection.post("/getCollectionDetailsById", getCollectionDetailsById);
+routerCollection.post("/getFewCollections", getFewCollections);
 
 routerCollection.get("/images/:imageName", getCollectionImages);
 

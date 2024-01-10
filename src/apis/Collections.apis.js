@@ -81,6 +81,13 @@ const getCollections = async (params) => {
   } catch (error) {}
 };
 
+const getFewCollections = async () => {
+  try {
+    const response = await axios.post("http://localhost:90/getFewCollections");
+    return response.data;
+  } catch (error) {}
+};
+
 export {
   createCollection,
   getCollectionsByUser,
@@ -88,4 +95,5 @@ export {
   getCollectionById,
   updateCollectionById,
   getCollectionsDetailsById,
+  getFewCollections,
 };

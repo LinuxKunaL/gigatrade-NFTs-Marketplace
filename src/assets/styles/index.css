@@ -34,6 +34,11 @@
 #495163
  */
 
+img,
+video {
+    /* max-width:min-content !important; */
+    /* height: auto; */
+}
 
 #LiveBidding::before {
     width: 22px;
@@ -251,5 +256,5 @@ nav .active {
 }
 
 .swiper {
-    overflow:unset !important;
+    overflow: unset !important;
 }

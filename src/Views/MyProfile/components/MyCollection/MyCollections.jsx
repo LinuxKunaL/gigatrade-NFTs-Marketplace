@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FiPlusCircle } from "react-icons/fi";
+import { ProductCollection } from "../../../../components/UiComponents/ProductCollection.jsx";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { getCollectionsByUser } from "../../../../apis/Collections.apis.js";
@@ -58,59 +59,12 @@ function MyCollections() {
         <h2 className="text-xl sm:text-2xl">My Collections</h2>
         <div className="flex mt-2 sm:mt-5 flex-row flex-wrap gap-5">
           {collections.length != 0 ? (
-            collections.map((item) => (
-              <div
-                id="collections"
-                className="flex relative z-10 flex-wrap gap-7 justify-evenly"
-              >
-                <Link to={`/myProfile/editCollection/${item._id}`}>
-                  <div className="transition-all  bg-gradient-to-r from-darkBlue-400 to-darkBlue-300 rounded-lg hover:shadow-lg hover:-translate-y-3 0 p-[1px] cursor-pointer">
-                    <div className="p-3 w bg-gradient-to-r relative from-darkBlue-600 via-darkBlue-400 to-darkBlue-500 rounded-lg flex flex-col gap-5">
-                      <div className="relative flex items-center justify-center h-[13pc] w-[19pc] overflow-hidden rounded-lg bg-darkBlue-600">
-                        <img
-                          className="rounded-md  border-darkBlue-200"
-                          src={item.CollectionImages.one}
-                          alt=""
-                        />
-                      </div>
-                      <img
-                        className="w-14 h-14 rounded-full border-2 absolute top-[12pc] left-[8.5pc] border-darkBlue-200"
-                        src="https://rainbowit.net/html/nuron/assets/images/client/client-14.png"
-                        alt=""
-                      />
-                      <div className="flex gap-2">
-                        <img
-                          className="rounded-md w-[6pc] h-[4pc] border-darkBlue-200 "
-                          src={item.CollectionImages.two}
-                          alt=""
-                        />
-                        <img
-                          className=" rounded-md w-[6pc] h-[4pc] border-darkBlue-200"
-                          src={item.CollectionImages.Three}
-                          alt=""
-                        />
-                        <img
-                          className=" rounded-md w-[6pc] h-[4pc] border-darkBlue-200"
-                          src={item.CollectionImages.four}
-                          alt=""
-                        />
-                      </div>
-                      <div className="flex w-full justify-between items-center ">
-                        <span className="text-white/70 text-lg hover:underline w-[13pc] line-clamp-1 leading-snug">
-                          {item.CollectionName} : #
-                          {item.CollectionTag.slice(0, 4)}...
-                        </span>
-                        <button
-                          type="button"
-                          className="py-2 px-4 text-sm font-medium flex items-center gap-4 text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-purple-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-purple-600 dark:text-gray-100 border-none dark:hover:text-white dark:hover:bg-purple-700 bg-gradient-to-r from-purple-800 to-pink-600"
-                        >
-                          {item.NFTs.length} items
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              </div>
+            collections.map((item, index) => (
+              <ProductCollection
+                key={index}
+                link={"/myProfile/editCollection/"}
+                item={item}
+              />
             ))
           ) : (
             <div className="text-xl sm:text-2xl flex gap-3 items-center flex-col justify-center w-full p-4">

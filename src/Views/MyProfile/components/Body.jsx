@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import TrendingNFts from "../components/Home/TrendingNFts";
 import TrendingCollections from "../components/Home/TrendingCollections";
 import { GoArrowUpRight } from "react-icons/go";
@@ -14,8 +14,24 @@ import MyNFTs from "./MyNFTs/MyNFTs";
 
 import EditProfile from "./Settings/EditProfile";
 import EditAvatar from "./Settings/EditAvatar";
+import { getUserFavoriteByEthAddress } from "../../../apis/profile.apis.js";
+import { useSelector } from "react-redux";
 
 function Body() {
+  const [UserFavorite, setUserFavorite] = useState({});
+  const EthUser = useSelector((state) => state.EthAccountStates.account);
+  useEffect(() => {
+    const fetching = async () => {
+      const response = await getUserFavoriteByEthAddress(EthUser);
+      console.log(response);
+      setUserFavorite(response);
+      try {
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetching();
+  }, [EthUser]);
   return (
     <div
       id="body"
@@ -83,8 +99,10 @@ function Body() {
             path="myFavorites"
             element={
               <>
-                <FavoriteCollection />
-                <FavoriteNFTs />
+                <FavoriteCollection
+                  Collections={UserFavorite.FavoriteCollections}
+                />
+                <FavoriteNFTs NFTs={UserFavorite.FavoriteNFTs} />
               </>
             }
           />

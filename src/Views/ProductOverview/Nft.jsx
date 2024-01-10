@@ -17,6 +17,7 @@ import { fetchNFTById } from "../../hooks/ContractControllers/useFetchNFTById";
 import { web3 } from "../../hooks/useContract";
 import { NFTsActivityEvent } from "../../hooks/ContractControllers/useFetchEventForNFT";
 import { useSelector } from "react-redux";
+import { addNFTFavorite } from "../../apis/other.apis";
 
 function Nft() {
   const { id } = useParams();
@@ -67,6 +68,17 @@ function Nft() {
     fetching();
   }, [id, ComponentLoad]);
 
+  const handleFavorite = async () => {
+    try {
+      const result = await addNFTFavorite(EthAccount, {
+        NFTid: id,
+        createdBy: NFTsItems.Creator,
+        image: NFTsItems.Image,
+        price: NFTsItems.Price,
+      });
+    } catch (error) {}
+  };
+
   return (
     <div className="sm:p-0 p-4">
       <div
@@ -110,7 +122,10 @@ function Nft() {
                 <span>2.2k</span>
                 <IoEyeOutline className="cursor-pointer rounded-sm transition-all  h-5 w-5 sm:h-6 sm:w-6 p-[2px]" />
               </div>
-              <div className="flex gap-2 items-center p-2 dark:bg-darkBlue-500 rounded-xl">
+              <div
+                onClick={handleFavorite}
+                className="flex gap-2 items-center p-2 dark:bg-darkBlue-500 rounded-xl"
+              >
                 <span className="sm:text-base text-xs">23</span>
                 <FaRegHeart className="cursor-pointer rounded-sm transition-all hover:text-purple-500 active:text-purple-700  h-5 w-5 sm:h-6 sm:w-6 p-1" />
               </div>

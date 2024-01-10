@@ -48,16 +48,16 @@ export function ProductNFT({ key, data, className, AuthorHide }) {
             {NFTsCreatorDetails.userName
               ? NFTsCreatorDetails.userName
               : data.createdBy
-              ? data.createdBy.slice(0, 5) + ".." + data.createdBy.slice(38)
+              ? `${data.createdBy.slice(0, 5)}...${data.createdBy.slice(38)}`
               : null}
           </Link>
         </div>
       </div>
       <div
-        className={`${className} h-[12pc] bg-darkBlue-600/40 transition-all relative w-full overflow-hidden rounded-xl flex items-center justify-center`}
+        className={`${className} h-[17pc] bg-darkBlue-600/40 transition-all relative w-full overflow-hidden rounded-xl flex items-center justify-center`}
       >
         <img
-          className="h-full w-max group-hover:scale-125 transition-all"
+          className="h-full cw-max !min-w-fit group-hover:scale-125 transition-all"
           src={data.image}
           alt=""
         />
@@ -66,19 +66,19 @@ export function ProductNFT({ key, data, className, AuthorHide }) {
         {data.title}
       </h2>
       <div className="flex w-full xs:h-[2.4pc] justify-between items-center">
-        <div className="flex justify-between items-center w-full">
+        <div className="flex justify-between flex-col w-full">
           <span className="text-white/50 text-xs">Current Price</span>
           <b className="flex text-sm text-white/90 items-center gap-1">
             <FaEthereum />
             {data.price}
           </b>
         </div>
-        {/* <div
+        <div
           className="p-1 hover:bg-pink-600 font-semibold
-          text-darkBlue-400 hover:text-white bg-white/80 backdrop-blur-lg flex items-center justify-center  rounded-lg hover:scale-90 transition-all px-4 h-full "
+          text-darkBlue-400 text-xs hover:text-white text-white/80 bg-white/840 bg-darkBlue-300 backdrop-blur-lg flex items-center justify-center  rounded-lg hover:scale-90 transition-all px-6 h-full "
         >
-          Collect
-        </div> */}
+          Buy
+        </div>
       </div>
     </Link>
   );
