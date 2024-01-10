@@ -22,6 +22,14 @@ function NftDetails({ data }) {
             <FaEthereum /> Ethereum
           </b>{" "}
         </li>
+        <li className="flex gap-4">
+          {" "}
+          <span className="text-white/50">Category :</span>{" "}
+          <b className="flex gap-1 items-center justify-center text-white/70">
+            {" "}
+            {data.category}
+          </b>{" "}
+        </li>
         <li className="flex gap-3">
           {" "}
           <span className="text-white/50">Contract Address :</span>{" "}

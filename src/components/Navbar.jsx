@@ -7,6 +7,7 @@ import { SiEthereum } from "react-icons/si";
 import { RiMenu4Fill } from "react-icons/ri";
 import { Connect } from "../hooks/useConnectWallet";
 import { useSelector } from "react-redux";
+import demoUserAvatar from "../assets/images/user-demo-avatar.svg";
 
 function Navbar() {
   const AccountState = useSelector((state) => state.EthAccountStates);
@@ -147,16 +148,27 @@ function Navbar() {
             <NavLink
               to="/myProfile"
               id="profile"
-              className="md:flex hidden gap-4 items-center"
+              className="md:flex hidden gap-3 items-center"
             >
-              <img
-                src="https://opne9reactnext.vercel.app/assets/images/avatar/avatar-small-09.png"
-                alt=""
-              />
+               <div className="flex items-center overflow-hidden justify-center rounded-full h-14 w-14 bg-gradient-to-tr from-pink-600 to-purple-500">
+            <img
+              className="h-max w-max p-[2px] rounded-full"
+              src={
+                AccountState.userAvatar !== ""
+                  ? AccountState.userAvatar
+                  : demoUserAvatar
+              }
+              alt=""
+            />
+          </div>
+
               <span className="dark:text-white/60 text-gray-800/90 font-semibold cursor-pointer hover:dark:bg-darkBlue-500 transition-all rounded-lg p-1 px-2">
-                {AccountState.account.slice(0, 7) +
-                  "..." +
-                  AccountState.account.slice(38)}
+                {AccountState.userName != ""
+                  ? AccountState.userName
+                  : `${AccountState.account.slice(
+                      0,
+                      7
+                    )}...${AccountState.account.slice(38)}`}
                 <div className="flex gap-3 items-center cursor-pointer">
                   <b className="dark:text-white/80 text-gray-700/90">
                     {AccountState.balance.slice(0, 6)}

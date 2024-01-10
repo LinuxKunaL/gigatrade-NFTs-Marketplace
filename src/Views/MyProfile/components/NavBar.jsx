@@ -4,9 +4,9 @@ import { Tooltip } from "flowbite-react";
 import { RiSettings3Line } from "react-icons/ri";
 import { FaBarsStaggered } from "react-icons/fa6";
 import { useSelector } from "react-redux";
+import demoUserAvatar from "../../../assets/images/user-demo-avatar.svg";
 
 function NavBar({ ClickEvent }) {
-
   const AccountState = useSelector((state) => state.EthAccountStates);
 
   return (
@@ -18,21 +18,31 @@ function NavBar({ ClickEvent }) {
         <FaBarsStaggered />
       </div>
       <div className="flex sm:mr-12 mr-1 gap-4 items-center">
-        <div className="flex sm:gap-4 gap-2 items-center">
-          <img
-            className="sm:w-14 w-10 h-10 sm:h-14"
-            src="https://opne9reactnext.vercel.app/assets/images/avatar/avatar-small-09.png"
-            alt=""
-          />
-          <span className="dark:text-white/60 text-[0.8rem] sm:text-base font-semibold cursor-pointer hover:dark:bg-darkBlue-500 transition-all rounded-lg p-1 px-2">
-            {AccountState.account.slice(0, 7) +
-              "..." +
-              AccountState.account.slice(38)}
-            <div className="flex sm:gap-3 gap-1 items-center cursor-pointer">
-              <b className="dark:text-white/80 sm:font-semibold font-medium">
+        <div className="md:flex hidden gap-3 items-center">
+          <div className="flex items-center overflow-hidden justify-center rounded-full h-14 w-14 bg-gradient-to-tr from-pink-600 to-purple-500">
+            <img
+              className="h-max w-max p-[2px] rounded-full"
+              src={
+                AccountState.userAvatar !== ""
+                  ? AccountState.userAvatar
+                  : demoUserAvatar
+              }
+              alt=""
+            />
+          </div>
+
+          <span className="dark:text-white/60 text-gray-800/90 font-semibold cursor-pointer hover:dark:bg-darkBlue-500 transition-all rounded-lg p-1 px-2">
+            {AccountState.userName != ""
+              ? AccountState.userName
+              : `${AccountState.account.slice(
+                  0,
+                  7
+                )}...${AccountState.account.slice(38)}`}
+            <div className="flex gap-3 items-center cursor-pointer">
+              <b className="dark:text-white/80 text-gray-700/90">
                 {AccountState.balance.slice(0, 6)}
               </b>
-              <SiEthereum className="dark:text-white/60" />
+              <SiEthereum className="dark:text-white/60 text-gray-700/90" />
             </div>
           </span>
         </div>

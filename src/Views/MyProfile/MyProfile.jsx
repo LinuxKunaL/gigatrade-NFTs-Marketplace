@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import MenuBar from "./components/MenuBar";
 import NavBar from "./components/NavBar";
 import Body from "./components/Body";
@@ -10,13 +10,13 @@ import EditCollection from "./components/MyCollection/EditCollection";
 
 function MyProfile() {
   var css = "#navbar{display:none;}footer{display:none;}";
-
   const [stateMenuBar, setStateMenuBar] = useState("closeMenuBar");
+
+
 
   var changeCssClass = () => {
     setStateMenuBar("activeMenuBar");
   };
-
   var closeMenu = () => {
     setStateMenuBar("closeMenuBar");
   };
@@ -37,7 +37,7 @@ function MyProfile() {
               <Route path="myFavorites" />
               <Route path="setting" />
             </Route>
-            <Route path="/editCollection" element={<EditCollection />} />
+            <Route path="/editCollection/:id" element={<EditCollection />} />
             <Route path="/addCollection" element={<AddNewCollection />} />
             <Route path="/addNFT" element={<AddNewNFT />} />
             <Route path="/editNFT/:id" element={<EditNFT />} />

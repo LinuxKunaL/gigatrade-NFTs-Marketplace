@@ -12,6 +12,7 @@ const UploadMetadata = async (metadata) => {
       description: metadata.description,
       image: metadata.image,
       properties: metadata.properties,
+      category: metadata.category,
     });
     return response;
   } catch (error) {

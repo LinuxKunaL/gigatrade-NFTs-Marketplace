@@ -23,6 +23,7 @@ function AddNewNFT() {
     properties: "",
     royalties: "",
     approve: false,
+    category: "",
   });
 
   const UserEthAccount = useSelector((state) => state.EthAccountStates);
@@ -71,22 +72,22 @@ function AddNewNFT() {
 
   const HandleMintNFT = async (event) => {
     event.preventDefault();
-    // if (!formNftData.image) {
-    //   return ErrorToast("Upload a NFT image !");
-    // }
+    if (!formNftData.image) {
+      return ErrorToast("Upload a NFT image !");
+    }
     try {
-      // const Uri = await promiseToast(
-      //   "NFT Minting please wait... ⛓",
-      //   "NFT uploaded Sign the transaction ! 🎉",
-      //   "Something Error happened ! 💔",
-      //   UploadMetadata,
-      //   formNftData
-      // );
+      const Uri = await promiseToast(
+        "NFT Minting please wait... ⛓",
+        "NFT uploaded Sign the transaction ! 🎉",
+        "Something Error happened ! 💔",
+        UploadMetadata,
+        formNftData
+      );
       await MintNFT(
         UserEthAccount.account,
         formNftData.price,
-        // Uri.url,
-        "ipfs://bafyreifyc2froe63rvnvm44qxgorz7vpjrea645z6dtm655hyideh4gffa/metadata.json",
+        Uri.url,
+        // "ipfs://bafyreifyc2froe63rvnvm44qxgorz7vpjrea645z6dtm655hyideh4gffa/metadata.json",
         formNftData.royalties,
         formNftData.approve
       )
@@ -136,7 +137,7 @@ function AddNewNFT() {
   };
 
   return (
-    <div className="flex flex-col p-2 sm:p-5 gap-5 overflow-y-auto">
+    <div className="flex flex-col p-2 sm:p-5 gap-5 overflow-y-auto h-[89%] w-full">
       <Toaster position="left" />
       <h1 className="text-white/90 font-semibold text-xl sm:text-2xl mt-4">
         Create New NFT
@@ -152,12 +153,12 @@ function AddNewNFT() {
           onDrop={handleDrop}
           htmlFor="imageUpload"
           id="image-box"
-          className="flex-auto xl:mx-10 xl:my-10 xl:w-[35%] w-full rounded-xl outline-dashed outline-pink-500/30 flex flex-col dark:bg-darkBlue-500 p-3 gap-3 items-center justify-center"
+          className="flex-1 xl:mx-10 xl:my-10 xl:w-[35%] w-full h-[40pc] rounded-xl outline-dashed outline-pink-500/30 flex overflow-hidden flex-col dark:bg-darkBlue-500 p-3 gap-3 items-center justify-center"
         >
           <img
             src=""
             id="NFTPreview"
-            className="rounded-xl hidden w-full h-full"
+            className="rounded-xl hidden w-full h-max"
             alt=""
           />
           <div
@@ -184,7 +185,7 @@ function AddNewNFT() {
           onChange={handleImageChange}
           hidden
         />
-        <div className="flex-auto">
+        <div className="flex-1">
           <form onSubmit={HandleMintNFT} className="flex flex-col gap-6">
             <div className="flex flex-col gap-4">
               <label
@@ -210,7 +211,7 @@ function AddNewNFT() {
                 NFT description *
               </label>
               <textarea
-                rows={10}
+                rows={5}
                 className="bg-gray-50 text-gray-900 rounded-lg focus:ring-0 focus:dark:border-pink-500 block w-full p-2.5 dark:bg-darkBlue-600 dark:border-gray-600/30 dark:placeholder-gray-500 dark:text-white/70 text-sm sm:text-base"
                 required
                 type="text"
@@ -275,6 +276,30 @@ function AddNewNFT() {
                 </label>
               </div>
             </div>
+
+            <div className="flex flex-col gap-4">
+              <label
+                htmlFor=""
+                className="text-white/70 font-semibold text-sm sm:text-base"
+              >
+                Select a category
+              </label>
+              <select
+                id="countries"
+                className="bg-gray-50 text-gray-900 rounded-lg focus:ring-0 focus:dark:border-pink-500 block w-full p-2.5 dark:bg-darkBlue-600 dark:border-gray-600/30 dark:placeholder-gray-500 dark:text-white/70 text-sm sm:text-base"
+                name="category"
+                onChange={HandleOnChange}
+                required
+              >
+                <option value="gaming">Gaming</option>
+                <option value="sports">Sports</option>
+                <option value="music">Music</option>
+                <option value="art">Art</option>
+                <option value="photography">Photography</option>
+                <option value="utility">Utility</option>
+              </select>
+            </div>
+
             <div className="flex flex-col gap-4">
               <label
                 htmlFor=""

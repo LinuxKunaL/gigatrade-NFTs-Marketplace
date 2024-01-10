@@ -1,23 +1,40 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaEthereum } from "react-icons/fa6";
 import Aos from "aos";
 import "aos/dist/aos.css";
+import { getUserNamePicByEthAddress } from "../../apis/profile.apis";
+import demoUserAvatar from "../../assets/images/user-demo-avatar.svg";
 
 export function ProductNFT({ key, data, className, AuthorHide }) {
+  const [NFTsCreatorDetails, setNFTsCreatorDetails] = useState({});
   useEffect(() => {
     Aos.init();
   }, []);
+
+  useEffect(() => {
+    const fetching = async () => {
+      try {
+        const response = await getUserNamePicByEthAddress(data.createdBy);
+        setNFTsCreatorDetails(response);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetching();
+  }, [data.createdBy]);
   return (
     <Link
-      to={"/nft/" + data.NFTId}
+      to={"/nft/" + data.NFTid}
       key={key}
       className={`${className} group transition-all hover:-translate-y-3 rounded-xl flex flex-col gap-2 flex-2 w-[15pc] bg-darkBlue-500 p-3`}
     >
       <div className={`${AuthorHide} flex gap-3 items-center`}>
         <img
           className="w-11 rounded-full bg-darkBlue-300 h-11"
-          src="https://nftix-html.vercel.app/assets/img/avatar/avatar2.jpg"
+          src={
+            NFTsCreatorDetails ? NFTsCreatorDetails.userProfile : demoUserAvatar
+          }
           alt="error in image"
         />
         <div className="flex flex-col">
@@ -25,33 +42,35 @@ export function ProductNFT({ key, data, className, AuthorHide }) {
             Created by :
           </span>{" "}
           <Link
-            to="/author"
+            to={`/author/${data.createdBy}`}
             className="text-white/90 rounded-md w-[9pc] h-[1.5pc] hover:text-pink-500 hover:scale-[99%] transition-all line-clamp-1 text-sm font-normal"
           >
-            {data.Owner
-              ? data.Owner.slice(0, 5) + ".." + data.Owner.slice(38)
-              : ""}
+            {NFTsCreatorDetails.userName
+              ? NFTsCreatorDetails.userName
+              : data.createdBy
+              ? data.createdBy.slice(0, 5) + ".." + data.createdBy.slice(38)
+              : null}
           </Link>
         </div>
       </div>
       <div
-        className={`${className} h-[12pc] transition-all relative w-full overflow-hidden rounded-xl flex items-center justify-center`}
+        className={`${className} h-[12pc] bg-darkBlue-600/40 transition-all relative w-full overflow-hidden rounded-xl flex items-center justify-center`}
       >
         <img
-          className="h-full w-full group-hover:scale-125 transition-all"
-          src={data.Image}
+          className="h-full w-max group-hover:scale-125 transition-all"
+          src={data.image}
           alt=""
         />
       </div>
       <h2 className="text-white/90 text-base transition-all font-semibold hover:text-pink-500">
-        {data.Name}
+        {data.title}
       </h2>
       <div className="flex w-full xs:h-[2.4pc] justify-between items-center">
         <div className="flex justify-between items-center w-full">
           <span className="text-white/50 text-xs">Current Price</span>
           <b className="flex text-sm text-white/90 items-center gap-1">
             <FaEthereum />
-            {data.Price}
+            {data.price}
           </b>
         </div>
         {/* <div

@@ -2,6 +2,24 @@
 	{
 		"inputs": [
 			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "approve",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "uint256",
 				"name": "Nftid",
 				"type": "uint256"
@@ -141,19 +159,6 @@
 	{
 		"inputs": [
 			{
-				"internalType": "uint256",
-				"name": "NFTid",
-				"type": "uint256"
-			}
-		],
-		"name": "GetNFTByIdForOverviewPage",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
 				"internalType": "string",
 				"name": "TokenURI",
 				"type": "string"
@@ -250,24 +255,6 @@
 		],
 		"name": "ApprovalForAll",
 		"type": "event"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "to",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "tokenId",
-				"type": "uint256"
-			}
-		],
-		"name": "approve",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
 	},
 	{
 		"anonymous": false,
@@ -367,13 +354,23 @@
 		"inputs": [
 			{
 				"internalType": "address payable",
-				"name": "Owner",
+				"name": "MarketOwner",
 				"type": "address"
 			},
 			{
 				"internalType": "address payable",
 				"name": "Seller",
 				"type": "address"
+			},
+			{
+				"internalType": "address payable",
+				"name": "Creator",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "fee",
+				"type": "uint256"
 			}
 		],
 		"name": "PlatformFeeForOwner",
@@ -525,6 +522,12 @@
 		"type": "function"
 	},
 	{
+		"anonymous": false,
+		"inputs": [],
+		"name": "TriggerNodejsServer",
+		"type": "event"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "uint256",
@@ -670,6 +673,11 @@
 						"internalType": "address",
 						"name": "owner",
 						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "creator",
+						"type": "address"
 					}
 				],
 				"internalType": "struct GigatradeMarketplace.NftDataObjectReturn",
@@ -737,7 +745,13 @@
 		"type": "function"
 	},
 	{
-		"inputs": [],
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "User",
+				"type": "address"
+			}
+		],
 		"name": "NftByUserAddressCreated",
 		"outputs": [
 			{
@@ -750,7 +764,13 @@
 		"type": "function"
 	},
 	{
-		"inputs": [],
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "User",
+				"type": "address"
+			}
+		],
 		"name": "NftByUserAddressOwned",
 		"outputs": [
 			{

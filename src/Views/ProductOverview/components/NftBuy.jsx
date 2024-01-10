@@ -4,8 +4,9 @@ import { BuyNFT } from "../../../hooks/ContractControllers/useBuyNFT";
 import store from "../../../app/redux/ReduxStore";
 import { SuccessToast } from "../../../app/Toast/Success";
 import { Toaster } from "react-hot-toast";
+import { ErrorToast } from "../../../app/Toast/Error";
 
-function NftBuy({ price, nftId, ComponentLoad }) {
+function NftBuy({ price, nftId, ComponentLoad, isListed }) {
   const HandleBuyNFT = async () => {
     try {
       const response = await BuyNFT(nftId);
@@ -43,16 +44,26 @@ function NftBuy({ price, nftId, ComponentLoad }) {
       <b className="dark:text-white/50 font-normal text-sm sm:text-base">
         Last sale price ~{price - 1.5} ETH
       </b>
-      <button
-        type="button"
-        className="py-2.5 w-full px-5 text-sm sm:text-lg justify-evenly font-medium flex items-center gap-3 text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-purple-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-purple-600 dark:text-gray-100 border-none dark:hover:text-white dark:hover:bg-purple-700 bg-gradient-to-r from-purple-800 to-pink-600"
-        onClick={HandleBuyNFT}
-      >
-        Buy now for
-        <div className="flex gap-2 items-center">
-          <FaEthereum /> {price} ETH
-        </div>
-      </button>
+      {isListed ? (
+        <button
+          type="button"
+          className="py-2.5 w-full px-5 text-sm sm:text-lg justify-evenly font-medium flex items-center gap-3 text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-purple-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-purple-600 dark:text-gray-100 border-none dark:hover:text-white dark:hover:bg-purple-700 bg-gradient-to-r from-purple-800 to-pink-600"
+          onClick={HandleBuyNFT}
+        >
+          Buy now for
+          <div className="flex gap-2 items-center">
+            <FaEthereum /> {price} ETH
+          </div>
+        </button>
+      ) : (
+        <button
+          onClick={() => ErrorToast("This NFT is not listed")}
+          type="button"
+          className="py-2.5 w-full px-5 text-sm sm:text-lg justify-evenly font-medium flex items-center gap-3 text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 focus:z-10 dark:text-gray-100/50 border-none bg-gradient-to-r from-gray-700 to-gray-600 cursor-not-allowed"
+        >
+          This NFT is not listed
+        </button>
+      )}
     </div>
   );
 }

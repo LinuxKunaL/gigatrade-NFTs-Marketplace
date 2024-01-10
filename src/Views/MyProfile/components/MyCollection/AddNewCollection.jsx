@@ -1,10 +1,106 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { BsStars } from "react-icons/bs";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { TiUpload } from "react-icons/ti";
+import { createCollection } from "../../../../apis/Collections.apis";
+import { useSelector } from "react-redux";
+import { SuccessToast } from "../../../../app/Toast/Success";
+import { Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+
 function AddNewCollection() {
+  const EthAddress = useSelector((state) => state.EthAccountStates.account);
+  const [images, setImages] = useState([]);
+  const navigate = useNavigate();
+  const [CollectionForm, setCollectionForm] = useState({
+    name: "",
+    tag: "",
+    images: {
+      one: "",
+      two: "",
+      three: "",
+      four: "",
+    },
+    EthUser: "",
+  });
+
+  useEffect(() => {
+    setCollectionForm({ ...CollectionForm, EthUser: EthAddress });
+  }, [EthAddress]);
+
+  const handleImageChange = (e, imageKey) => {
+    const file = e.target.files ? e.target.files[0] : e.dataTransfer.files[0];
+    if (file) {
+      readImageAsDataURL(file, (imageDataUrl) => {
+        const blobImage = dataURLtoBlob(imageDataUrl);
+        const NFTPreview = document.getElementById(`NFTPreview-${imageKey}`);
+        const imageBox = document.getElementById(`Upload-ui-${imageKey}`);
+        imageBox.style.display = "none";
+        NFTPreview.style.display = "block";
+        NFTPreview.src = imageDataUrl;
+        setImages([...images, file]);
+        setCollectionForm((prevForm) => ({
+          ...prevForm,
+          images: {
+            ...prevForm.images,
+            [imageKey]: blobImage,
+          },
+        }));
+      });
+    }
+  };
+
+  const readImageAsDataURL = (file, callback) => {
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      const imageDataUrl = reader.result;
+      callback(imageDataUrl);
+    };
+
+    reader.readAsDataURL(file);
+  };
+
+  const dataURLtoBlob = (dataURL) => {
+    const splitDataUrl = dataURL.split(",");
+    const byteString = atob(splitDataUrl[1]);
+    const mimeString = splitDataUrl[0].split(":")[1].split(";")[0];
+
+    const arrayBuffer = new ArrayBuffer(byteString.length);
+    const uint8Array = new Uint8Array(arrayBuffer);
+
+    for (let i = 0; i < byteString.length; i++) {
+      uint8Array[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([arrayBuffer], { type: mimeString });
+  };
+
+  const HandleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      if (EthAddress) {
+        const result = await createCollection(CollectionForm);
+        if (result.success) {
+          SuccessToast(result.message);
+          setTimeout(() => {
+            navigate("/myProfile/myCollection");
+          }, 2500);
+        }
+      } else {
+        console.log("EthAddress are not found");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleDrop = (e, imageKey) => {
+    e.preventDefault();
+    handleImageChange(e, imageKey);
+  };
   return (
     <div className="flex flex-col p-2 sm:p-5 gap-5 overflow-y-auto">
+      <Toaster position="bottomleft" />
       <h1 className="text-white/90 font-semibold text-xl sm:text-2xl mt-4">
         Create New Collection
       </h1>
@@ -14,7 +110,11 @@ function AddNewCollection() {
       </div>
       <div className="h-full flex gap-8">
         <div className="flex-auto mt-5 sm:mt-10">
-          <form className="flex xl:ml-10  flex-col gap-6 p-2">
+          <form
+            onSubmit={HandleSubmit}
+            className="flex xl:ml-10  flex-col gap-6 p-2"
+            method="post"
+          >
             <div className="flex gap-3 sm:items-center sm:flex-row flex-col">
               <div className="flex flex-1 flex-col gap-4">
                 <label
@@ -27,6 +127,14 @@ function AddNewCollection() {
                   className=" bg-gray-50 text-gray-900 rounded-lg focus:ring-0 focus:dark:border-pink-500 block w-full p-2.5 dark:bg-darkBlue-600 dark:border-gray-600/30 dark:placeholder-gray-500 dark:text-white/70 text-sm sm:text-base"
                   type="text"
                   placeholder="Collection Name"
+                  name="collectionName"
+                  onChange={(e) =>
+                    setCollectionForm({
+                      ...CollectionForm,
+                      name: e.target.value,
+                    })
+                  }
+                  required
                 />
               </div>
               <div className="flex flex-1 flex-col gap-4">
@@ -38,86 +146,68 @@ function AddNewCollection() {
                 </label>
                 <select
                   className=" bg-gray-50 text-gray-900 rounded-lg focus:ring-0 focus:dark:border-pink-500 block w-full p-2.5 dark:bg-darkBlue-600 dark:border-gray-600/30 dark:placeholder-gray-500 dark:text-white/70 text-sm sm:text-base"
-                  name=""
-                  id=""
+                  name="collectionTag"
+                  onChange={(e) =>
+                    setCollectionForm({
+                      ...CollectionForm,
+                      tag: e.target.value,
+                    })
+                  }
+                  required
                 >
-                  <option selected>Choose a tag</option>
+                  <option value="gaming">Gaming</option>
+                  <option value="sports">Sports</option>
+                  <option value="music">Music</option>
+                  <option value="art">Art</option>
+                  <option value="photography">Photography</option>
+                  <option value="utility">Utility</option>
                 </select>
               </div>
             </div>
             <div className="flex w-full flex-wrap gap-5 sm:gap-0">
-              <div
-                id="image-box"
-                className="flex-auto sm:mx-5 sm:my-10 rounded-xl outline-dashed outline-pink-500/30 sm:pb-14 sm:pt-14 w-full sm:w-min flex flex-col dark:bg-darkBlue-500 p-5 gap-4 items-center justify-center"
-              >
-                <TiUpload className="text-purple-500 text-2xl" />
-                <b className="text-white/80 text-sm sm:text-base">
-                  Upload cover
-                </b>
-                <span className="text-white/70 text-sm sm:text-base text-center">
-                  Drag or choose your file to upload
-                </span>
-                <p className="text-white/50 text-sm sm:text-base text-center">
-                  PNG, GIF, WEBP, MP4 or MP3.Max 1Gb.
-                </p>
-                <button className="py-3 px-10 flex flex-row items-center gap-2 text-white/90 font-semibold justify-center xs:justify-start text-sm sm:text-base w-full xs:w-auto bg-gradient-to-tr from-pink-500 to-purple-500 rounded-xl ">
-                  Create <FaArrowLeftLong className="-rotate-[-140deg]" />
-                </button>
-              </div>
-              <div
-                id="image-box"
-                className="flex-auto sm:mx-5 sm:my-10 rounded-xl outline-dashed outline-pink-500/30 sm:pb-14 sm:pt-14 w-full sm:w-min flex flex-col dark:bg-darkBlue-500 p-5 gap-4 items-center justify-center"
-              >
-                <TiUpload className="text-purple-500 text-2xl" />
-                <b className="text-white/80 text-sm sm:text-base">
-                  Upload cover
-                </b>
-                <span className="text-white/70 text-sm sm:text-base text-center">
-                  Drag or choose your file to upload
-                </span>
-                <p className="text-white/50 text-sm sm:text-base text-center">
-                  PNG, GIF, WEBP, MP4 or MP3.Max 1Gb.
-                </p>
-                <button className="py-3 px-10 flex flex-row items-center gap-2 text-white/90 font-semibold justify-center xs:justify-start text-sm sm:text-base w-full xs:w-auto bg-gradient-to-tr from-pink-500 to-purple-500 rounded-xl ">
-                  Create <FaArrowLeftLong className="-rotate-[-140deg]" />
-                </button>
-              </div>
-              <div
-                id="image-box"
-                className="flex-auto sm:mx-5 sm:my-10 rounded-xl outline-dashed outline-pink-500/30 sm:pb-14 sm:pt-14 w-full sm:w-min flex flex-col dark:bg-darkBlue-500 p-5 gap-4 items-center justify-center"
-              >
-                <TiUpload className="text-purple-500 text-2xl" />
-                <b className="text-white/80 text-sm sm:text-base">
-                  Upload cover
-                </b>
-                <span className="text-white/70 text-sm sm:text-base text-center">
-                  Drag or choose your file to upload
-                </span>
-                <p className="text-white/50 text-sm sm:text-base text-center">
-                  PNG, GIF, WEBP, MP4 or MP3.Max 1Gb.
-                </p>
-                <button className="py-3 px-10 flex flex-row items-center gap-2 text-white/90 font-semibold justify-center xs:justify-start text-sm sm:text-base w-full xs:w-auto bg-gradient-to-tr from-pink-500 to-purple-500 rounded-xl ">
-                  Create <FaArrowLeftLong className="-rotate-[-140deg]" />
-                </button>
-              </div>
-              <div
-                id="image-box"
-                className="flex-auto sm:mx-5 sm:my-10 rounded-xl outline-dashed outline-pink-500/30 sm:pb-14 sm:pt-14 w-full sm:w-min flex flex-col dark:bg-darkBlue-500 p-5 gap-4 items-center justify-center"
-              >
-                <TiUpload className="text-purple-500 text-2xl" />
-                <b className="text-white/80 text-sm sm:text-base">
-                  Upload cover
-                </b>
-                <span className="text-white/70 text-sm sm:text-base text-center">
-                  Drag or choose your file to upload
-                </span>
-                <p className="text-white/50 text-sm sm:text-base text-center">
-                  PNG, GIF, WEBP, MP4 or MP3.Max 1Gb.
-                </p>
-                <button className="py-3 px-10 flex flex-row items-center gap-2 text-white/90 font-semibold justify-center xs:justify-start text-sm sm:text-base w-full xs:w-auto bg-gradient-to-tr from-pink-500 to-purple-500 rounded-xl ">
-                  Create <FaArrowLeftLong className="-rotate-[-140deg]" />
-                </button>
-              </div>
+              {["one", "two", "three", "four"].map((key) => (
+                <label
+                  onDragOver={(e) => e.preventDefault()}
+                  onDragLeave={(e) => e.preventDefault()}
+                  onDrop={(e) => handleDrop(e, key)}
+                  key={key}
+                  htmlFor={`imageUpload-${key}`}
+                  className="flex-auto w-[20pc] sm:mx-5 sm:my-10 rounded-xl outline-dashed outline-pink-500/30 sm:pb-14 sm:pt-14 h-[20pc] text-center overflow-hidden sm:w-s flex flex-col dark:bg-darkBlue-500 p-5 gap-4 items-center justify-center"
+                >
+                  <img
+                    src=""
+                    id={`NFTPreview-${key}`}
+                    className="rounded-xl hidden h-[20pc]"
+                    alt=""
+                  />
+                  <div
+                    id={`Upload-ui-${key}`}
+                    className="gap-3 items-center justify-center flex flex-col"
+                  >
+                    <TiUpload className="text-purple-500 text-2xl" />
+                    <b className="text-white/80 text-sm sm:text-base">
+                      Upload File
+                    </b>
+                    <span className="text-white/70 text-sm sm:text-base">
+                      Drag or choose your file to upload
+                    </span>
+                    <p className="text-white/50 text-sm sm:text-base">
+                      PNG, GIF, WEBP, MP4 or MP3.Max 1Gb.
+                    </p>
+                    <div className="py-3 px-10 flex flex-row items-center gap-2 text-white/90 font-semibold justify-center xs:justify-start text-sm sm:text-base w-full xs:w-auto bg-gradient-to-tr from-pink-500 to-purple-500 rounded-xl ">
+                      Create <FaArrowLeftLong className="-rotate-[-140deg]" />
+                    </div>
+                  </div>
+                  <input
+                    id={`imageUpload-${key}`}
+                    type="file"
+                    name={`image-${key}`}
+                    onChange={(e) => handleImageChange(e, key)}
+                    hidden
+                    required
+                  />
+                </label>
+              ))}
             </div>
             <button
               type="submit"

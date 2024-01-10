@@ -10,6 +10,7 @@ const fetchAllNFTs = async () => {
         NFTid: i,
         Price: response.price,
         Owner: response.owner,
+        Creator:response.creator,
         Uri: response.uri,
       });
     }

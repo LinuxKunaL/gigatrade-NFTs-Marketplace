@@ -14,6 +14,7 @@ function MyNFTs() {
   const [CreatedNFTData, setCreatedNFTData] = useState([]);
   const [OwnedNFTData, setOwnedNFTData] = useState([]);
   const ethAccount = useSelector((state) => state.EthAccountStates.account);
+
   useEffect(() => {
     const fetchingNfts = async () => {
       try {
@@ -28,6 +29,7 @@ function MyNFTs() {
 
     fetchingNfts();
   }, [ethAccount]);
+
   useEffect(() => {
     const loading = async () => {
       try {
@@ -51,6 +53,7 @@ function MyNFTs() {
     };
     loading();
   }, [rowNFTsData]);
+
   const getMetadata = async (uri) => {
     try {
       if (uri) {
@@ -72,12 +75,15 @@ function MyNFTs() {
         name: `${metaDataObject.name} #${item.tokenId}`,
         description: metaDataObject.description,
         properties: metaDataObject.properties,
+        creator: item.creator,
         image: `https://cloudflare-ipfs.com/ipfs/${metaDataObject.image.slice(
           7
         )}`,
       };
     }
   };
+
+  console.log(OwnedNFTData);
   return (
     <div className="flex flex-col">
       <div className="h-full gap-4 xs:gap-0 xs:h-[10pc] flex-col mt-5 rounded-3xl flex xs:flex-row justify-between items-center w-full dark:bg-darkBlue-500/80  outline-dashed outline-offset-2 outline-pink-500/40 p-3 xs:p-5">
@@ -130,7 +136,9 @@ function MyNFTs() {
                         Created by :
                       </span>{" "}
                       <h2 className="text-white/90 rounded-md w-[9pc] h-[1.5pc]  line-clamp-1 text-sm font-normal">
-                        Baby doge #2123ssssssssssss
+                        {`${item.creator.slice(0, 5)}...${item.creator.slice(
+                          38
+                        )}`}
                       </h2>
                     </div>
                   </div>
@@ -147,7 +155,7 @@ function MyNFTs() {
                     {item.name}
                   </h2>
                   <div className="flex w-full xs:h-[2.4pc] justify-between items-center">
-                    <div className="flex justify-between items-center w-full">
+                    <div className="flex flex-col justify-between w-full">
                       <span className="text-white/50 text-xs">
                         Current Price
                       </span>
@@ -156,6 +164,12 @@ function MyNFTs() {
                         {web3.utils.fromWei(item.price, "ether")}
                       </b>
                     </div>
+                    <Link
+                      to={`/nft/${item.NftId}`}
+                      className="px-3 py-1 bg-pink-600 font-semibold hover:text-darkBlue-400 text-white hover:bg-white/90 flex items-center relative justify-center rounded-lg self-end transition-all text-sm"
+                    >
+                      View
+                    </Link>
                   </div>
                 </Link>
               ))
@@ -176,7 +190,7 @@ function MyNFTs() {
             {OwnedNFTData.length != 0 ? (
               OwnedNFTData.map((item, index) => (
                 <Link
-                  to={"/myProfile/EditNFT/" + item.NftId}
+                  to={`/myProfile/EditNFT/${item.NftId}`}
                   key={index}
                   className={`group transition-all hover:-translate-y-3 rounded-xl flex flex-col gap-2 w-[15pc] bg-darkBlue-500 p-3`}
                 >
@@ -191,7 +205,9 @@ function MyNFTs() {
                         Created by :
                       </span>{" "}
                       <h2 className="text-white/90 rounded-md w-[9pc] h-[1.5pc]  line-clamp-1 text-sm font-normal">
-                        Baby doge #2123ssssssssssss
+                        {`${item.creator.slice(0, 5)}...${item.creator.slice(
+                          38
+                        )}`}
                       </h2>
                     </div>
                   </div>
@@ -208,7 +224,7 @@ function MyNFTs() {
                     {item.name}
                   </h2>
                   <div className="flex w-full xs:h-[2.4pc] justify-between items-center">
-                    <div className="flex justify-between items-center w-full">
+                    <div className="flex flex-col justify-between w-full">
                       <span className="text-white/50 text-xs">
                         Current Price
                       </span>
@@ -217,12 +233,21 @@ function MyNFTs() {
                         {web3.utils.fromWei(item.price, "ether")}
                       </b>
                     </div>
+                    <Link
+                      to={`/nft/${item.NftId}`}
+                      className="px-3 py-1 bg-pink-600 font-semibold hover:text-darkBlue-400 text-white hover:bg-white/90 flex items-center relative justify-center rounded-lg self-end transition-all text-sm"
+                    >
+                      View
+                    </Link>
                   </div>
-                  <div
-                    className="p-1 hover:bg-pink-600 font-semibold text-darkBlue-400 hover:text-white bg-white/80 backdrop-blur-lg flex items-center outline-darkBlue-700 outline-[0.9pc] outline justify-center rounded-sm self-end transition-all px-4"
-                  >
-                    view
-                  </div>
+                  {/* <div className="flex gap-4 justify-between">
+                    <div className="p-1 hover:bg-pink-600 font-semibold text-white hover:text-white bg-gradient-to-tr from-pink-500 to-pink-400 backdrop-blur-lg w-full flex items-center relative rounded-bl-lg justify-center rounded-sm self-end transition-all text-sm px-3">
+                      View
+                    </div>
+                    <div className="p-1 hover:bg-pink-600 font-semibold text-white hover:text-white bg-gradient-to-tr from-purple-500 to-purple-400 backdrop-blur-lg w-full flex items-center relative rounded-br-lg justify-center rounded-sm self-end transition-all text-sm px-3">
+                      Edit
+                    </div>
+                  </div> */}
                 </Link>
               ))
             ) : (

@@ -1,8 +1,31 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { MdOutlineOpenInNew, MdShoppingCart } from "react-icons/md";
 import { BsStars } from "react-icons/bs";
 
 function NftActivity({ data }) {
+  const calculateTimeAgo = (solidityTimestamp) => {
+    const timeDifference =
+      Math.abs(solidityTimestamp * 1000 - Date.now()) / 1000; // Convert Solidity timestamp to milliseconds
+    const secondsInMinute = 60;
+    const secondsInHour = 3600;
+    const secondsInDay = 86400;
+    const secondsInMonth = 2592000;
+    const secondsInYear = 31536000;
+
+    if (timeDifference < secondsInMinute) {
+      return `${Math.floor(timeDifference)} seconds ago`;
+    } else if (timeDifference < secondsInHour) {
+      return `${Math.floor(timeDifference / secondsInMinute)} minutes ago`;
+    } else if (timeDifference < secondsInDay) {
+      return `${Math.floor(timeDifference / secondsInHour)} hours ago`;
+    } else if (timeDifference < secondsInMonth) {
+      return `${Math.floor(timeDifference / secondsInDay)} days ago`;
+    } else if (timeDifference < secondsInYear) {
+      return `${Math.floor(timeDifference / secondsInMonth)} months ago`;
+    } else {
+      return `${Math.floor(timeDifference / secondsInYear)} years ago`;
+    }
+  };
   return (
     <div id="Activity" className="flex h-full  w-full flex-col gap-4">
       <div className="">
@@ -69,7 +92,8 @@ function NftActivity({ data }) {
                     href=""
                     className="font-medium flex gap-1 items-center text-blue-600 dark:text-blue-500 hover:underline"
                   >
-                    7 day ago <MdOutlineOpenInNew />
+                    {calculateTimeAgo(item.time)}
+                    <MdOutlineOpenInNew />
                   </a>
                 </td>
               </tr>

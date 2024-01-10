@@ -68,7 +68,7 @@ function TrendingCollections() {
           >
             {k.map((i, index) => (
               <SwiperSlide>
-                <ProductCollection key={index} data={i} />
+                {/* <ProductCollection key={index} data={i} /> */}
               </SwiperSlide>
             ))}
           </Swiper>

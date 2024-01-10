@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FaEthereum, FaRegHeart } from "react-icons/fa";
 import { BsFillShareFill } from "react-icons/bs";
 import { IoEyeOutline } from "react-icons/io5";
-import { useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
 
 import { ProductNFT } from "../../components/UiComponents/ProductNFT";
@@ -16,9 +16,12 @@ import { useParams } from "react-router-dom";
 import { fetchNFTById } from "../../hooks/ContractControllers/useFetchNFTById";
 import { web3 } from "../../hooks/useContract";
 import { NFTsActivityEvent } from "../../hooks/ContractControllers/useFetchEventForNFT";
+import { useSelector } from "react-redux";
 
 function Nft() {
   const { id } = useParams();
+  const navigate = useNavigate();
+  const EthAccount = useSelector((state) => state.EthAccountStates.account);
 
   const [paramState, setParamState] = useSearchParams({
     info: "details",
@@ -37,6 +40,7 @@ function Nft() {
           Description: NFTsItems.Description,
           CreateAt: NFTsItems.CreateAt,
           creatorFees: NFTsItems.creatorFees,
+          category: NFTsItems.Category,
         }}
       />
     ),
@@ -45,12 +49,15 @@ function Nft() {
     activity: <NftActivity data={NFTActivityTable} />,
   };
 
-
   useEffect(() => {
     const fetching = async () => {
       try {
         const response = await fetchNFTById(id);
         const activityTable = await NFTsActivityEvent(id);
+        if (!response) {
+          navigate("/");
+          return null;
+        }
         setNFTsItems(response);
         setNFTActivityTable(activityTable);
       } catch (error) {
@@ -58,9 +65,8 @@ function Nft() {
       }
     };
     fetching();
-  }, [id,ComponentLoad]);
+  }, [id, ComponentLoad]);
 
-// console.log(NFTsItems);
   return (
     <div className="sm:p-0 p-4">
       <div
@@ -76,9 +82,9 @@ function Nft() {
         </div>
       </div>
       <div id="section-2" className="flex xl:flex-row flex-col gap-8 xl:gap-28">
-        <div className="flex-1 relative">
+        <div className="flex-1 h-full">
           <img
-            className="z-10 sticky top-[10pc] xl:w-auto w-full rounded-2xl"
+            className="h-full w-full rounded-2xl"
             src={NFTsItems.Image}
             alt=""
           />
@@ -88,13 +94,16 @@ function Nft() {
           <div className="flex gap-1 items-center sm:flex-row dark:text-white/80 justify-between">
             <div className="sm:text-base text-sm">
               by{" "}
-              <span className="font-semibold text-pink-600">
+              <Link
+                to={`/author/${NFTsItems.Creator}`}
+                className="font-semibold text-pink-600"
+              >
                 {NFTsItems.Creator
                   ? NFTsItems.Creator.slice(0, 7) +
                     ".." +
                     NFTsItems.Creator.slice(38)
                   : null}
-              </span>
+              </Link>
             </div>
             <div className="flex gap-3 items-center">
               <div className="flex gap-2 sm:text-base text-xs items-center p-2 dark:bg-darkBlue-500 rounded-xl">
@@ -124,13 +133,16 @@ function Nft() {
                   src="https://nftix-html.vercel.app/assets/img/avatar/avatar3.jpg"
                   alt=""
                 />
-                <span className="dark:text-white/60 hover:text-pink-500 transition-all cursor-pointer sm:text-base text-sm">
+                <Link
+                  to={`/author/${NFTsItems.Creator}`}
+                  className="dark:text-white/60 hover:text-pink-500 transition-all cursor-pointer sm:text-base text-sm"
+                >
                   {NFTsItems.Creator
                     ? NFTsItems.Creator.slice(0, 6) +
                       ".." +
                       NFTsItems.Creator.slice(38)
                     : null}
-                </span>
+                </Link>
               </div>
             </div>
             <div className="flex flex-col gap-2">
@@ -143,13 +155,19 @@ function Nft() {
                   src="https://nftix-html.vercel.app/assets/img/avatar/avatar3.jpg"
                   alt=""
                 />
-                <span className="dark:text-white/60 hover:text-pink-500 transition-all cursor-pointer sm:text-base text-sm">
+                <Link
+                  to={`/author/${NFTsItems.CurrentOwner}`}
+                  className="dark:text-white/60 hover:text-pink-500 transition-all cursor-pointer sm:text-base text-sm"
+                >
                   {NFTsItems.CurrentOwner
-                    ? `${NFTsItems.CurrentOwner.slice(0, 6)}
-                    ...
-                    ${NFTsItems.CurrentOwner.slice(38)}`
+                    ? NFTsItems.CurrentOwner == EthAccount
+                      ? "You"
+                      : `${NFTsItems.CurrentOwner.slice(
+                          0,
+                          6
+                        )}...${NFTsItems.CurrentOwner.slice(38)}`
                     : null}
-                </span>
+                </Link>
               </div>
             </div>
           </div>
@@ -168,7 +186,12 @@ function Nft() {
             </div>
           </div>
           <div className="flex justify-between gap-8">
-            <NftBuy price={NFTsItems.Price} ComponentLoad={setComponentLoad} nftId={id} />
+            <NftBuy
+              price={NFTsItems.Price}
+              isListed={NFTsItems.IsListed}
+              ComponentLoad={setComponentLoad}
+              nftId={id}
+            />
             {/* <NftBid /> */}
           </div>
           <div className="">

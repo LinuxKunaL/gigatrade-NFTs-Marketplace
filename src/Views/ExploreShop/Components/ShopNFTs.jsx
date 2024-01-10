@@ -5,7 +5,7 @@ import {
   ProductNFT,
   SkeletonProductNFT,
 } from "../../../components/UiComponents/ProductNFT";
-import { fetchAllNFTs } from "../../../hooks/ContractControllers/useFetchAllNFTs";
+import { fetchAllNFTs } from "../../../apis/FetchNFTs";
 import { web3 } from "../../../hooks/useContract";
 
 function ShopNFTs({ filters }) {
@@ -16,27 +16,16 @@ function ShopNFTs({ filters }) {
   const [progress, setProgress] = useState(30);
 
   useEffect(() => {
+    filters.set("search", "");
+    filters.set("category", "");
+  }, []);
+
+  useEffect(() => {
     const fetchNFTs = async () => {
       try {
-        const response = await fetchAllNFTs();
-        const NFTsData = await Promise.all(
-          response.map(async (items) => {
-            const metadataJson = await getMetadata(items.Uri.slice(7));
-            if (metadataJson) {
-              return {
-                NFTId: items.NFTid,
-                Price: web3.utils.fromWei(items.Price.toString(), "ether"),
-                Image: `https://cloudflare-ipfs.com/ipfs/${metadataJson.image.slice(
-                  7
-                )}`,
-                Name: `${metadataJson.name} #${items.NFTid}`,
-                Owner: items.Owner,
-              };
-            }
-          })
-        );
-        setNFTsItems(NFTsData);
-        console.log(NFTsData);
+        const response = await fetchAllNFTs(filters);
+        setNFTsItems(response);
+        console.log(response);
       } catch (error) {
         console.log(error);
       }
@@ -46,17 +35,17 @@ function ShopNFTs({ filters }) {
     fetchNFTs();
   }, [filters]);
 
-  const getMetadata = async (uri) => {
-    try {
-      const response = await axios.get(
-        `https://cloudflare-ipfs.com/ipfs/${uri}`
-      );
-      return response.data;
-    } catch (error) {
-      console.log(error);
-      return null;
-    }
-  };
+  // const getMetadata = async (uri) => {
+  //   try {
+  //     const response = await axios.get(
+  //       `https://cloudflare-ipfs.com/ipfs/${uri}`
+  //     );
+  //     return response.data;
+  //   } catch (error) {
+  //     console.log(error);
+  //     return null;
+  //   }
+  // };
 
   return (
     <>

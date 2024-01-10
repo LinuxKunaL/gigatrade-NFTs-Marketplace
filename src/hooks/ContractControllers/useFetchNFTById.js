@@ -7,10 +7,6 @@ const fetchNFTById = async (NftId) => {
     const response = await ContractInstance.methods.GetNFTById(NftId).call();
     const response_2 = await ContractInstance.methods.NFTsDetails(NftId).call();
     const metadataJson = (await getMetadata(response.uri)).data;
-
-    // console.log(response);
-    // console.log(response_2);
-
     return {
       NFTId: NftId,
       Price: web3.utils.fromWei(response.price.toString(), "ether"),
@@ -25,6 +21,7 @@ const fetchNFTById = async (NftId) => {
       Properties: metadataJson.properties /*@dev from  metadataJson*/,
       Description: metadataJson.description /*@dev from  metadataJson*/,
       Creator: response_2.creator,
+      Category:metadataJson.category
     };
   } catch (error) {
     console.log(error);

@@ -36,8 +36,8 @@ function App() {
                 <Route path="collections" />
               </Route>
               <Route path="/nft/:id" element={<Nft />} />
-              <Route path="/collectionDetail" element={<CollectionDetail />} />
-              <Route path="/author" element={<Author />} />
+              <Route path="/collectionDetail/:id" element={<CollectionDetail />} />
+              <Route path="/author/:id" element={<Author />} />
               <Route path="/myProfile" element={<MyProfile />}>
                 <Route path="addNFT" />
                 <Route path="editNFT/:id" />
@@ -46,7 +46,7 @@ function App() {
                 <Route path="myFavorites" />
                 <Route path="myCollection" />
                 <Route path="addCollection" />
-                <Route path="editCollection" />
+                <Route path="editCollection/:id" />
               </Route>
             </Routes>
             <Footer />

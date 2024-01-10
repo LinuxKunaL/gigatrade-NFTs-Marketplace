@@ -11,6 +11,7 @@
     "aos": "^2.3.4",
     "apexcharts": "^3.45.0",
     "axios": "^1.6.2",
+    "date-fns": "^3.0.6",
     "flowbite": "^2.2.1",
     "flowbite-react": "^0.7.2",
     "ipfs-http-client": "^60.0.1",
