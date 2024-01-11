@@ -18,6 +18,8 @@ import { web3 } from "../../hooks/useContract";
 import { NFTsActivityEvent } from "../../hooks/ContractControllers/useFetchEventForNFT";
 import { useSelector } from "react-redux";
 import { addNFTFavorite } from "../../apis/other.apis";
+import { Toaster } from "react-hot-toast";
+import { SuccessToast } from "../../app/Toast/Success";
 
 function Nft() {
   const { id } = useParams();
@@ -76,11 +78,17 @@ function Nft() {
         image: NFTsItems.Image,
         price: NFTsItems.Price,
       });
-    } catch (error) {}
+      if (result.success) {
+        SuccessToast(result.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <div className="sm:p-0 p-4">
+      <Toaster position="bottomleft" />
       <div
         id="section-1"
         className="flex flex-col gap-3 w-full h-[15pc] items-center justify-center "
@@ -118,15 +126,10 @@ function Nft() {
               </Link>
             </div>
             <div className="flex gap-3 items-center">
-              <div className="flex gap-2 sm:text-base text-xs items-center p-2 dark:bg-darkBlue-500 rounded-xl">
-                <span>2.2k</span>
-                <IoEyeOutline className="cursor-pointer rounded-sm transition-all  h-5 w-5 sm:h-6 sm:w-6 p-[2px]" />
-              </div>
               <div
                 onClick={handleFavorite}
                 className="flex gap-2 items-center p-2 dark:bg-darkBlue-500 rounded-xl"
               >
-                <span className="sm:text-base text-xs">23</span>
                 <FaRegHeart className="cursor-pointer rounded-sm transition-all hover:text-purple-500 active:text-purple-700  h-5 w-5 sm:h-6 sm:w-6 p-1" />
               </div>
             </div>

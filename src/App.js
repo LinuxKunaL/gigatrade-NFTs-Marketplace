@@ -7,7 +7,7 @@ import Footer from "./components/Footer";
 
 import Home from "./Views/Home/Home";
 import Explore from "./Views/ExploreShop/Explore";
-import CollectionDetail from "./components/CollectionDetail";
+import Collection from "./Views/ProductOverview/Collection";
 import Author from "./Views/Author/Author";
 import MyProfile from "./Views/MyProfile/MyProfile";
 import ShopNFTs from "./Views/ExploreShop/Components/ShopNFTs";
@@ -36,7 +36,7 @@ function App() {
                 <Route path="collections" />
               </Route>
               <Route path="/nft/:id" element={<Nft />} />
-              <Route path="/collectionDetail/:id" element={<CollectionDetail />} />
+              <Route path="/collection/:id" element={<Collection />} />
               <Route path="/author/:id" element={<Author />} />
               <Route path="/myProfile" element={<MyProfile />}>
                 <Route path="addNFT" />

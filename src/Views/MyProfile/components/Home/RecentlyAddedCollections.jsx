@@ -56,7 +56,7 @@ function RecentlyAddedCollections() {
       </h3>
       <div className="flex xl:flex-col md:flex-row flex-col gap-6">
         <Link
-          to={`/collectionDetail/${
+          to={`/collection/${
             LatestCollections[0] ? LatestCollections[0]._id : null
           }`}
           className="flex flex-col gap-1 dark:bg-darkBlue-400 rounded-lg"
@@ -95,7 +95,7 @@ function RecentlyAddedCollections() {
               ""
             ) : (
               <Link
-                to={`/collectionDetail/${items._id}`}
+                to={`/collection/${items._id}`}
                 className="flex px-3 py-1 hover:bg-darkBlue-400 rounded-lg transition-all cursor-pointer flex-row justify-between items-center"
               >
                 <div className="flex gap-2 items-center">

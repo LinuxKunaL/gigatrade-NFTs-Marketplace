@@ -27,7 +27,7 @@ export function ProductNFT({ key, data, className, AuthorHide }) {
     <Link
       to={"/nft/" + data.NFTid}
       key={key}
-      className={`${className} group transition-all hover:-translate-y-3 rounded-xl flex flex-col gap-2 flex-2 w-[15pc] bg-darkBlue-500 p-3`}
+      className={`${className} border-[1px] border-gray-700/70 group transition-all hover:-translate-y-3 rounded-xl flex flex-col gap-2 flex-2 w-[15pc] bg-darkBlue-500 p-3`}
     >
       <div className={`${AuthorHide} flex gap-3 items-center`}>
         <img
@@ -54,13 +54,16 @@ export function ProductNFT({ key, data, className, AuthorHide }) {
         </div>
       </div>
       <div
-        className={`${className} h-[17pc] bg-darkBlue-600/40 transition-all relative w-full overflow-hidden rounded-xl flex items-center justify-center`}
+        className={`${className} border-[1px] relative z-30 hover:shadow-xl shadow-darkBlue-700 hover:-translate-y-1  border-gray-700/70 h-[17pc] bg-darkBlue-600/40 transition-all w-full overflow-hidden rounded-xl flex items-center justify-center`}
       >
         <img
           className="h-full cw-max !min-w-fit group-hover:scale-125 transition-all"
           src={data.image}
           alt=""
         />
+        {/* <div className="bg-darkBlue-500 h-[2pc] -bottom-1 -right-1 w-[10pc] border-[1px] border-gray-700/70 rounded-tl-2xl absolute z-30">
+          10:12:21
+        </div> */}
       </div>
       <h2 className="text-white/90 text-base transition-all font-semibold hover:text-pink-500">
         {data.title}

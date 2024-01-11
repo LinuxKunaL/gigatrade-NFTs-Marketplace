@@ -26,7 +26,7 @@ function Navbar() {
   return (
     <nav
       id="navbar"
-      className="bg-white/50 sticky top-0 sm:top-5 z-[10000] sm:rounded-2xl dark:bg-darkBlue-500/80 backdrop-blur-lg dark:border-darkBlue-400 border-gray-100 border-[1px]"
+      className="bg-white/50 sticky top-0 sm:top-5 z-[10000] sm:rounded-2xl dark:bg-darkBlue-500/50 backdrop-blur-lg dark:border-darkBlue-400  border-[1px]"
     >
       <div className="max-w-screen-xl justify-between flex flex-wrap items-center mx-auto p-4">
         <Link

@@ -8,6 +8,9 @@ import nft from "../../assets/images/nft.svg";
 import metaHome from "../../assets/images/metamaskHome.svg";
 import { ProductNFT } from "../../components/UiComponents/ProductNFT";
 
+import { GoArrowUpRight } from "react-icons/go";
+import row from "../../assets/images/row.png";
+
 function Home() {
   document.addEventListener("mousemove", (e) => {
     var items = document.querySelectorAll("h1,#NFTimage div");
@@ -34,16 +37,13 @@ function Home() {
     {
       img: "https://i.seadn.io/s/raw/files/db06245a1a357a3c20af708a3621c7ab.png?auto=format&dpr=1&w=256",
     },
-    {
-      img: "https://i.seadn.io/s/raw/files/db06245a1a357a3c20af708a3621c7ab.png?auto=format&dpr=1&w=256",
-    },
   ];
 
   return (
     <div id="home" className="flex flex-col justify-around px-4">
       <div
         id="section-1"
-        className="flex mt-20 items-center lg:h-[40pc] gap-5 lg:flex-row h-full flex-col"
+        className="flex mt-20 items-center lg:h-[40pc]  gap-5 lg:flex-row h-full flex-col"
       >
         <div
           id="side-left"
@@ -213,121 +213,82 @@ function Home() {
           <div className="h-[10pc] w-44 bg-gradient-to-r from-purple-800 blur-[10pc] absolute right-10 bottom-0 opacity-[20%]" />
         </div>
       </div>
-      <div id="section-2" className="hidden items-center h-[20pc] sm:flex">
-        <div className="rounded-2xl bg-gradient-to-r from-purple-500 from-10% via-pink-500 via-30% to-darkBlue-600 to-90% w-full p-2 sm:p-5 flex h-max sm:h-28 justify-between items-center border-darkBlue-400/90 border-[1px] sm:border-[2px]">
-          <h2 className="text-gray-100 font-semibold sm:text-2xl">
-            Sell your latest NFT with GigaTrade
-          </h2>
-          <button
-            type="button"
-            className=" py-3 px-7 text-sm sm:text-lg font-medium flex items-center gap-4 text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-purple-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-purple-600 dark:text-gray-100 border-none dark:hover:text-white dark:hover:bg-purple-700 bg-gradient-to-r from-purple-800 to-pink-600"
-          >
-            Explore
-          </button>
-        </div>
-      </div>
       <div
         id="section-3"
-        className="flex flex-col gap-5 mt-14 lg:mt-0 justify-center"
+        className="flex flex-col gap-5 mt-14 lg:mt-14  justify-center"
       >
         <div className="flex sm:flex-row flex-col gap-4 justify-between items-center">
-          <h1 className="dark:text-white/90 text-2xl sm:text-4xl">
+          <h1 className="dark:text-white/80 text-2xl font-semibold sm:text-4xl">
             Trending{" "}
-            <b className="border-2 sm:text-2xl text-lg lg:shadow-none lg:shadow-purple-800/80 sm:border-0 rounded-md shadow-lg shadow-purple-800/80 p-1 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-500">
+            <b className="border-2 sm:text-2xl text-lg font-semibold text-white lg:shadow-none lg:shadow-purple-800/80 sm:border-0 rounded-md shadow-lg shadow-purple-800/80 p-1 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-500">
               NFTs
             </b>
           </h1>
-          <div className="relative">
+          {/* <div className="relative">
             <h1
               id="LiveBidding"
               className="dark:text-white/90 text-2xl sm:text-4xl"
             >
               Live Bidding
             </h1>
-          </div>
+          </div> */}
         </div>
         <div className="w-full  mt-1 sm:mt-20 flex justify-center gap-10 sm:justify-between flex-wrap">
           {k.map((data, index) => (
-            <ProductNFT
-              key={index}
-              className="xl:!flex-initial"
-              data={data}
-            />
-            // <Link
-            //   to="/nft?info=details"
-            //   key={index}
-            //   className="transition-all w-[17pc] bg-gradient-to-r from-darkBlue-500 to-darkBlue-100 rounded-lg hover:shadow-lg hover:-translate-y-3 0 p-[1px] cursor-pointer"
-            // >
-            //   <div className="p-3 bg-gradient-to-r from-darkBlue-600 via-darkBlue-500 to-darkBlue-500 rounded-lg flex flex-col gap-5">
-            //     <div
-            //       style={{ backgroundImage: `url(${data.img})` }}
-            //       className="bg-cover rounded-lg bg-center  bg-[url('https://nftix-html.vercel.app/assets/img/images/sebastian-svenson.jpg')] h-[12pc] w-full flex items-center justify-center"
-            //     />
-            //     <div className="flex gap-2 items-center justify-between">
-            //       <img
-            //         className="w-11 rounded-md bg-darkBlue-300 h-11"
-            //         src="https://nftix-html.vercel.app/assets/img/avatar/avatar2.jpg"
-            //         alt="error in image"
-            //         onError={(e) =>
-            //           (e.target.src =
-            //             "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=")
-            //         }
-            //       />
-            //       <div className="flex flex-col gap-1">
-            //         <h2 className="text-white/90 rounded-md w-[9pc] h-[1.5pc]  line-clamp-1 text-sm font-semibold">
-            //           Baby doge #2123ssssssssssss
-            //         </h2>
-            //         <span className="text-white/50 text-sm line-clamp-1 rounded-md  w-[6pc] h-[1.5pc]">
-            //           lldlds sdsd
-            //         </span>
-            //       </div>
-            //       <img
-            //         className="rounded-full w-7 h-7 0"
-            //         src="https://w7.pngwing.com/pngs/268/1013/png-transparent-ethereum-eth-hd-logo-thumbnail.png"
-            //         alt="error in image"
-            //       />
-            //     </div>
-            //     <div className="flex justify-between text-sm">
-            //       <div className="flex gap-[0.4pc] flex-col">
-            //         <b className="dark:text-white/90 w-[4pc] h-[1.4pc] rounded-sm">
-            //           25.5 ETH
-            //         </b>
-            //         <span className="dark:text-white/50 w-[3.7pc] h-[1.4pc] rounded-sm">
-            //           Bid Price
-            //         </span>
-            //       </div>
-            //       <div className="flex gap-[0.4pc] flex-col">
-            //         <b className="dark:text-white/90 w-[4pc] h-[1.4pc] rounded-sm">
-            //           21.5 ETH
-            //         </b>
-            //         <span className="dark:text-white/50 w-[3.7pc] h-[1.4pc]rounded-sm">
-            //           Offer for
-            //         </span>
-            //       </div>{" "}
-            //       <div className="flex gap-[0.4pc] flex-col">
-            //         <b className="dark:text-white/90 w-[4pc] h-[1.4pc] rounded-sm">
-            //           1334 $
-            //         </b>
-            //         <span className="dark:text-white/50 w-[3.7pc] h-[1.4pc]rounded-sm">
-            //           in Doller
-            //         </span>
-            //       </div>
-            //     </div>
-            //     <button className=" transition-all items-center justify-center py-3 px-7 text-sm font-medium flex  gap-4 text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-purple-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-purple-600 dark:text-gray-100 border-none dark:hover:text-white bg-gradient-to-r from-purple-800 to-purple-400 hover:from-purple-800 hover:to-purple-600 active:from-purple-600 active:to-purple-700">
-            //       Collect Now
-            //     </button>
-            //   </div>
-            // </Link>
+            <ProductNFT key={index} className="xl:!flex-initial" data={data} />
           ))}
+        </div>
+      </div>
+      <div className="sm:h-[17pc] mt-16 relative rounded-2xl bg-gradient-to-r from-purple-500 overflow-hidden from-10% via-pink-500 via-100% sm:p-5 p-2 flex justify-between items-center">
+        <div className="flex z-10 relative flex-col sm:justify-evenly gap-3 sm:m-0 h-full sm:w-auto w-full">
+          <h2 className="text-white/90 sm:text-start text-center text-2xl sm:text-3xl font-semibold">
+            Discover, create and <br /> sell your own NFT
+          </h2>
+          <div className="flex sm:gap-4 gap-1 w-full flex-row sm:justify-start justify-between items-start sm:flex-row">
+            <button
+              type="button"
+              className="sm:py-2.5 sm:px-7 py-2 px-4 sm:w-max w-[9pc]  text-[0.7rem] sm:text-lg font-medium flex items-center gap-2 justify-between text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-purple-700 focus:z-10 focus:ring-4 focus:ring-gray-200 self-center dark:focus:ring-gray-700 dark:bg-darkBlue-400 dark:text-gray-100 border-none dark:hover:text-white"
+            >
+              Explore Now
+              <GoArrowUpRight className="text-md font-semibold" />
+            </button>
+            <button
+              type="button"
+              className="m:py-2.5 sm:px-7 py-2 px-4 sm:w-max w-[9pc] text-[0.7em] sm:text-lg font-medium flex items-center gap-2 text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-purple-700 focus:z-10 focus:ring-4 focus:ring-gray-200 self-center dark:focus:ring-gray-700 dark:bg-darkBlue-400 dark:text-gray-100 border-none dark:hover:text-white"
+            >
+              Create Your NFTs
+              <GoArrowUpRight className="text-md font-semibold" />
+            </button>
+          </div>
+        </div>
+        <div className="h-full w-[55%] z-[] md:opacity-100 opacity-10 md:relative absolute gap-5 flex justify-between -rotate-12">
+          <img
+            id="user-profile-row-image-animation-1"
+            src={row}
+            className="h-[50pc]"
+            alt=""
+          />
+          <img
+            id="user-profile-row-image-animation-2"
+            src={row}
+            className="h-[50pc]"
+            alt=""
+          />
+          <img
+            id="user-profile-row-image-animation-3"
+            src={row}
+            className="h-[50pc]"
+            alt=""
+          />
         </div>
       </div>
       <div
         id="section-4"
         className="flex mt-10 justify-center gap-7 lg:gap-20 flex-col h-full lg:h-[34pc] w-full"
       >
-        <h1 className="dark:text-white/90 text-2xl sm:text-4xl">
+        <h1 className="dark:text-white/80 text-2xl font-semibold sm:text-4xl">
           Create and Sell Your{" "}
-          <b className="border-2 sm:text-2xl text-lg lg:shadow-none lg:shadow-purple-800/80 sm:border-0 rounded-md shadow-lg shadow-purple-800/80 p-1 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-500">
+          <b className="border-2 sm:text-2xl text-lg lg:shadow-none font-semibold lg:shadow-purple-800/80 sm:border-0 rounded-md shadow-lg shadow-purple-800/80 p-1 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-500">
             NFTs
           </b>
         </h1>
