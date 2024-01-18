@@ -307,37 +307,6 @@
 	{
 		"inputs": [
 			{
-				"internalType": "address",
-				"name": "_address",
-				"type": "address"
-			}
-		],
-		"name": "NFTOfAddress",
-		"outputs": [
-			{
-				"components": [
-					{
-						"internalType": "uint256[]",
-						"name": "created",
-						"type": "uint256[]"
-					},
-					{
-						"internalType": "uint256[]",
-						"name": "owned",
-						"type": "uint256[]"
-					}
-				],
-				"internalType": "struct ERC721._AddressNFTsObject",
-				"name": "",
-				"type": "tuple"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
 				"internalType": "uint256",
 				"name": "",
 				"type": "uint256"
@@ -534,6 +503,37 @@
 					}
 				],
 				"internalType": "struct GigatradeMarketplace.NFTDataObjectReturn",
+				"name": "",
+				"type": "tuple"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_address",
+				"type": "address"
+			}
+		],
+		"name": "getNFTsOfAddress",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "uint256[]",
+						"name": "created",
+						"type": "uint256[]"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "owned",
+						"type": "uint256[]"
+					}
+				],
+				"internalType": "struct ERC721._AddressNFTsObject",
 				"name": "",
 				"type": "tuple"
 			}

@@ -7,7 +7,7 @@ const setProfilePhoto = async (req, res) => {
 
   try {
     const filter = { userEthAddress: EthUser };
-
+    console.log(EthUser);
     const update = {
       $set: {
         userProfile: `${Config.Server.HOST}${ImageLink[0]}`,

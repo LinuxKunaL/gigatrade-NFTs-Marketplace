@@ -14,9 +14,9 @@ const usersSchema = new mongoose.Schema({
     whatsapp: { type: String },
     facebook: { type: String },
   },
-  FavoriteNFTs: { type: Array, default: [], unique: true },
-  FavoriteCollections: { type: Array, default: [], unique: true },
-  createdAt:{type:Number}
+  FavoriteNFTs: { type: Array },
+  FavoriteCollections: { type: Array },
+  createdAt: { type: Number },
 });
 
 const nftsSchema = new mongoose.Schema({

@@ -27,7 +27,5 @@ app.use(routerCollection);
 eventFetch();
 
 app.listen(Config.Server.PORT, () => {
-  console.log(
-    `Backend Server running on http://${Config.Server.HOST}:${Config.Server.PORT}`
-  );
+  console.log(`Backend Server running 🎉`);
 });
