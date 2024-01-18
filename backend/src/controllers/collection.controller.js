@@ -63,14 +63,14 @@ const getCollectionsByUser = async (req, res) => {
 };
 
 const getCollections = async (req, res) => {
-  const { search, category } = req.body;
+  const { search, category, limit } = req.body;
   try {
     const result = await Collection.find({
       CollectionName: { $regex: new RegExp(search, "i") },
       CollectionTag: {
         $regex: new RegExp(category == "all" ? "" : category, "i"),
       },
-    });
+    }).limit(limit);
     res.send(result);
   } catch (error) {
     console.log(error);

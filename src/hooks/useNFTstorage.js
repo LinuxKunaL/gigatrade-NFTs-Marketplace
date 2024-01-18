@@ -1,8 +1,7 @@
 import { NFTStorage } from "nft.storage";
 
 const client = new NFTStorage({
-  token:
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweGVGNjI1REVFNTE5OTA0YTU1OTU2OTJEMjdmRjMyOTAyQUI4NEY1NEMiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTcwMjA5MzA0NTQ3MSwibmFtZSI6Imt1bmFsLkV0aCJ9.Zi7s2GLOoBjXjsLWldvqHq5jrZBObQv_RBTdQn3eXIA",
+  token: process.env.REACT_APP_NFT_STORAGE_KEY,
 });
 
 const UploadMetadata = async (metadata) => {

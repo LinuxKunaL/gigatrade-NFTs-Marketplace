@@ -18,7 +18,7 @@ function NavBar({ ClickEvent }) {
         <FaBarsStaggered />
       </div>
       <div className="flex sm:mr-12 mr-1 gap-4 items-center">
-        <div className="md:flex hidden gap-3 items-center">
+        <div className="flex gap-3 items-center">
           <div className="flex items-center overflow-hidden justify-center rounded-full h-14 w-14 bg-gradient-to-tr from-pink-600 to-purple-500">
             <img
               className="h-max w-max p-[2px] rounded-full"
@@ -30,7 +30,6 @@ function NavBar({ ClickEvent }) {
               alt=""
             />
           </div>
-
           <span className="dark:text-white/60 text-gray-800/90 font-semibold cursor-pointer hover:dark:bg-darkBlue-500 transition-all rounded-lg p-1 px-2">
             {AccountState.userName != ""
               ? AccountState.userName

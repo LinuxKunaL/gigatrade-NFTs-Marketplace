@@ -27,11 +27,6 @@ function Explore() {
     category: "",
   });
 
-  // useEffect(() => {
-  //   searchParams.set("search", "");
-  //   searchParams.set("category", "");
-  // }, []);
-
   const handleParams = (e) => {
     setSearchParams((prevSearchParams) => {
       const newParams = new URLSearchParams(prevSearchParams);
@@ -61,6 +56,7 @@ function Explore() {
             <div className="flex sm:text-base text-xs gap-3 sm:justify-start justify-center sm:gap-7 relative z-10 flex-wrap">
               {category.map((category) => (
                 <label
+                  key={category}
                   htmlFor={category}
                   className={`flex sm:flex-0 flex-auto flex-wrap border-[1px] border-gray-700/70 items-center justify-center rounded-full cursor-pointer backdrop-blur-lg transition-all capitalize hover:bg-purple-500/90 active:bg-purple-700 px-6 py-2 ${
                     searchParams.get("category") === category

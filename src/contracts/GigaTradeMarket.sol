@@ -1,30 +1,25 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.20;
+pragma solidity 0.8.23;
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract GigatradeMarketplace is ERC721URIStorage, Ownable(msg.sender) {
-    constructor() ERC721("Gigatrade marketplace by kunal", "GIGA") {}
+    constructor() ERC721("gigatrade by kunal", "GIGA") {}
 
-    uint256 NFTsId = 0;
+    uint256 private NFTNextId = 0;
+    uint256 private platformFee = 2;
 
-    uint256 platformFee = 2;
-
-    /*
-     * @dev `indexed` keyword is used in event declarations to specify that the
-     *       value of a particular parameter should be searchable or filterable
-     *       when querying for events
-     */
-
-    event NFTsActivityEvent(
+    event NFTsActivity(
         uint256 indexed action,
-        uint256 indexed NFTid,
+        uint256 indexed tokenId,
         address from,
         address to,
         uint256 time,
         uint256 price
     );
+
+    event triggerNodejsServer();
 
     struct NFTDetailsObject {
         uint256 createAt;
@@ -35,7 +30,7 @@ contract GigatradeMarketplace is ERC721URIStorage, Ownable(msg.sender) {
         address owner;
     }
 
-    struct NftObjectReturn {
+    struct NFTObjectReturn {
         uint256 price;
         string uri;
         uint256 tokenId;
@@ -43,179 +38,195 @@ contract GigatradeMarketplace is ERC721URIStorage, Ownable(msg.sender) {
         address owner;
     }
 
-    struct NftDataObjectReturn {
+    struct NFTDataObjectReturn {
         uint256 price;
         string uri;
         address owner;
+        address creator;
+    }
+
+    struct NFTsListed {
+        uint256 tokenId;
+        uint256 Prices;
     }
 
     mapping(uint256 => NFTDetailsObject) public NFTsDetails;
 
-    function MintNFT(
+    function mintNFT(
         string calldata TokenURI,
         uint256 CreatorFee,
         uint256 priceOfNFT,
-        bool ApproveNft
+        bool ApproveNFT
     ) public {
-        _safeMint(msg.sender, NFTsId);
-        _setTokenURI(NFTsId, TokenURI);
-        uint256 price = priceOfNFT * 1 ether;
-        NFTsDetails[NFTsId] = NFTDetailsObject(
+        _safeMint(msg.sender, NFTNextId);
+        _setTokenURI(NFTNextId, TokenURI);
+        uint256 price = priceOfNFT;
+        NFTsDetails[NFTNextId] = NFTDetailsObject(
             block.timestamp,
             CreatorFee,
-            ApproveNft,
+            ApproveNFT,
             price,
             msg.sender,
             address(0)
         );
-        ApproveNFT(NFTsId, ApproveNft);
-        emit NFTsActivityEvent(
+        approveNFT(NFTNextId, ApproveNFT);
+        emit NFTsActivity(
             98, // for mint code
-            NFTsId,
+            NFTNextId,
             msg.sender,
             address(0),
             block.timestamp,
             price
         );
-        NFTsId += 1;
+        NFTNextId += 1;
     }
 
-    function BuyNFT(uint256 Nftid) public payable {
-        if (NFTsDetails[Nftid].price == msg.value) {
-            address payable NFTOwner = payable(ownerOf(Nftid));
-            address payable OwnerOfMarketPlace = payable(owner());
-            uint256 RemeinNFTPrice = PlatformFeeForOwner(
-                OwnerOfMarketPlace,
-                NFTOwner
+    function buyNFT(uint256 tokenId) public payable {
+        if (NFTsDetails[tokenId].price == msg.value) {
+            address payable NFTOwner = payable(ownerOf(tokenId));
+
+            address payable NFTCreator = payable(NFTsDetails[tokenId].creator);
+            uint256 NFTCreatorFee = NFTsDetails[tokenId].creatorFees;
+
+            address payable ownerOfMarketPlace = payable(owner());
+
+            uint256 remeinNFTPrice = distributePaymentsAndApplyFees(
+                ownerOfMarketPlace,
+                NFTOwner,
+                NFTCreator,
+                NFTCreatorFee
             );
-            NFTsDetails[Nftid].owner = msg.sender;
-            transferFrom(NFTOwner, msg.sender, Nftid);
-            emit NFTsActivityEvent(
-                76, // for BuyNFT code
-                Nftid,
+
+            NFTsDetails[tokenId].owner = msg.sender;
+            NFTsDetails[tokenId].price = remeinNFTPrice;
+
+            transferFrom(NFTOwner, msg.sender, tokenId);
+            emit NFTsActivity(
+                76, // for buyNFT code
+                tokenId,
                 NFTOwner,
                 msg.sender,
                 block.timestamp,
-                RemeinNFTPrice
+                remeinNFTPrice
             );
         } else {
             revert("Payment was Revert");
         }
     }
 
-    function ApproveNFT(uint256 Nftid, bool IsApproved) public {
-        NFTsDetails[Nftid].isListed = IsApproved;
-        _setNFTApprove(IsApproved, Nftid);
+    function approveNFT(uint256 tokenId, bool IsApproved) public {
+        NFTsDetails[tokenId].isListed = IsApproved;
+        _setNFTApprove(IsApproved, tokenId);
+        emit triggerNodejsServer();
     }
 
-    function GetPriceOfNft(uint256 nftId) public view returns (uint256) {
-        return NFTsDetails[nftId].price;
+    function getPriceOfNFT(uint256 tokenId) public view returns (uint256) {
+        return NFTsDetails[tokenId].price;
     }
 
-    function GetNFTById(uint256 NFTid)
+    function getNFTById(uint256 tokenId)
         public
         view
-        returns (NftDataObjectReturn memory)
+        returns (NFTDataObjectReturn memory)
     {
-        NftDataObjectReturn memory nft;
-        address onwerOfNFT = ownerOf(NFTid);
-        string memory uriOfNFT = tokenURI(NFTid);
-        uint256 price = NFTsDetails[NFTid].price;
-        nft = NftDataObjectReturn({
+        NFTDataObjectReturn memory NFT;
+        address onwerOfNFT = ownerOf(tokenId);
+        string memory uriOfNFT = tokenURI(tokenId);
+        uint256 price = NFTsDetails[tokenId].price;
+        address creator = NFTsDetails[tokenId].creator;
+        NFT = NFTDataObjectReturn({
             price: price,
             uri: uriOfNFT,
-            owner: onwerOfNFT
+            owner: onwerOfNFT,
+            creator: creator
         });
-        return nft;
+        return NFT;
     }
 
-    function GetNFTByIdForOverviewPage(uint256 NFTid) public {}
-
-    function NftByUserAddressCreated() public view returns (uint256[] memory) {
-        return NFTOfAddress(msg.sender).created;
-    }
-
-    function NftByUserAddressOwned() public view returns (uint256[] memory) {
-        return NFTOfAddress(msg.sender).owned;
-    }
-
-    function OwnedNFTsByUserAddress(address _from)
+    function getUserOwnedNFTs(address _user)
         public
         view
-        returns (NftObjectReturn[] memory)
+        returns (NFTObjectReturn[] memory)
     {
-        uint256 leg = NFTOfAddress(_from).owned.length;
-        NftObjectReturn[] memory userNfts = new NftObjectReturn[](leg);
+        uint256 length = getNFTsOfAddress(_user).owned.length;
+        NFTObjectReturn[] memory userNFTs = new NFTObjectReturn[](length);
+
+        for (uint256 i = 0; i < length; i++) {
+            uint256 tokenId = getNFTsOfAddress(_user).owned[i];
+            userNFTs[i] = NFTObjectReturn({
+                price: getPriceOfNFT(tokenId),
+                uri: tokenURI(tokenId),
+                tokenId: tokenId,
+                creator: NFTsDetails[tokenId].creator,
+                owner: NFTsDetails[tokenId].owner
+            });
+        }
+        return userNFTs;
+    }
+
+    function getUserCreatedNFTs(address _user)
+        public
+        view
+        returns (NFTObjectReturn[] memory)
+    {
+        uint256 leg = getNFTsOfAddress(_user).created.length;
+        NFTObjectReturn[] memory userNfts = new NFTObjectReturn[](leg);
 
         for (uint256 i = 0; i < leg; i++) {
-            uint256 nftId = NFTOfAddress(_from).owned[i];
-            userNfts[i] = NftObjectReturn({
-                price: GetPriceOfNft(nftId),
-                uri: tokenURI(nftId),
-                tokenId: nftId,
-                creator: NFTsDetails[nftId].creator,
-                owner: NFTsDetails[nftId].owner
+            uint256 tokenId = getNFTsOfAddress(_user).created[i];
+            userNfts[i] = NFTObjectReturn({
+                price: getPriceOfNFT(tokenId),
+                uri: tokenURI(tokenId),
+                tokenId: tokenId,
+                creator: NFTsDetails[tokenId].creator,
+                owner: NFTsDetails[tokenId].owner
             });
         }
         return userNfts;
     }
 
-    function CreatedNFTsByUserAddress(address _from)
+    function setNFTPrice(uint256 tokenId, uint256 _price)
         public
-        view
-        returns (NftObjectReturn[] memory)
+        onlyTokenOwner(tokenId)
     {
-        uint256 leg = NFTOfAddress(_from).created.length;
-        NftObjectReturn[] memory userNfts = new NftObjectReturn[](leg);
-
-        for (uint256 i = 0; i < leg; i++) {
-            uint256 nftId = NFTOfAddress(_from).created[i];
-            userNfts[i] = NftObjectReturn({
-                price: GetPriceOfNft(nftId),
-                uri: tokenURI(nftId),
-                tokenId: nftId,
-                creator: NFTsDetails[nftId].creator,
-                owner: NFTsDetails[nftId].owner
-            });
-        }
-        return userNfts;
+        NFTsDetails[tokenId].price = _price;
+        emit triggerNodejsServer();
     }
 
-    modifier verifyEdit(uint256 nftid) {
-        if (msg.sender == ownerOf(nftid)) {
-            _;
-        } else {
-            revert("you are not owner of this token for edit ");
-        }
+    function setNFTUri(string calldata _uri, uint256 tokenId)
+        public
+        onlyTokenOwner(tokenId)
+    {
+        _setTokenURI(tokenId, _uri);
+        emit triggerNodejsServer();
     }
 
-    function UpdateNftPrice(uint256 nftid, uint256 _price)
-        public
-        verifyEdit(nftid)
-    {
-        NFTsDetails[nftid].price = _price * 1 ether;
-    }
-
-    function UpdateNFTUri(string calldata _uri, uint256 nftid)
-        public
-        verifyEdit(nftid)
-    {
-        _setTokenURI(nftid, _uri);
-    }
-
-    function PlatformFeeForOwner(address payable Owner, address payable Seller)
-        public
-        payable
-        returns (uint256)
-    {
-        uint256 amountForOwner = (msg.value * platformFee) / 100;
-        uint256 amountForSeller = msg.value - amountForOwner;
-        Owner.transfer(amountForOwner);
+    function distributePaymentsAndApplyFees(
+        address payable MarketOwner,
+        address payable Seller,
+        address payable Creator,
+        uint256 fee
+    ) public payable returns (uint256) {
+        uint256 amountForMarketOwner = (msg.value * platformFee) / 100;
+        uint256 amountForCreator = ((msg.value - amountForMarketOwner) * fee) /
+            100;
+        uint256 amountForSeller = (msg.value - amountForCreator) -
+            amountForMarketOwner;
+        MarketOwner.transfer(amountForMarketOwner);
         Seller.transfer(amountForSeller);
+        Creator.transfer(amountForCreator);
         return amountForSeller;
     }
 
+    modifier onlyTokenOwner(uint256 tokenId) {
+        if (msg.sender == ownerOf(tokenId)) {
+            _;
+        } else {
+            revert("you are not owner of this token for edit");
+        }
+    }
+
     function totalSupply() public view returns (uint256) {
-        return NFTsId;
+        return NFTNextId;
     }
 }

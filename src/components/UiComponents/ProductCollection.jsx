@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getUserNamePicByEthAddress } from "../../apis/profile.apis";
 
-export function ProductCollection({ item, key, link }) {
+export function ProductCollection({ item, key, link , width }) {
   const [CollectionCreatorAvatar, setCollectionCreatorAvatar] = useState({});
   useEffect(() => {
     const fetching = async () => {
@@ -15,39 +15,41 @@ export function ProductCollection({ item, key, link }) {
     };
     fetching();
   }, [item.EthUser]);
-console.log(typeof item.NFTs);
   return (
     <Link to={`${link}${item._id}`} key={key}>
-      <div className="transition-all  bg-gradient-to-r from-darkBlue-400 to-darkBlue-300 rounded-lg hover:shadow-lg hover:-translate-y-3 0 p-[1px] cursor-pointer">
-        <div className="p-3 w bg-gradient-to-r relative from-darkBlue-600 via-darkBlue-400 to-darkBlue-500 rounded-lg flex flex-col gap-5">
-          <div className="relative flex items-center justify-center h-[13pc] w-[19pc] overflow-hidden rounded-lg bg-darkBlue-600">
+      <div className={`transition-all w-[${width}] h-[25pc] rounded-lg hover:shadow-lg hover:-translate-y-3 0 p-[1px] cursor-pointer`}>
+        <div className="p-3 relative h-full  border-[1px] border-gray-700/20 bg-darkBlue-600 rounded-lg flex flex-col gap-5">
+          <div className="relative flex items-center flex-auto  justify-center h-[13pc] w-[19pc]s overflow-hidden rounded-lg bg-darkBlue-600">
             <img
               className="rounded-md w-full border-darkBlue-200"
               src={item.CollectionImages.one}
               alt=""
             />
           </div>
-          <img
-            className="w-14 h-14 rounded-full border-2 absolute top-[12pc] left-[8.5pc] border-darkBlue-200"
-            src={CollectionCreatorAvatar}
-            alt=""
-          />
+          <div className="w-14 overflow-hidden flex justify-center items-center h-14 rounded-full border-2 absolute top-[12pc] left-[40%] right-[40%] border-darkBlue-200">
+            <img
+              className="w-full h-16"
+              src={CollectionCreatorAvatar}
+              alt=""
+            />
+          </div>
+
           <div className="flex gap-2">
-            <div className="w-[6pc] rounded-md  overflow-hidden flex justify-center items-center h-[4pc]">
+            <div className="w-[6pc] rounded-md flex-1 overflow-hidden flex justify-center items-center h-[4pc]">
               <img
                 className="border-darkBlue-200 "
                 src={item.CollectionImages.two}
                 alt=""
               />
             </div>
-            <div className="w-[6pc] rounded-md  overflow-hidden flex justify-center items-center h-[4pc]">
+            <div className="w-[6pc] rounded-md flex-1 overflow-hidden flex justify-center items-center h-[4pc]">
               <img
                 className="border-darkBlue-200"
                 src={item.CollectionImages.Three}
                 alt=""
               />
             </div>
-            <div className="w-[6pc] rounded-md overflow-hidden flex justify-center items-center h-[4pc]">
+            <div className="w-[6pc] rounded-md flex-1 overflow-hidden flex justify-center items-center h-[4pc]">
               <img
                 className=" border-darkBlue-200"
                 src={item.CollectionImages.four}
@@ -56,20 +58,76 @@ console.log(typeof item.NFTs);
             </div>
           </div>
           <div className="flex w-full justify-between items-center ">
-            <span className="text-white/70 text-lg hover:underline w-[13pc] line-clamp-1 leading-snug">
+            <span className="text-white/70 text-lg hover:underline w-[10pc] line-clamp-1 leading-snug">
               {item.CollectionName} : #{item.CollectionTag.slice(0, 4)}...
             </span>
             <button
               type="button"
               className="py-2 px-4 text-sm font-medium flex items-center gap-4 text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-purple-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-purple-600 dark:text-gray-100 border-none dark:hover:text-white dark:hover:bg-purple-700 bg-gradient-to-r from-purple-800 to-pink-600"
             >
-              {(typeof item.NFTs) === "number" ? item.NFTs : item.NFTs.length} items
+              {typeof item.NFTs === "number" ? item.NFTs : item.NFTs.length}{" "}
+              items
             </button>
           </div>
         </div>
       </div>
     </Link>
   );
+}
+
+{
+  /* <Link to={`${link}${item._id}`} key={key}>
+<div className="transition-all  rounded-lg hover:shadow-lg hover:-translate-y-3 0 p-[1px] cursor-pointer">
+  <div className="p-3 w  relative  border-[1px] border-gray-700/20 bg-darkBlue-600 rounded-lg flex flex-col gap-5">
+    <div className="relative flex items-center flex-auto  justify-center h-[13pc] w-[19pc]s overflow-hidden rounded-lg bg-darkBlue-600">
+      <img
+        className="rounded-md w-full border-darkBlue-200"
+        src={item.CollectionImages.one}
+        alt=""
+      />
+    </div>
+    <img
+      className="w-14 h-14 rounded-full border-2 absolute top-[12pc] left-[40%] right-[40%] border-darkBlue-200"
+      src={CollectionCreatorAvatar}
+      alt=""
+    />
+    <div className="flex gap-2">
+      <div className="w-[6pc] rounded-md flex-1 overflow-hidden flex justify-center items-center h-[4pc]">
+        <img
+          className="border-darkBlue-200 "
+          src={item.CollectionImages.two}
+          alt=""
+        />
+      </div>
+      <div className="w-[6pc] rounded-md flex-1 overflow-hidden flex justify-center items-center h-[4pc]">
+        <img
+          className="border-darkBlue-200"
+          src={item.CollectionImages.Three}
+          alt=""
+        />
+      </div>
+      <div className="w-[6pc] rounded-md flex-1 overflow-hidden flex justify-center items-center h-[4pc]">
+        <img
+          className=" border-darkBlue-200"
+          src={item.CollectionImages.four}
+          alt=""
+        />
+      </div>
+    </div>
+    <div className="flex w-full justify-between items-center ">
+      <span className="text-white/70 text-lg hover:underline w-[13pc] line-clamp-1 leading-snug">
+        {item.CollectionName} : #{item.CollectionTag.slice(0, 4)}...
+      </span>
+      <button
+        type="button"
+        className="py-2 px-4 text-sm font-medium flex items-center gap-4 text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-purple-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-purple-600 dark:text-gray-100 border-none dark:hover:text-white dark:hover:bg-purple-700 bg-gradient-to-r from-purple-800 to-pink-600"
+      >
+        {(typeof item.NFTs) === "number" ? item.NFTs : item.NFTs.length} items
+      </button>
+    </div>
+  </div>
+</div>
+</Link> */
 }
 
 export function SkeletonProductCollection({ key }) {

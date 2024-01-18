@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, memo, useCallback } from "react";
 import { FaTelegramPlane, FaFacebook } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { RiWhatsappFill } from "react-icons/ri";
@@ -10,11 +10,11 @@ import {
 import { SuccessToast } from "../../../../app/Toast/Success";
 import { Toaster } from "react-hot-toast";
 function EditProfile() {
-  const EthUser = useSelector((state) => state.EthAccountStates.account);
+  const EthUser = useSelector((state) => state.EthAccountStates);
+
   const [formData, setFormData] = useState({
     userBio: "",
     userName: "",
-    userEthAddress: EthUser,
     phoneNumber: "",
     storeName: "",
     emailAddress: "",
@@ -26,24 +26,23 @@ function EditProfile() {
     },
   });
 
-  useEffect(() => {
-    setFormData({ ...formData, userEthAddress: EthUser });
-    const fetching = async () => {
-      const response = await getUserDetailsByEthAddress(EthUser);
-      console.log(response);
+  const fetching = useCallback(async () => {
+    try {
+      const response = await getUserDetailsByEthAddress(EthUser.account);
       setFormData(response);
-      try {
-      } catch (error) {
-        console.log(error);
-      }
-    };
+    } catch (error) {
+      console.log(error);
+    }
+  }, [EthUser.account]);
+
+  useEffect(() => {
     fetching();
-  }, [EthUser]);
+  }, [EthUser, fetching]);
 
   const HandleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const result = await setProfileDetails(formData);
+      const result = await setProfileDetails(formData,EthUser.account);
       if (result.success) {
         SuccessToast(result.message);
       }
@@ -51,12 +50,14 @@ function EditProfile() {
       console.log(error);
     }
   };
+
   const HandleOnChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
   };
+
   return (
     <div className="text-white/90 mt-5 gap-5 flex flex-col">
       <Toaster position="bottomleft" />
@@ -318,4 +319,4 @@ function EditProfile() {
   );
 }
 
-export default EditProfile;
+export default memo(EditProfile);

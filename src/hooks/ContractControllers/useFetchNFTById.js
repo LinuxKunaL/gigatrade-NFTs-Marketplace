@@ -4,7 +4,7 @@ import axios from "axios";
 
 const fetchNFTById = async (NftId) => {
   try {
-    const response = await ContractInstance.methods.GetNFTById(NftId).call();
+    const response = await ContractInstance.methods.getNFTById(NftId).call();
     const response_2 = await ContractInstance.methods.NFTsDetails(NftId).call();
     const metadataJson = (await getMetadata(response.uri)).data;
     return {
@@ -14,14 +14,14 @@ const fetchNFTById = async (NftId) => {
       creatorFees: response_2.creatorFees.toString(),
       IsListed: response_2.isListed,
       CurrentOwner: response_2.owner.toString(),
-      Image: `https://gateway.pinata.cloud/ipfs/${metadataJson.image.slice(
+      Image: `https://cloudflare-ipfs.com/ipfs/${metadataJson.image.slice(
         7
       )}` /*@dev from  metadataJson*/,
       Name: `${metadataJson.name} #${NftId}` /*@dev from  metadataJson*/,
       Properties: metadataJson.properties /*@dev from  metadataJson*/,
       Description: metadataJson.description /*@dev from  metadataJson*/,
       Creator: response_2.creator,
-      Category:metadataJson.category
+      Category: metadataJson.category,
     };
   } catch (error) {
     console.log(error);
@@ -29,7 +29,7 @@ const fetchNFTById = async (NftId) => {
 };
 
 const getMetadata = async (uri) => {
-  return await axios.get(`https://gateway.pinata.cloud/ipfs/${uri.slice(7)}`);
+  return await axios.get(`https://cloudflare-ipfs.com/ipfs/${uri.slice(7)}`);
 };
 
 export { fetchNFTById };

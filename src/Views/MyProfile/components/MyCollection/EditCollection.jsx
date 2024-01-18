@@ -19,7 +19,7 @@ import Product404 from "../../../../components/UiComponents/Product404";
 import { web3 } from "../../../../hooks/useContract";
 import { SuccessToast } from "../../../../app/Toast/Success";
 import { Toaster } from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 
 function EditCollection() {
@@ -165,7 +165,7 @@ function EditCollection() {
     }
   };
   return (
-    <div className="flex flex-col p-5 overflow-y-auto">
+    <div className="flex flex-col p-2 sm:p-5 gap-5 overflow-y-auto h-[89%] w-full">
       <Toaster position="bottomleft" />
       <div className="flex mt-5 mx-5 flex-col gap-2">
         <h1 className="text-white/90 font-semibold text-2xl mt-4">
@@ -176,10 +176,16 @@ function EditCollection() {
             ? `${updatedCollection.CollectionName} : #${updatedCollection.CollectionTag}`
             : ""}
         </span>
+        <Link
+          to={`/Collection/${id}`}
+          className="p-1 w-min py-3 cursor-pointer hover:bg-pink-600 font-semibold text-darkBlue-400 text-xs hover:text-white text-white/80 bg-white/840 bg-darkBlue-300 backdrop-blur-lg flex items-center justify-center  rounded-lg hover:scale-90 transition-all px-6 h-full "
+        >
+          View
+        </Link>
       </div>
       <div className="mt-5">
-        <form onSubmit={handleSubmit} className="flex ml-10 flex-col gap-6">
-          <div className="flex gap-5">
+        <form onSubmit={handleSubmit} className="flex xl:ml-10 flex-col gap-6">
+          <div className="flex flex-col sm:flex-row gap-5">
             <div className="flex flex-1 flex-col gap-4">
               <label htmlFor="" className="text-white/70 font-semibold">
                 Collection Name *
@@ -229,13 +235,42 @@ function EditCollection() {
           </div>
           <div className="flex flex-col w-full gap-7">
             <div className="flex w-full gap-7 flex-col">
-              <h2 className="text-white/90 font-semibold text-xl mt-4">
-                Add NFTs in{" "}
-                <span className="text-white/50 underline font-normal">
-                  {updatedCollection ? updatedCollection.CollectionName : ""}
-                </span>{" "}
-                collection
-              </h2>
+              <div className="flex gap-3 flex-row items-center">
+                <h2 className="text-white/90 font-semibold text-lg sm:text-xl">
+                  Add NFTs in{" "}
+                  <span className="text-white/50 underline font-normal">
+                    {updatedCollection ? updatedCollection.CollectionName : ""}
+                  </span>{" "}
+                  collection
+                </h2>
+                <div className="h-9 self-center m-4 w-[1px] bg-darkBlue-300" />
+                <Tooltip
+                  theme={{
+                    arrow: {
+                      style: {
+                        dark: "bg-gray-900 dark:bg-darkBlue-400 rounded-xl",
+                        light: "bg-white",
+                      },
+                    },
+                  }}
+                  className="dark:bg-darkBlue-400/90 w-max"
+                  content={
+                    <div className="flex gap-2 flex-col items-center">
+                      <span className="text-white/60 text-center">
+                        Add NFTs from <br /> your Profile
+                      </span>
+                    </div>
+                  }
+                  placement="right"
+                >
+                  <div
+                    onClick={() => setOpenModal(true)}
+                    className="p-4 self-center h-max active:bg-darkBlue-400 hover:bg-darkBlue-300/70 cursor-pointer w-max rounded-lg text-white/90 bg-darkBlue-400"
+                  >
+                    <MdAdd />
+                  </div>
+                </Tooltip>
+              </div>
               <div className="border-2 xh-[22pc] items-center overflow-y-auto flex p-4 flex-wrap rounded-lg border-gray-500/20">
                 {updatedCollection.NFTs
                   ? updatedCollection.NFTs[0] === 0
@@ -271,33 +306,6 @@ function EditCollection() {
                         </div>
                       ))
                   : null}
-                <div className="h-9 self-center m-4 w-[1px] bg-darkBlue-300" />
-                <Tooltip
-                  theme={{
-                    arrow: {
-                      style: {
-                        dark: "bg-gray-900 dark:bg-darkBlue-400 rounded-xl",
-                        light: "bg-white",
-                      },
-                    },
-                  }}
-                  className="dark:bg-darkBlue-400/90 w-max"
-                  content={
-                    <div className="flex gap-2 flex-col items-center">
-                      <span className="text-white/60 text-center">
-                        Add NFTs from <br /> your Profile
-                      </span>
-                    </div>
-                  }
-                  placement="right"
-                >
-                  <div
-                    onClick={() => setOpenModal(true)}
-                    className="p-4 m-4 self-center h-max active:bg-darkBlue-400 hover:bg-darkBlue-300/70 cursor-pointer w-max rounded-lg text-white/90 bg-darkBlue-400"
-                  >
-                    <MdAdd />
-                  </div>
-                </Tooltip>
                 <div
                   style={openModal ? { display: "flex" } : { display: "none" }}
                   id="Modal-popup"
@@ -313,33 +321,6 @@ function EditCollection() {
                     />
                   </div>
                   <div className="flex mt-5 flex-col flex-wrap justify-evenly gap-5">
-                    <div className="relative">
-                      <div className="absolute inset-y-0 end-0 flex items-center ps-3 mr-3 pointer-events-none">
-                        <svg
-                          className="w-4 h-4 text-gray-500 dark:text-gray-400"
-                          aria-hidden="true"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 20 20"
-                        >
-                          <path
-                            stroke="currentColor"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-                          />
-                        </svg>
-                      </div>
-                      {/* <input
-                        type="text"
-                        id="default-search"
-                        className="bg-gray-50 text-gray-900 text-md rounded-lg focus:ring-0 focus:dark:border-pink-500 block w-full p-2.5 dark:bg-darkBlue-600 dark:border-gray-600/30 dark:placeholder-gray-500 dark:text-white/70"
-                        name="s"
-                        placeholder="Search NFTs..."
-                        required
-                      /> */}
-                    </div>
                     <div className="flex gap-2 flex-col h-[20pc] overflow-y-auto">
                       {userNfts.length != 0 ? (
                         userNfts.map((item) => (

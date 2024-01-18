@@ -11,6 +11,7 @@
 
 ::-webkit-scrollbar {
     width: 0.3pc;
+    height: 0.3pc;
     background: #1b1f28;
     border-left: solid #2e3442 1px;
 }
@@ -256,5 +257,31 @@ nav .active {
 }
 
 .swiper {
-    overflow: unset !important;
+    /* overflow: unset !important; */
+}
+
+
+
+@keyframes blobAnimation {
+    0% {
+        transform: scale(1) translateX(0);
+        background-color: #e74694c0;
+        opacity: 0.1;
+    }
+
+    50% {
+        transform: scale(1.2) translateX(20px);
+        background-color: #e746945f;
+        opacity: 0.3;
+    }
+
+    100% {
+        transform: scale(1) translateX(0);
+        background-color: #a020f04d;
+        opacity: 0.1;
+    }
+}
+
+.bg {
+    animation: blobAnimation 5s cubic-bezier(0.39, 0.575, 0.565, 1) infinite;
 }

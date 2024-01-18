@@ -1,13 +1,13 @@
 import ContractInstance from "../useContract";
 
-const fetchNFT = async (_from) => {
+const fetchNFT = async (_user) => {
   try {
     const CreatedNfts = await ContractInstance.methods
-      .CreatedNFTsByUserAddress(_from)
+      .getUserCreatedNFTs(_user)
       .call();
 
     const OwnedNfts = await ContractInstance.methods
-      .OwnedNFTsByUserAddress(_from)
+      .getUserOwnedNFTs(_user)
       .call();
 
     return {

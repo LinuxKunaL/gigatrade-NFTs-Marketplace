@@ -5,7 +5,7 @@ const fetchAllNFTs = async () => {
   try {
     const AllNumberOfNFTs = await ContractInstance.methods.totalSupply().call();
     for (let i = 0; i < AllNumberOfNFTs; i++) {
-      const response = await ContractInstance.methods.GetNFTById(i).call();
+      const response = await ContractInstance.methods.getNFTById(i).call();
       AllNFTsData.push({
         NFTid: i,
         Price: response.price,

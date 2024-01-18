@@ -1,12 +1,23 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { FaEthereum, FaRegHeart } from "react-icons/fa";
 import { BuyNFT } from "../../../hooks/ContractControllers/useBuyNFT";
 import store from "../../../app/redux/ReduxStore";
 import { SuccessToast } from "../../../app/Toast/Success";
 import { Toaster } from "react-hot-toast";
 import { ErrorToast } from "../../../app/Toast/Error";
+import { ethereumUsd } from "../../../hooks/useEtherUsdPrice";
+import { Tooltip } from "flowbite-react";
 
 function NftBuy({ price, nftId, ComponentLoad, isListed }) {
+  const [usdPrice, setUsdPrice] = useState(0);
+
+  useEffect(() => {
+    const converting = async () => {
+      setUsdPrice(await ethereumUsd());
+    };
+    converting();
+  }, []);
+
   const HandleBuyNFT = async () => {
     try {
       const response = await BuyNFT(nftId);
@@ -36,13 +47,41 @@ function NftBuy({ price, nftId, ComponentLoad, isListed }) {
         Current Price
       </span>
       <div className="flex gap-3 items-baseline">
-        <b className="text-2xl sm:text-5xl dark:text-white/90">~{price} ETH</b>{" "}
-        <span className="dark:text-white/60 text-sm sm:text-base">
-          (${2365 * (price * 82)})
-        </span>
+        <Tooltip
+          className="dark:bg-darkBlue-400 text-pink-500"
+          theme={{
+            arrow: {
+              style: {
+                dark: "bg-gray-900 dark:bg-darkBlue-400",
+                light: "bg-white",
+              },
+            },
+          }}
+          content={`${price} ETH`}
+        >
+          <b className="text-2xl cursor-pointer sm:text-5xl dark:text-white/90">
+            ~{Number(price).toFixed(4)} ETH
+          </b>
+        </Tooltip>
+        <Tooltip
+          className="dark:bg-darkBlue-400 text-pink-500"
+          theme={{
+            arrow: {
+              style: {
+                dark: "bg-gray-900 dark:bg-darkBlue-400",
+                light: "bg-white",
+              },
+            },
+          }}
+          content={`${usdPrice * price} $`}
+        >
+          <span className="dark:text-white/60 cursor-pointer text-sm sm:text-base">
+            (${Number(usdPrice * price).toFixed(1)})
+          </span>
+        </Tooltip>
       </div>
       <b className="dark:text-white/50 font-normal text-sm sm:text-base">
-        Last sale price ~{price - 1.5} ETH
+        Rare NFT with Best Price!
       </b>
       {isListed ? (
         <button
@@ -52,7 +91,7 @@ function NftBuy({ price, nftId, ComponentLoad, isListed }) {
         >
           Buy now for
           <div className="flex gap-2 items-center">
-            <FaEthereum /> {price} ETH
+            <FaEthereum /> {Number(price).toFixed(4)} ETH
           </div>
         </button>
       ) : (

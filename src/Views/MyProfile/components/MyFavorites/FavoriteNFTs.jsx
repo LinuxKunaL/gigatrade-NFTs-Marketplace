@@ -10,14 +10,21 @@ function FavoriteNFTs({ NFTs }) {
       <div className="flex flex-row flex-wrap gap-5">
         {NFTs ? (
           NFTs.length > 0 ? (
-            NFTs.map((item, index) => <ProductNFT kay={index} data={item} />)
+            NFTs.map((item, index) => (
+              <ProductNFT kay={index} link="/nft/" button="Buy" data={item} />
+            ))
           ) : (
             <Product404
               message="There is not Favorite NFTs"
               subMessage="Explore the NFTs"
             />
           )
-        ) : null}
+        ) : (
+          <Product404
+            message="There is not Favorite NFTs"
+            subMessage="Explore the NFTs"
+          />
+        )}
       </div>
     </div>
   );

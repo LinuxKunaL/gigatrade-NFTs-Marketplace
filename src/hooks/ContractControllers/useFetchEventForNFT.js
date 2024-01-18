@@ -1,7 +1,7 @@
 import ContractInstance from "../useContract";
 import { web3 } from "../useContract";
 
-const NFTsActivityEvent = async (_NftId) => {
+const NFTsActivityEvent = async (_NFTId, _filter) => {
   const ConvertCodeText = (Code) => {
     if (Code == 98) {
       return "mint";
@@ -9,22 +9,29 @@ const NFTsActivityEvent = async (_NftId) => {
       return "sell";
     }
   };
+
   try {
-    const Response = await ContractInstance.getPastEvents("NFTsActivityEvent", {
+    const Response = await ContractInstance.getPastEvents("NFTsActivity", {
       filter: {
-        NFTid: _NftId,
+        tokenId: _NFTId,
+        ...(_filter === "all" ? {} : { action: Number(_filter) }),
       },
       fromBlock: 0,
       toBlock: "latest",
     });
+
+    console.log(Response);
+    
+
     const NFTsActivityData = Response.map((item) => {
       return {
-        NFTid: item.returnValues.NFTid,
+        NFTid: item.returnValues.tokenId,
         action: ConvertCodeText(item.returnValues.action.toString()),
         from: item.returnValues.from,
         to: item.returnValues.to,
         price: web3.utils.fromWei(parseInt(item.returnValues.price), "ether"),
         time: parseInt(item.returnValues.time),
+        transactionHash:item.transactionHash
       };
     });
     return NFTsActivityData;

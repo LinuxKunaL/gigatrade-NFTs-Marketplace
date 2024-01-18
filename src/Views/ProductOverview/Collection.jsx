@@ -11,6 +11,9 @@ import { Link, useParams } from "react-router-dom";
 import { getCollectionsDetailsById } from "../../apis/Collections.apis";
 import { Toaster } from "react-hot-toast";
 import { SuccessToast } from "../../app/Toast/Success";
+import { ErrorToast } from "../../app/Toast/Error";
+import Product404 from "../../components/UiComponents/Product404";
+
 function Collection() {
   const DummySkeletonData = [1, 2, 3, 4, 5, 6, 81, 2];
   const { id } = useParams();
@@ -19,7 +22,7 @@ function Collection() {
   const [IsLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [progress, setProgress] = useState(30);
-  const EthAccount = useSelector((state) => state.EthAccountStates.account);
+  const EthAccount = useSelector((state) => state.EthAccountStates);
 
   const fetchPhotos = async () => {
     setTimeout(async () => {
@@ -33,6 +36,7 @@ function Collection() {
       setIsLoading(true);
     }, 1000);
   };
+
   const handleScroll = () => {
     const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
     if (scrollTop + clientHeight >= scrollHeight - 10) {
@@ -41,8 +45,12 @@ function Collection() {
   };
 
   const handleFavorite = async () => {
+    if (!EthAccount.isConnect) {
+      ErrorToast("Wallet not connect ! 💔");
+      return null;
+    }
     try {
-      const result = await addCollectionFavorite(EthAccount, {
+      const result = await addCollectionFavorite(EthAccount.account, {
         _id: id,
         CollectionImages: CollectionDetails.CollectionImages,
         NFTs: CollectionDetails.NFTs.length,
@@ -77,11 +85,11 @@ function Collection() {
   }, []);
 
   return (
-    <div className="md:px-0 flex flex-col gap-4 px-3">
+    <div className="md:px-0 flex flex-col gap-4 px-3 relative">
       <Toaster position="bottomleft" />
       <div
         id="section-1"
-        className="flex flex-col gap-5 md:gap-3 w-full  h-[18pc] md:h-[14pc] items-center justify-end"
+        className="flex relative z-10 flex-col gap-5 md:gap-3 w-full  h-[18pc] md:h-[14pc] items-center justify-end"
       >
         <h2 className="text-2xl sm:text-3xl dark:text-white/90 font-semibold">
           Explore Collections
@@ -99,31 +107,14 @@ function Collection() {
               </b>
               <span className=" dark:text-white/80 text-sm ">Items</span>
             </div>
-            <div className="flex gap-2 flex-col items-center">
-              <b className=" dark:text-white/60 text-xl sm:text-2xl">
-                3.25 ETH
-              </b>{" "}
-              <span className=" dark:text-white/80 text-sm">Unite Price</span>
-            </div>
-            <div className="flex gap-2 flex-col items-center">
-              <b className=" dark:text-white/60 text-xl sm:text-2xl">5345</b>{" "}
-              <span className=" dark:text-white/80 text-sm">Volume</span>
-            </div>
-          </div>
-          <div className="flex gap-2 items-center w-max">
-            <span className="text-white/70 sm:text-lg text-sm">Follow us:</span>
-            <div className="flex gap-4 items-center text-white/70 text-lg sm:text-xl">
-              <FaTelegramPlane className="h-7 p-1 w-8 active:bg-purple-700 transition-all rounded-md cursor-pointer hover:bg-purple-800/50" />
-              <FaFacebookSquare className="h-7 p-1 w-8 active:bg-purple-700 transition-all rounded-md cursor-pointer hover:bg-purple-800/50" />
-            </div>
           </div>
         </div>
       </div>
       <div
         id="section-2"
-        className="flex justify-center w-full flex-col gap-10"
+        className="flex  justify-center w-full flex-col gap-10"
       >
-        <div className="flex flex-col gap-3 sm:mt-0 mt-8 items-center">
+        <div className="flex relative z-[10] flex-col gap-3 sm:mt-0 mt-8 items-center">
           <img
             className="w-32 z-10 relative h-auto rounded-lg"
             src={
@@ -147,7 +138,7 @@ function Collection() {
           </h2>
           <span className="dark:text-white/60 text-sm flex items-start gap-2">
             By{" "}
-            <Link to="/author">
+            <Link to={`/author/${CollectionDetails.EthUser}`}>
               <b className="font-semibold text-pink-600 hover:underline">
                 {CollectionDetails.EthUser
                   ? `${CollectionDetails.EthUser.slice(
@@ -165,27 +156,32 @@ function Collection() {
             <FaRegHeart className="cursor-pointer rounded-sm transition-all hover:text-purple-500 active:text-purple-700  h-5 w-5 sm:h-6 sm:w-6 p-1" />
           </div>
         </div>
-        <div className="flex gap-5 flex-col lg:flex-row">
+        <div className="flex relative z-[1] gap-5 flex-col lg:flex-row">
           <div className="w-full relative flex flex-col gap-14">
             <div className="bg-gradient-to-r from-purple-800 to-pink-600 absolute right-1 bottom-[50%] h-96 w-96 blur-[10pc] opacity-[30%]" />
-            <div className="bg-gradient-to-r from-purple-800 to-pink-600 absolute h-96 w-96 blur-[10pc] opacity-[30%]" />
-            <div className="flex gap-7 relative z-10 flex-col justify-between">
-              <div id="all" className="flex relative z-10 flex-wrap gap-7">
-                {IsLoading
-                  ? CollectionDetails.NFTs.map((item, index) => (
-                      <ProductNFT kay={index} data={item} />
+            <div className="flex gap-7 relative z-10 flex-col">
+              <div id="all" className="flex relative z-10 flex-wrap gap-7 justify-center sm:justify-start">
+                {CollectionDetails.NFTs ? (
+                  CollectionDetails.NFTs.length > 0 ? (
+                    CollectionDetails.NFTs.map((item, index) => (
+                      <ProductNFT
+                        link="/nft/"
+                        button="Buy"
+                        kay={index}
+                        data={item}
+                      />
                     ))
-                  : DummySkeletonData.map((item, index) => (
-                      <SkeletonProductNFT key={index} />
-                    ))}
+                  ) : (
+                    <div className="h-[40dvh] w-full flex justify-center items-center">
+                      <Product404
+                        message="NFTs Not created by author"
+                        subMessage="Explore the collections"
+                      />
+                    </div>
+                  )
+                ) : null}
               </div>
-              <div className="bg-gradient-to-r from-purple-800 to-pink-600 absolute bottom-2 left-1 h-96 w-96 blur-[10pc] opacity-[30%]" />
-              <button
-                type="button"
-                className="py-2.5 px-5 self-center text-sm font-medium flex items-center gap-4 text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-purple-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-purple-600 dark:text-gray-100 border-none dark:hover:text-white dark:hover:bg-purple-700 bg-gradient-to-r from-purple-800 to-pink-600"
-              >
-                Load More
-              </button>
+              <div className="bg-gradient-to-r -z-10 from-purple-800 to-pink-600 absolute bottom-2 left-1 h-96 w-96 blur-[10pc] opacity-[30%]" />
             </div>
           </div>
         </div>

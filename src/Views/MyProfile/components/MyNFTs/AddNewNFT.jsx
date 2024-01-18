@@ -72,9 +72,9 @@ function AddNewNFT() {
 
   const HandleMintNFT = async (event) => {
     event.preventDefault();
-    if (!formNftData.image) {
-      return ErrorToast("Upload a NFT image !");
-    }
+    // if (!formNftData.image) {
+    //   return ErrorToast("Upload a NFT image !");
+    // }
     try {
       const Uri = await promiseToast(
         "NFT Minting please wait... ⛓",
@@ -86,8 +86,8 @@ function AddNewNFT() {
       await MintNFT(
         UserEthAccount.account,
         formNftData.price,
-        Uri.url,
-        // "ipfs://bafyreifyc2froe63rvnvm44qxgorz7vpjrea645z6dtm655hyideh4gffa/metadata.json",
+        // Uri.url,
+        "ipfs://bafyreidtn5dzuyl5dzzegco5qqauhvxnq4dagzixfwefuzrfu2iiy47qia/metadata.json",
         formNftData.royalties,
         formNftData.approve
       )
@@ -144,7 +144,7 @@ function AddNewNFT() {
       </h1>
       <div className="flex flex-row gap-2 items-center text-sm sm:text-base sm:mt-4  text-white/70">
         <BsStars />
-        <p>once created a NFT we cannot change its details </p>
+        <p>You have to pay a gas for update the NFT</p>
       </div>
       <div className="flex lg:flex-row flex-col gap-8">
         <label
@@ -187,7 +187,7 @@ function AddNewNFT() {
         />
         <div className="flex-1">
           <form onSubmit={HandleMintNFT} className="flex flex-col gap-6">
-            <div className="flex flex-col gap-4">
+            {/* <div className="flex flex-col gap-4">
               <label
                 htmlFor=""
                 className="text-white/70 font-semibold text-sm sm:text-base"
@@ -219,14 +219,14 @@ function AddNewNFT() {
                 onChange={HandleOnChange}
                 placeholder="Please describe your NFT"
               />
-            </div>
+            </div> */}
             <div className="flex justify-between gap-6 flex-col sm:flex-row">
               <div className="flex flex-1 flex-col gap-4">
                 <label
                   htmlFor=""
                   className="text-white/70 font-semibold text-sm sm:text-base"
                 >
-                  Price ( in Eth ) *
+                  Price ( in USD ) *
                 </label>
                 <input
                   className="bg-gray-50 text-gray-900 rounded-lg focus:ring-0 focus:dark:border-pink-500 block w-full p-2.5 dark:bg-darkBlue-600 dark:border-gray-600/30 dark:placeholder-gray-500 dark:text-white/70 text-sm sm:text-base"
@@ -260,10 +260,10 @@ function AddNewNFT() {
                 >
                   Enable to trade *
                 </label>
-                <label class="relative inline-flex items-center cursor-pointer">
+                <label className="relative inline-flex items-center cursor-pointer">
                   <input
                     type="checkbox"
-                    class="sr-only peer"
+                    className="sr-only peer"
                     name="approve"
                     onChange={(e) =>
                       setFormNftData({
@@ -272,7 +272,7 @@ function AddNewNFT() {
                       })
                     }
                   />
-                  <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-pink-300 dark:peer-focus:ring-pink-800 rounded-full peer dark:bg-darkBlue-600 dark:border-gray-600/30 border-[1px] peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white/70 after:border-gray-300/70 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-pink-600"></div>
+                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-pink-300 dark:peer-focus:ring-pink-800 rounded-full peer dark:bg-darkBlue-600 dark:border-gray-600/30 border-[1px] peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white/70 after:border-gray-300/70 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-pink-600"></div>
                 </label>
               </div>
             </div>
@@ -299,7 +299,7 @@ function AddNewNFT() {
                 <option value="utility">Utility</option>
               </select>
             </div>
-
+            {/* 
             <div className="flex flex-col gap-4">
               <label
                 htmlFor=""
@@ -314,7 +314,7 @@ function AddNewNFT() {
                 onChange={HandleProperties}
                 required
               />
-            </div>
+            </div> */}
             <div className="flex gap-5 mb-5">
               <button
                 type="submit"

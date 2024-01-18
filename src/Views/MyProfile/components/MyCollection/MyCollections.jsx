@@ -5,7 +5,7 @@ import { FaArrowLeftLong } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { getCollectionsByUser } from "../../../../apis/Collections.apis.js";
 import { useSelector } from "react-redux";
-import { TbMoodEmpty } from "react-icons/tb";
+import Product404 from "../../../../components/UiComponents/Product404.jsx";
 
 function MyCollections() {
   const EthAddress = useSelector((state) => state.EthAccountStates.account);
@@ -43,19 +43,6 @@ function MyCollections() {
         </Link>
       </div>
       <div className="text-white/90 mt-10 text-2xl gap-5 flex flex-col font-semibold">
-        <div className="flex gap-4 w-full sm:w-auto">
-          <input
-            className="bg-gray-50 text-gray-900 sm:text-base text-sm rounded-lg focus:ring-0 focus:dark:border-pink-500 block p-2.5 dark:bg-darkBlue-600 dark:border-gray-600/30 dark:placeholder-gray-500 dark:text-white/50 w-full sm:w-auto"
-            type="text"
-            placeholder="Search Collection by title"
-          />
-          <button
-            type="submit"
-            className="text-white end-2.5 bottom-2.5 sm:text-base text-sm bg-pink-700 hover:bg-pink-800 focus:ring-4 focus:outline-none focus:ring-pink-300 font-medium rounded-lg px-4 py-2 dark:bg-pink-600 dark:hover:bg-pink-700 dark:focus:ring-pink-800"
-          >
-            Search
-          </button>
-        </div>
         <h2 className="text-xl sm:text-2xl">My Collections</h2>
         <div className="flex mt-2 sm:mt-5 flex-row flex-wrap gap-5">
           {collections.length != 0 ? (
@@ -63,17 +50,15 @@ function MyCollections() {
               <ProductCollection
                 key={index}
                 link={"/myProfile/editCollection/"}
+                width="20pc"
                 item={item}
               />
             ))
           ) : (
-            <div className="text-xl sm:text-2xl flex gap-3 items-center flex-col justify-center w-full p-4">
-              <TbMoodEmpty className="text-pink-500" />
-              <h3>Collections Are not Created</h3>
-              <p className="text-base text-white/50 font-normal">
-                Create a collections{" "}
-              </p>
-            </div>
+            <Product404
+              message="Collections Are not Created"
+              subMessage="Create a collections"
+            />
           )}
         </div>
       </div>

@@ -11,7 +11,10 @@ export const EthAccountStates = createSlice({
   name: "EthAccountStates",
   reducers: {
     setEthAccount: (state, action) => {
-      return (state = action.payload);
+      return {
+        ...state,
+        ...action.payload,
+      };
     },
   },
 });

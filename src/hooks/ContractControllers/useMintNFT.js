@@ -1,17 +1,15 @@
 import ContractInstance from "../useContract";
 import { web3 } from "../useContract";
-import store from "../../app/redux/ReduxStore";
-import { Await } from "react-router-dom";
-
-// const EthAccount = store.getState().EthAccountStates.account;
+import { ethereumUsd } from "../useEtherUsdPrice";
 
 const MintNFT = async (_account, _price, _uri, _creatorFee, _approveNft) => {
+  const ether = Number(_price / (await ethereumUsd())).toFixed(18);
+  const _wei = web3.utils.toWei(ether, "ether");
   try {
     const response = await ContractInstance.methods
-      .MintNFT(_uri, _creatorFee, _price, _approveNft)
+      .mintNFT(_uri, _creatorFee, _wei, _approveNft)
       .send({
         from: _account,
-        // nonce: count,
       });
     return response;
   } catch (error) {

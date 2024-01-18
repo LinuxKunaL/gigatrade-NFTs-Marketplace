@@ -12,6 +12,7 @@ const setProfilePhoto = async (req, res) => {
       $set: {
         userProfile: `${Config.Server.HOST}${ImageLink[0]}`,
         userEthAddress: EthUser,
+        createdAt: Date.now(),
       },
     };
 
@@ -123,7 +124,7 @@ const getProfileFavoriteByEthAddress = async (req, res) => {
       {
         userEthAddress: EthUser,
       },
-      { FavoriteNFTs: 1, FavoriteCollections: 1 }
+      { FavoriteNFTs: 1, FavoriteCollections: 1, createdAt: 1 }
     );
 
     return res.status(200).send(result);
@@ -131,7 +132,6 @@ const getProfileFavoriteByEthAddress = async (req, res) => {
     console.log(error);
   }
 };
-
 
 export {
   getTopCreators,

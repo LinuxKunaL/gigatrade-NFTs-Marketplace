@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { NFTsActivityEvent } from "../../../hooks/ContractControllers/useFetchEventForNFT";
 import { MdOutlineOpenInNew, MdShoppingCart } from "react-icons/md";
 import { BsStars } from "react-icons/bs";
 
-function NftActivity({ data }) {
+function NftActivity({ id }) {
+  const [NFTActivityTable, setNFTActivityTable] = useState([]);
+  const [filter, setFilter] = useState("all");
+
   const calculateTimeAgo = (solidityTimestamp) => {
     const timeDifference =
       Math.abs(solidityTimestamp * 1000 - Date.now()) / 1000; // Convert Solidity timestamp to milliseconds
@@ -26,6 +30,18 @@ function NftActivity({ data }) {
       return `${Math.floor(timeDifference / secondsInYear)} years ago`;
     }
   };
+
+  useEffect(() => {
+    const fetching = async () => {
+      try {
+        const activityTable = await NFTsActivityEvent(id, filter);
+        setNFTActivityTable(activityTable);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetching();
+  }, [id, filter]);
   return (
     <div id="Activity" className="flex h-full  w-full flex-col gap-4">
       <div className="">
@@ -38,11 +54,11 @@ function NftActivity({ data }) {
         <select
           id="countries"
           className="bg-gray-50 border sm:text-base text-sm border-gray-300 text-gray-900  rounded-lg focus:ring-darkBlue-500 focus:border-darkBlue-500 block w-full p-2.5 dark:bg-darkBlue-600 dark:border-gray-600/30 dark:placeholder-gray-500 dark:text-white"
+          onChange={(e) => setFilter(e.target.value)}
         >
-          <option selected>Choose a country</option>
-          <option value="US">All</option>
-          <option value="CA">sell</option>
-          <option value="FR">Transfer</option>
+          <option value="all">All</option>
+          <option value="76">sell</option>
+          <option value="98">mint</option>
         </select>
       </div>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -67,7 +83,7 @@ function NftActivity({ data }) {
             </tr>
           </thead>
           <tbody>
-            {data.map((item) => (
+            {NFTActivityTable.map((item) => (
               <tr className="bg-white border-b dark:bg-darkBlue-500 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-darkBlue-400">
                 <th
                   scope="row"
@@ -78,7 +94,9 @@ function NftActivity({ data }) {
                     {item.action}
                   </div>
                 </th>
-                <td className="px-6 py-4">{item.price} ETH</td>
+                <td className="px-6 py-4">
+                  {Number(item.price).toFixed(4)} ETH
+                </td>
                 <td className="px-6 py-4">{`${item.from.slice(
                   0,
                   6
@@ -89,8 +107,9 @@ function NftActivity({ data }) {
                 )}...${item.to.slice(39)}`}</td>
                 <td className="px-6 py-4">
                   <a
-                    href=""
+                    href={`${process.env.REACT_APP_BLOCK_EXPLORE_URL}/tx/${item.transactionHash}`}
                     className="font-medium flex gap-1 items-center text-blue-600 dark:text-blue-500 hover:underline"
+                    target="_blank"
                   >
                     {calculateTimeAgo(item.time)}
                     <MdOutlineOpenInNew />

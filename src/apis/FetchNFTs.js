@@ -1,12 +1,11 @@
 import axios from "axios";
 
-const fetchAllNFTs = async (params) => {
-  const search = params.get("search");
-  const category = params.get("category");
+const fetchAllNFTs = async (search, category, limit) => {
   try {
-    const response = await axios.post("http://localhost:90/Nfts", {
+    const response = await axios.post(`${process.env.REACT_APP_API_URL}/Nfts`, {
       search,
       category,
+      limit,
     });
     return response.data;
   } catch (error) {

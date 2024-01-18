@@ -8,7 +8,9 @@ function AuthorOwned({ NFTs }) {
     <div id="Owned" className="flex w-full flex-wrap flex-row gap-4">
       {NFTs ? (
         NFTs.length > 0 ? (
-          NFTs.map((item, index) => <ProductNFT kay={index} data={item} />)
+          NFTs.map((item, index) => (
+            <ProductNFT link="/nft/" button="Buy" kay={index} data={item} />
+          ))
         ) : (
           <Product404
             message="User doesn't have Owned NFTs"

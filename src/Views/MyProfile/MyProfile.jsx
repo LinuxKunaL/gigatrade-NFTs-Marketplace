@@ -7,20 +7,21 @@ import AddNewCollection from "./components/MyCollection/AddNewCollection";
 import AddNewNFT from "./components/MyNFTs/AddNewNFT";
 import EditNFT from "./components/MyNFTs/EditNFT";
 import EditCollection from "./components/MyCollection/EditCollection";
-
+import { verifyUser } from "../../hooks/verifyUser";
 
 function MyProfile() {
   var css = "#navbar{display:none;}footer{display:none;}";
   const [stateMenuBar, setStateMenuBar] = useState("closeMenuBar");
 
-
   var changeCssClass = () => {
     setStateMenuBar("activeMenuBar");
   };
+
   var closeMenu = () => {
     setStateMenuBar("closeMenuBar");
   };
 
+  console.log(verifyUser());
 
   return (
     <div className="mt-5 relative flex flex-col gap-5 ">

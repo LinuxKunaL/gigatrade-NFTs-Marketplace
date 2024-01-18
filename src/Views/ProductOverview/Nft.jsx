@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { FaEthereum, FaRegHeart } from "react-icons/fa";
-import { BsFillShareFill } from "react-icons/bs";
-import { IoEyeOutline } from "react-icons/io5";
+import { FaHeart } from "react-icons/fa";
+import Product404 from "../../components/UiComponents/Product404";
+import { Tooltip } from "flowbite-react";
+import { fetchAllNFTs } from "../../apis/FetchNFTs";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import axios from "axios";
-
+import { getUserNamePicByEthAddress } from "../../apis/profile.apis";
+import demoAvatar from "../../assets/images/user-demo-avatar.svg";
+import openSea from "../../assets/images/Opensea.svg";
+import ethScan from "../../assets/images/EthScan.svg";
 import { ProductNFT } from "../../components/UiComponents/ProductNFT";
 import NftDetail from "./components/NftDetail";
 import NftActivity from "./components/NftActivity";
@@ -14,24 +17,28 @@ import NftBuy from "./components/NftBuy";
 import NftBid from "./components/NftBId";
 import { useParams } from "react-router-dom";
 import { fetchNFTById } from "../../hooks/ContractControllers/useFetchNFTById";
-import { web3 } from "../../hooks/useContract";
-import { NFTsActivityEvent } from "../../hooks/ContractControllers/useFetchEventForNFT";
 import { useSelector } from "react-redux";
 import { addNFTFavorite } from "../../apis/other.apis";
 import { Toaster } from "react-hot-toast";
 import { SuccessToast } from "../../app/Toast/Success";
+import { ErrorToast } from "../../app/Toast/Error";
 
 function Nft() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const EthAccount = useSelector((state) => state.EthAccountStates.account);
+  const EthAccount = useSelector((state) => state.EthAccountStates);
+  const [relatedNFTs, setRelatedNFTs] = useState([]);
+
+  const [profilePictures, setProfilePictures] = useState({
+    creator: "",
+    owner: "",
+  });
 
   const [paramState, setParamState] = useSearchParams({
     info: "details",
   });
-  const [NFTsItems, setNFTsItems] = useState([]);
 
-  const [NFTActivityTable, setNFTActivityTable] = useState([]);
+  const [NFTsItems, setNFTsItems] = useState([]);
 
   const [ComponentLoad, setComponentLoad] = useState(0);
 
@@ -47,22 +54,32 @@ function Nft() {
         }}
       />
     ),
-    chart: <NftChart />,
+    chart: <NftChart NFTid={id} />,
     listing: <NftListing />,
-    activity: <NftActivity data={NFTActivityTable} />,
+    activity: <NftActivity id={id} />,
   };
 
   useEffect(() => {
     const fetching = async () => {
       try {
+        const response = await fetchAllNFTs("", NFTsItems.Category, 5);
+        setRelatedNFTs(response);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetching();
+  }, [NFTsItems.Category]);
+
+  useEffect(() => {
+    const fetching = async () => {
+      try {
         const response = await fetchNFTById(id);
-        const activityTable = await NFTsActivityEvent(id);
         if (!response) {
           navigate("/");
           return null;
         }
         setNFTsItems(response);
-        setNFTActivityTable(activityTable);
       } catch (error) {
         console.log(error);
       }
@@ -70,9 +87,36 @@ function Nft() {
     fetching();
   }, [id, ComponentLoad]);
 
+  useEffect(() => {
+    const fetching = async () => {
+      try {
+        const creatorAvatar = await getUserNamePicByEthAddress(
+          NFTsItems.Creator
+        );
+        const ownerAvatar = await getUserNamePicByEthAddress(
+          NFTsItems.CurrentOwner
+        );
+
+        setProfilePictures({
+          creator: creatorAvatar.userProfile || demoAvatar,
+          owner: ownerAvatar.userProfile || demoAvatar,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    if (NFTsItems.Creator) {
+      fetching();
+    }
+  }, [NFTsItems.Creator]);
+
   const handleFavorite = async () => {
+    if (!EthAccount.isConnect) {
+      ErrorToast("Wallet not connect ! 💔");
+      return null;
+    }
     try {
-      const result = await addNFTFavorite(EthAccount, {
+      const result = await addNFTFavorite(EthAccount.account, {
         NFTid: id,
         createdBy: NFTsItems.Creator,
         image: NFTsItems.Image,
@@ -85,6 +129,8 @@ function Nft() {
       console.log(error);
     }
   };
+
+  console.log(NFTsItems);
 
   return (
     <div className="sm:p-0 p-4">
@@ -126,18 +172,62 @@ function Nft() {
               </Link>
             </div>
             <div className="flex gap-3 items-center">
+              <Tooltip
+                id="tooltip-id"
+                content="view on openSea"
+                className="dark:bg-darkBlue-500 text-pink-500"
+                theme={{
+                  arrow: {
+                    style: {
+                      dark: "bg-gray-900 dark:bg-darkBlue-500",
+                      light: "bg-white",
+                    },
+                  },
+                }}
+                placement="left"
+              >
+                <Link
+                  target="_blank"
+                  to={`${process.env.REACT_APP_OPENSEA_URL}/assets/${process.env.REACT_APP_ETH_CHAIN}/${process.env.REACT_APP_CONTRACT_ADDRESS}/${id}`}
+                  className="flex cursor-pointer gap-2 items-center p-2 dark:bg-[#2081E2] rounded-xl"
+                >
+                  <img className="h-5 w-5 sm:h-6 sm:w-6" src={openSea} alt="" />
+                </Link>
+              </Tooltip>
+              <Tooltip
+                id="tooltip-id"
+                content="view on etherscan"
+                className="dark:bg-darkBlue-500 text-pink-500"
+                theme={{
+                  arrow: {
+                    style: {
+                      dark: "bg-gray-900 dark:bg-darkBlue-500",
+                      light: "bg-white",
+                    },
+                  },
+                }}
+                placement="left"
+              >
+                <Link
+                  target="_blank"
+                  to={`${process.env.REACT_APP_BLOCK_EXPLORE_URL}/nft/${process.env.REACT_APP_CONTRACT_ADDRESS}/${id}`}
+                  className="flex cursor-pointer gap-2 items-center p-2 dark:bg-white/90 rounded-xl"
+                >
+                  <img className="h-5 w-5 sm:h-6 sm:w-6" src={ethScan} alt="" />
+                </Link>
+              </Tooltip>
               <div
                 onClick={handleFavorite}
-                className="flex gap-2 items-center p-2 dark:bg-darkBlue-500 rounded-xl"
+                className="flex gap-2 items-center p-2 dark:bg-pink-500 rounded-xl"
               >
-                <FaRegHeart className="cursor-pointer rounded-sm transition-all hover:text-purple-500 active:text-purple-700  h-5 w-5 sm:h-6 sm:w-6 p-1" />
+                <FaHeart className="cursor-pointer rounded-sm transition-all hover:text-white/80 active:text-purple-700  h-5 w-5 sm:h-6 sm:w-6 p-1" />
               </div>
             </div>
           </div>
           <h1 className="font-semibold dark:text-white text-2xl sm:text-5xl">
             {NFTsItems.Name}
           </h1>
-          <p className="dark:text-white/80 sm:text-base text-sm">
+          <p className="dark:text-white/80 sm:text-base sm:text-start text-justify text-sm">
             {NFTsItems.Description}
           </p>
           <div className="flex sm:gap-10 sm:justify-start justify-between">
@@ -148,7 +238,7 @@ function Nft() {
               <div className="flex gap-2 items-center">
                 <img
                   className="w-10 h-10 rounded-full"
-                  src="https://nftix-html.vercel.app/assets/img/avatar/avatar3.jpg"
+                  src={profilePictures.creator}
                   alt=""
                 />
                 <Link
@@ -170,7 +260,7 @@ function Nft() {
               <div className="flex gap-2 items-center">
                 <img
                   className="w-10 h-10 rounded-full"
-                  src="https://nftix-html.vercel.app/assets/img/avatar/avatar3.jpg"
+                  src={profilePictures.owner}
                   alt=""
                 />
                 <Link
@@ -178,7 +268,7 @@ function Nft() {
                   className="dark:text-white/60 hover:text-pink-500 transition-all cursor-pointer sm:text-base text-sm"
                 >
                   {NFTsItems.CurrentOwner
-                    ? NFTsItems.CurrentOwner == EthAccount
+                    ? NFTsItems.CurrentOwner == EthAccount.account
                       ? "You"
                       : `${NFTsItems.CurrentOwner.slice(
                           0,
@@ -244,7 +334,7 @@ function Nft() {
                   chart
                 </div>
               </li>
-              <li
+              {/* <li
                 onClick={() => {
                   setParamState({ info: "listing" });
                 }}
@@ -259,7 +349,7 @@ function Nft() {
                 >
                   Listing
                 </div>
-              </li>
+              </li> */}
               <li
                 onClick={() => {
                   setParamState({ info: "activity" });
@@ -277,7 +367,7 @@ function Nft() {
                 </div>
               </li>
             </ul>
-            <div className="border-l-[2px] h-[25pc] items-center border-r-[1px] border-b-[2px] border-darkBlue-600 flex flex-col gap-4 p-4">
+            <div className="border-l-[2px] h-[25pc] overflow-x-auto items-center border-r-[1px] border-b-[2px] border-darkBlue-600 flex flex-col gap-4 p-4">
               {NftComponents[paramState.get("info")] ? (
                 NftComponents[paramState.get("info")]
               ) : (
@@ -291,18 +381,28 @@ function Nft() {
         id="section-3"
         className="flex-col gap-5 flex h-full mt-10 justify-evenly"
       >
-        <div className="flex flex-row justify-between items-center">
-          <h1 className="dark:text-white/90 text-2xl sm:text-4xl">
+        <div className="flex flex-row justify-between relative items-center">
+          <div className="bg-gradient-to-r from-pink-800/20 to-purple-600/40 absolute left-0 top-[10%] h-96 w-96 blur-[10pc] opacity-[30%]" />
+          <h1 className="dark:text-white/90 font-semibold text-2xl sm:text-4xl">
             Related{" "}
-            <b className="border-2 sm:text-2xl text-lg lg:shadow-none lg:shadow-purple-800/80 sm:border-0 rounded-md shadow-lg shadow-purple-800/80 p-1 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-500">
+            <b className="border-2 font-medium sm:text-2xl text-lg lg:shadow-none lg:shadow-purple-800/80 sm:border-0 rounded-md shadow-lg shadow-purple-800/80 p-1 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-500">
               NFTs
             </b>
           </h1>
         </div>
-        <div className="flex mt-10 relative z-10 flex-wrap gap-7 justify-evenly">
-          {/* {NFTsItems.map((item, index) => (
-            <ProductNFT kay={index} data={item} />
-          ))} */}
+        <div className="flex mt-10 relative z-10 flex-wrap gap-7 justify-center sm:justify-start">
+          {relatedNFTs.length > 0 ? (
+            relatedNFTs.map((item, index) => (
+              <ProductNFT kay={index} button="Buy" link="/nft/" data={item} />
+            ))
+          ) : (
+            <div className="h-[40dvh] w-full flex justify-center items-center">
+              <Product404
+                message="Related NFTs are not found"
+                subMessage="Explore the NFTs"
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>

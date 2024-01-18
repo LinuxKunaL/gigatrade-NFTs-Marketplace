@@ -5,7 +5,7 @@ import { setEthAccount } from "../app/redux/ReduxSlices";
 const setProfilePhoto = async (file, user) => {
   try {
     const response = await axios.post(
-      "http://localhost:90/addUserProfilePhoto",
+      `${process.env.REACT_APP_API_URL}/addUserProfilePhoto`,
       { Image: file, EthUser: user },
       {
         headers: {
@@ -19,10 +19,15 @@ const setProfilePhoto = async (file, user) => {
   }
 };
 
-const setProfileDetails = async (details) => {
+const setProfileDetails = async (formData, ethAddress) => {
+  const details = {
+    ...formData,
+    userEthAddress: ethAddress,
+  };
+
   try {
     const response = await axios.post(
-      "http://localhost:90/addUserProfileDetails",
+      `${process.env.REACT_APP_API_URL}/addUserProfileDetails`,
       { data: details }
     );
     return response.data;
@@ -34,7 +39,7 @@ const setProfileDetails = async (details) => {
 const getUserNamePicByEthAddress = async (EthUserId) => {
   try {
     const response = await axios.post(
-      "http://localhost:90/getUserNamePicByEthAddress",
+      `${process.env.REACT_APP_API_URL}/getUserNamePicByEthAddress`,
       { EthUser: EthUserId }
     );
 
@@ -47,7 +52,7 @@ const getUserNamePicByEthAddress = async (EthUserId) => {
 const getUserDetailsByEthAddress = async (EthUserId) => {
   try {
     const response = await axios.post(
-      "http://localhost:90/getUserDetailsByEthAddress",
+      `${process.env.REACT_APP_API_URL}/getUserDetailsByEthAddress`,
       { EthUser: EthUserId }
     );
 
@@ -59,9 +64,12 @@ const getUserDetailsByEthAddress = async (EthUserId) => {
 
 const getTopCreators = async (limit) => {
   try {
-    const response = await axios.post("http://localhost:90/getTopCreators", {
-      limit: limit,
-    });
+    const response = await axios.post(
+      `${process.env.REACT_APP_API_URL}/getTopCreators`,
+      {
+        limit: limit,
+      }
+    );
     return response.data;
   } catch (error) {
     console.log(error);
@@ -71,7 +79,7 @@ const getTopCreators = async (limit) => {
 const getUserFavoriteByEthAddress = async (EthUserId) => {
   try {
     const response = await axios.post(
-      "http://localhost:90/getUserFavoriteByEthAddress",
+      `${process.env.REACT_APP_API_URL}/getUserFavoriteByEthAddress`,
       { EthUser: EthUserId }
     );
 
@@ -81,13 +89,11 @@ const getUserFavoriteByEthAddress = async (EthUserId) => {
   }
 };
 
-
 export {
   setProfilePhoto,
   getTopCreators,
   setProfileDetails,
   getUserNamePicByEthAddress,
   getUserDetailsByEthAddress,
-  getUserFavoriteByEthAddress
+  getUserFavoriteByEthAddress,
 };
-

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import logo from "../../../assets/images/logo.png";
 import { IoClose } from "react-icons/io5";
 import { IoIosCreate } from "react-icons/io";
-import { RiChatHistoryLine, RiChatHistoryFill } from "react-icons/ri";
+import { FaEthereum } from "react-icons/fa";
 import {
   MdCollectionsBookmark,
   MdOutlineCollectionsBookmark,
@@ -19,9 +19,14 @@ import {
   AiFillAppstore,
 } from "react-icons/ai";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 
 function MenuBar({ className, close }) {
+  const handleLogout = () => {
+    localStorage.clear();
+    window.location = "/";
+  };
+
   return (
     <div
       id="aside"
@@ -38,7 +43,7 @@ function MenuBar({ className, close }) {
         className="flex sm:p-4 px-8 py-2 self-center w-max items-center space-x-3 rtl:space-x-reverse"
       >
         <img src={logo} className="h-12" alt="Logo" />
-        <span className="self-center  text-xl sm:text-2xl font-semibold whitespace-nowrap dark:text-white/80">
+        <span className="self-center text-base xs:text-xl sm:text-2xl font-semibold whitespace-nowrap dark:text-white/80">
           GiGaTrade
         </span>
       </Link>
@@ -97,12 +102,26 @@ function MenuBar({ className, close }) {
                 Settings
               </span>
             </NavLink>
-            <span className="pl-10 flex group cursor-pointer gap-2 items-center text-white/90 hover:text-pink-600 ">
+            <span
+              onClick={handleLogout}
+              className="pl-10 flex group cursor-pointer gap-2 items-center text-white/90 hover:text-pink-600 "
+            >
               <div className=" hidden group-hover:flex absolute left-0 h-8 w-1 rounded-r-lg bg-pink-500"></div>
               <IoLogOutOutline className=" text-xl  transition-all group-hover:hidden text-white/50 group-hover:text-pink-600" />
               <IoLogOutSharp className=" text-xl  transition-all hidden group-hover:flex text-white/50 group-hover:text-pink-600" />
               Logout
             </span>
+            <NavLink
+              target="_blank"
+              to={`${process.env.REACT_APP_BLOCK_EXPLORE_URL}/token/${process.env.REACT_APP_CONTRACT_ADDRESS}`}
+              className="relative"
+            >
+              <span className="pl-10 flex group cursor-pointer gap-2 items-center text-white/90 hover:text-pink-600 ">
+                <div className="line hidden group-hover:flex absolute left-0 h-8 w-1 rounded-r-lg bg-pink-500"></div>
+                <FaEthereum />
+                Contract
+              </span>
+            </NavLink>
           </div>
         </div>
         <div className="flex flex-col gap-1 sm:gap-3">

@@ -11,7 +11,8 @@ function FavoriteCollection({ Collections }) {
           Collections.length > 0 ? (
             Collections.map((item, index) => (
               <ProductCollection
-                link={"/collection/"}
+                width="20pc"
+                link="/collection/"
                 kay={index}
                 item={item}
               />
@@ -22,7 +23,12 @@ function FavoriteCollection({ Collections }) {
               subMessage="Explore the collections"
             />
           )
-        ) : null}
+        ) : (
+          <Product404
+            message="There is not Favorite Collections"
+            subMessage="Explore the collections"
+          />
+        )}
       </div>
     </div>
   );

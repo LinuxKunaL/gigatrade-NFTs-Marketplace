@@ -17,8 +17,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { fetchNFTById } from "../../../../hooks/ContractControllers/useFetchNFTById.js";
 import { CheckIsOwner } from "../../../../hooks/ContractControllers/useAuth.js";
-
-// https://gateway.pinata.cloud/ipfs/ ==> preview the IPFS data / metadata
+import { ethereumUsd } from "../../../../hooks/useEtherUsdPrice.js";
 
 function EditNFT() {
   const { id } = useParams();
@@ -142,6 +141,7 @@ function EditNFT() {
 
   const HandleUpdateNFTsPrice = async (event) => {
     event.preventDefault();
+
     if (!NftAuth) {
       ErrorToast("This NFT doesn't own by you !");
       return null;
@@ -165,7 +165,7 @@ function EditNFT() {
         })
         .catch((error) => {
           console.error(error);
-          ErrorToast(<div>Something error happen try agin 💔 !</div>);
+          // ErrorToast(<div>Something error happen try agin 💔 !</div>);
         });
     } catch (error) {
       console.error(error);
@@ -230,7 +230,7 @@ function EditNFT() {
     try {
       const response = await fetchNFTById(id);
       setFormNftData({
-        price: response.Price,
+        price: Number(response.Price * (await ethereumUsd())).toFixed(),
         name: response.Name.replace(/[#0-9]/g, ""),
         image: response.Image,
         description: response.Description,
@@ -244,6 +244,7 @@ function EditNFT() {
       console.log(error);
     }
   };
+
   return (
     <div className="flex flex-col p-2 sm:p-5 gap-5 overflow-y-auto h-[89%] w-full">
       <Toaster position="left" />
@@ -262,8 +263,14 @@ function EditNFT() {
       </h1>
       <div className="flex flex-row gap-2 items-center text-sm sm:text-base sm:mt-4  text-white/70">
         <BsStars />
-        <p>once created a NFT we cannot change its details </p>
+        <p>once created a NFT we have pay for change its details </p>
       </div>
+      <Link
+        to={`/nft/${id}`}
+        className="p-1 w-min py-3 cursor-pointer hover:bg-pink-600 font-semibold text-darkBlue-400 text-xs hover:text-white text-white/80 bg-white/840 bg-darkBlue-300 backdrop-blur-lg flex items-center justify-center  rounded-lg hover:scale-90 transition-all px-6 h-full "
+      >
+        View
+      </Link>
       <div className="flex lg:flex-row flex-col gap-8">
         <label
           htmlFor="imageUpload"
@@ -372,7 +379,6 @@ function EditNFT() {
                 className="bg-gray-50 text-gray-900 rounded-lg focus:ring-0 focus:dark:border-pink-500 block w-full p-2.5 dark:bg-darkBlue-600 dark:border-gray-600/30 dark:placeholder-gray-500 dark:text-white/70 text-sm sm:text-base"
                 name="category"
                 onChange={HandleOnChange}
-                // defaultValue={formNftData.category}
                 value={formNftData.category}
                 required
               >
@@ -418,7 +424,7 @@ function EditNFT() {
                 htmlFor=""
                 className="text-white/70 font-semibold text-sm sm:text-base"
               >
-                Price ( in Eth ) *
+                Price ( in USD ) *
               </label>
               <input
                 className="bg-gray-50 text-gray-900 rounded-lg focus:ring-0 focus:dark:border-pink-500 block w-full p-2.5 dark:bg-darkBlue-600 dark:border-gray-600/30 dark:placeholder-gray-500 dark:text-white/70 text-sm sm:text-base"
@@ -429,6 +435,7 @@ function EditNFT() {
                 onChange={HandleOnChange}
                 required
               />
+
               {NftAuth ? (
                 <button
                   type="submit"
@@ -456,10 +463,10 @@ function EditNFT() {
               >
                 Enable to trade *
               </label>
-              <label class="relative inline-flex items-center cursor-pointer">
+              <label className="relative inline-flex items-center cursor-pointer">
                 <input
                   type="checkbox"
-                  class="sr-only peer"
+                  className="sr-only peer"
                   name="approve"
                   checked={formNftData.approve}
                   onChange={(e) =>
@@ -469,7 +476,7 @@ function EditNFT() {
                     })
                   }
                 />
-                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-pink-300 dark:peer-focus:ring-pink-800 rounded-full peer dark:bg-darkBlue-600 dark:border-gray-600/30 border-[1px] peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white/70 after:border-gray-300/70 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-pink-600"></div>
+                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-pink-300 dark:peer-focus:ring-pink-800 rounded-full peer dark:bg-darkBlue-600 dark:border-gray-600/30 border-[1px] peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white/70 after:border-gray-300/70 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-pink-600"></div>
               </label>
               {NftAuth ? (
                 <button

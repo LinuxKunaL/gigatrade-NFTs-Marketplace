@@ -11,6 +11,7 @@ import {
   MdShoppingCart,
 } from "react-icons/md";
 
+import demoAvatar from "../../assets/images/user-demo-avatar.svg";
 import { web3 } from "../../hooks/useContract";
 import AuthorCreated from "./components/AuthorCreated";
 import AuthorOwned from "./components/AuthorOwned";
@@ -95,17 +96,6 @@ function Author() {
     }
   };
 
-  const [paramState, setParamState] = useSearchParams({
-    info: "owned",
-  });
-
-  const AuthorComponents = {
-    details: <AuthorDetails AuthorId={id} />,
-    owned: <AuthorOwned NFTs={AuthorNFTs ? AuthorNFTs.Owned : []} />,
-    collections: <AuthorCollections CollectionsData={AuthorCollectionsData} />,
-    created: <AuthorCreated NFTs={AuthorNFTs ? AuthorNFTs.Created : []} />,
-  };
-
   return (
     <div className="mt-14 sm:p-0 p-5 flex flex-col gap-5">
       <div
@@ -123,7 +113,7 @@ function Author() {
         <div className="z-10 relative flex flex-col  gap-3 sm:gap-2 items-center w-max p-3 rounded-lg">
           <img
             className="w-28 h-28 border-4 dark:border-darkBlue-200 rounded-lg bg-darkBlue-400"
-            src={AuthorDetailsData.userProfile}
+            src={AuthorDetailsData.userProfile || demoAvatar}
             alt=""
           />
           {/* <div className="z-[-1] bg-gradient-to-r from-purple-800 to-pink-600 absolute bottom-0 h-96 w-96 blur-[10pc] opacity-[30%]" /> */}
@@ -170,12 +160,60 @@ function Author() {
           </div>
         </div>
       </div>
-      <UiOne AuthorComponents={AuthorComponents} />
-      {/* <UiTwo
-        AuthorComponents={AuthorComponents}
-        setParamState={setParamState}
-        paramState={paramState}
-      /> */}
+      <div className="flex flex-col gap-5 flex-wrap">
+        <div
+          id="details"
+          className="flex flex-auto flex-col p-4 gap-3 dark:border-darkBlue-500 rounded-lg border-[1px]"
+        >
+          <h2 className="text-white/90 font-semibold text-xl sm:text-2xl">
+            Details
+          </h2>
+          <div id="collection" className="flex flex-wrap">
+            <AuthorDetails
+              details={{
+                ...AuthorDetailsData,
+                profileAddress:id,
+                nft: AuthorNFTs.Created ? AuthorNFTs.Created.length : 0,
+                collections: AuthorCollectionsData.length,
+              }}
+              AuthorId={id}
+            />
+          </div>
+        </div>
+        <div
+          id="created"
+          className="flex flex-auto flex-col p-4 gap-3 dark:border-darkBlue-500 rounded-lg border-[1px]"
+        >
+          <h2 className="text-white/90 font-semibold text-xl sm:text-2xl">
+            All Created NFTS
+          </h2>
+          <div id="collection" className="flex flex-wrap">
+            <AuthorCreated NFTs={AuthorNFTs ? AuthorNFTs.Created : []} />
+          </div>
+        </div>
+        <div
+          id="owned"
+          className="flex flex-1 flex-col p-4 gap-3 rounded-lg dark:border-darkBlue-500 border-[1px]"
+        >
+          <h2 className="text-white/90 font-semibold text-xl sm:text-2xl">
+            All Owned NFTs
+          </h2>
+          <div id="collection" className="flex flex-wrap">
+            <AuthorOwned NFTs={AuthorNFTs ? AuthorNFTs.Owned : []} />
+          </div>
+        </div>
+        <div
+          id="collection"
+          className="flex flex-auto flex-col p-4 gap-5 rounded-lg dark:border-darkBlue-500 border-[1px]"
+        >
+          <h2 className="text-white/90 font-semibold text-xl sm:text-2xl">
+            All Collections
+          </h2>
+          <div id="collection" className="flex flex-wrap">
+            <AuthorCollections CollectionsData={AuthorCollectionsData} />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
@@ -186,7 +224,7 @@ const UiOne = ({ AuthorComponents }) => {
   return (
     <div className="flex flex-col gap-5 flex-wrap">
       <div
-        id="collection"
+        id="details"
         className="flex flex-auto flex-col p-4 gap-3 dark:border-darkBlue-500 rounded-lg border-[1px]"
       >
         <h2 className="text-white/90 font-semibold text-xl sm:text-2xl">
@@ -197,7 +235,7 @@ const UiOne = ({ AuthorComponents }) => {
         </div>
       </div>
       <div
-        id="collection"
+        id="created"
         className="flex flex-auto flex-col p-4 gap-3 dark:border-darkBlue-500 rounded-lg border-[1px]"
       >
         <h2 className="text-white/90 font-semibold text-xl sm:text-2xl">
@@ -208,7 +246,7 @@ const UiOne = ({ AuthorComponents }) => {
         </div>
       </div>
       <div
-        id="collection"
+        id="owned"
         className="flex flex-1 flex-col p-4 gap-3 rounded-lg dark:border-darkBlue-500 border-[1px]"
       >
         <h2 className="text-white/90 font-semibold text-xl sm:text-2xl">
@@ -228,85 +266,6 @@ const UiOne = ({ AuthorComponents }) => {
         <div id="collection" className="flex flex-wrap">
           {AuthorComponents["collections"]}
         </div>
-      </div>
-    </div>
-  );
-};
-
-const UiTwo = ({ AuthorComponents, setParamState, paramState }) => {
-  return (
-    <div id="profile-body" className="">
-      <ul className="flex gap-2 flex-wrap text-sm font-medium text-center text-gray-500 border-darkBlue-600 dark:border-darkBlue-500 dark:text-gray-400">
-        <li
-          onClick={() => setParamState({ info: "details" })}
-          className="cursor-pointer"
-        >
-          <div
-            className={
-              paramState.get("info") == "details"
-                ? "inline-block p-4 text-pink-600 dark:bg-darkBlue-500/70 dark:text-pink-500 bg-gray-100 rounded-t-lg active sm:text-base text-xs"
-                : "inline-block p-4 rounded-t-lg hover:text-pink-600 hover:bg-gray-50 dark:hover:bg-darkBlue-500/70 dark:hover:text-pink-500 sm:text-base text-xs"
-            }
-          >
-            Details
-          </div>
-        </li>
-        <li
-          onClick={() => {
-            setParamState({ info: "collections" });
-          }}
-          className="cursor-pointer"
-        >
-          <div
-            className={
-              paramState.get("info") == "collections"
-                ? "inline-block p-4 text-pink-600 dark:bg-darkBlue-500/70 dark:text-pink-500 bg-gray-100 rounded-t-lg active sm:text-base text-xs"
-                : "inline-block p-4 rounded-t-lg hover:text-pink-600 hover:bg-gray-50 dark:hover:bg-darkBlue-500/70 dark:hover:text-pink-500 sm:text-base text-xs"
-            }
-          >
-            Collections
-          </div>
-        </li>
-        <li
-          onClick={() => {
-            setParamState({ info: "owned" });
-          }}
-          className="cursor-pointer"
-        >
-          <div
-            className={
-              paramState.get("info") == "owned"
-                ? "inline-block p-4 text-pink-600 dark:bg-darkBlue-500/70 dark:text-pink-500 bg-gray-100 rounded-t-lg active sm:text-base text-xs"
-                : "inline-block p-4 rounded-t-lg hover:text-pink-600 hover:bg-gray-50 dark:hover:bg-darkBlue-500/70 dark:hover:text-pink-500 sm:text-base text-xs"
-            }
-          >
-            Owned
-          </div>
-        </li>
-        <li
-          onClick={() => {
-            setParamState({ info: "created" });
-          }}
-          className="cursor-pointer"
-        >
-          <div
-            className={
-              paramState.get("info") == "created"
-                ? "inline-block p-4 text-pink-600 dark:bg-darkBlue-500/70 dark:text-pink-500 bg-gray-100 rounded-t-lg active sm:text-base text-xs"
-                : "inline-block p-4 rounded-t-lg hover:text-pink-600 hover:bg-gray-50 dark:hover:bg-darkBlue-500/70 dark:hover:text-pink-500 sm:text-base text-xs"
-            }
-          >
-            created
-          </div>
-        </li>
-      </ul>
-      <div
-        id="tab-body"
-        className="p-3 dark:bg-darkBlue-700 border-darkBlue-600 rounded-b-lg dark:border-darkBlue-500 border-[1px]"
-      >
-        {AuthorComponents[paramState.get("info")]
-          ? AuthorComponents[paramState.get("info")]
-          : () => setParamState({ info: "details" })}
       </div>
     </div>
   );

@@ -2,9 +2,12 @@ import React, { useState, useEffect } from "react";
 import TrendingNFts from "../components/Home/TrendingNFts";
 import TrendingCollections from "../components/Home/TrendingCollections";
 import { GoArrowUpRight } from "react-icons/go";
-import row from "../../../assets/images/row.png";
+import row_1 from "../../../assets/images/row.png";
+import row_2 from "../../../assets/images/row_2.png";
+import row_3 from "../../../assets/images/row_3.png";
 import { Route, Routes } from "react-router-dom";
 import RecentlyAddedCollections from "./Home/RecentlyAddedCollections";
+import { Link } from "react-router-dom";
 import TopCreators from "./Home/TopCreators";
 import MyCollections from "./MyCollection/MyCollections";
 
@@ -23,7 +26,6 @@ function Body() {
   useEffect(() => {
     const fetching = async () => {
       const response = await getUserFavoriteByEthAddress(EthUser);
-      console.log(response);
       setUserFavorite(response);
       try {
       } catch (error) {
@@ -31,7 +33,8 @@ function Body() {
       }
     };
     fetching();
-  }, [EthUser]);
+  }, []);
+
   return (
     <div
       id="body"
@@ -47,38 +50,38 @@ function Body() {
               Discover, create and <br /> sell your own NFT
             </h2>
             <div className="flex sm:gap-4 gap-1 w-full flex-row sm:justify-start justify-between items-start sm:flex-row">
-              <button
-                type="button"
-                className="sm:py-2.5 sm:px-7 py-2 px-4 sm:w-max w-[9pc]  text-[0.7rem] sm:text-lg font-medium flex items-center gap-2 justify-between text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-purple-700 focus:z-10 focus:ring-4 focus:ring-gray-200 self-center dark:focus:ring-gray-700 dark:bg-darkBlue-400 dark:text-gray-100 border-none dark:hover:text-white"
+              <Link
+                to="/explore"
+                className="sm:py-2.5 sm:px-7 py-2 px-4 sm:w-max w-[9pc]  text-[0.7rem] sm:text-lg font-medium flex items-center gap-2 justify-between text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-darkBlue-300 hover:text-purple-700 focus:z-10 focus:ring-4 focus:ring-gray-200 self-center dark:focus:ring-gray-700 dark:bg-darkBlue-400 dark:text-gray-100 border-none dark:hover:text-white "
               >
                 Explore Now
                 <GoArrowUpRight className="text-md font-semibold" />
-              </button>
-              <button
-                type="button"
-                className="m:py-2.5 sm:px-7 py-2 px-4 sm:w-max w-[9pc] text-[0.7em] sm:text-lg font-medium flex items-center gap-2 text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-purple-700 focus:z-10 focus:ring-4 focus:ring-gray-200 self-center dark:focus:ring-gray-700 dark:bg-darkBlue-400 dark:text-gray-100 border-none dark:hover:text-white"
+              </Link>
+              <Link
+                to="/myProfile/addNFT"
+                className="sm:py-2.5 sm:px-7 py-2 px-4 sm:w-max w-[9pc]  text-[0.7rem] sm:text-lg font-medium flex items-center gap-2 justify-between text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-darkBlue-300 hover:text-purple-700 focus:z-10 focus:ring-4 focus:ring-gray-200 self-center dark:focus:ring-gray-700 dark:bg-darkBlue-400 dark:text-gray-100 border-none dark:hover:text-white "
               >
-                Create Your NFTs
+                Create NFTs
                 <GoArrowUpRight className="text-md font-semibold" />
-              </button>
+              </Link>
             </div>
           </div>
-          <div className="h-full w-[55%] z-[] md:opacity-100 opacity-10 md:relative absolute gap-5 flex justify-between -rotate-12">
+          <div className="h-full w-[55%] z-[] md:opacity-100 opacity-10 md:relative absolute gap-5 flex justify-betweend -rotate-12">
             <img
               id="user-profile-row-image-animation-1"
-              src={row}
+              src={row_1}
               className="h-[50pc]"
               alt=""
             />
             <img
               id="user-profile-row-image-animation-2"
-              src={row}
+              src={row_2}
               className="h-[50pc]"
               alt=""
             />
             <img
               id="user-profile-row-image-animation-3"
-              src={row}
+              src={row_3}
               className="h-[50pc]"
               alt=""
             />

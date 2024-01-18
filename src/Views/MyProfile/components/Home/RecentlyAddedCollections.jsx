@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { getFewCollections } from "../../../../apis/Collections.apis";
 import { Link } from "react-router-dom";
+import Product404 from "../../../../components/UiComponents/Product404";
+
 function RecentlyAddedCollections() {
   const [LatestCollections, setLatestCollections] = useState([]);
 
   useEffect(() => {
     const fetching = async () => {
       const response = await getFewCollections();
-      console.log(response);
       setLatestCollections(response);
       try {
       } catch (error) {
@@ -48,47 +49,58 @@ function RecentlyAddedCollections() {
     }
   }
 
+  console.log(LatestCollections);
+
   return (
-    <div className="dark:bg-darkBlue-600 sm:p-5 p-3 flex flex-col gap-2 rounded-lg">
+    <div className="dark:bg-darkBlue-600 w-[25pc]m sm:p-5 p-3 flex flex-col gap-2 rounded-lg">
       {/* sm:text-sm text-[0.8rem] */}
       <h3 className=" sm:py-5 sm:px-3 px-2 py-1 font-semibold dark:text-white/90 text-lg sm:text-2xl">
         Recently added Collections
       </h3>
       <div className="flex xl:flex-col md:flex-row flex-col gap-6">
-        <Link
-          to={`/collection/${
-            LatestCollections[0] ? LatestCollections[0]._id : null
-          }`}
-          className="flex flex-col gap-1 dark:bg-darkBlue-400 rounded-lg"
-        >
-          <div className="h-[12pc] rounded-t-lg overflow-hidden flex items-center justify-center w-full">
-            <img
-              className="w-full"
-              src={
-                LatestCollections[0]
-                  ? LatestCollections[0].CollectionImages
-                    ? LatestCollections[0].CollectionImages.one
+        {LatestCollections.length > 0 ? (
+          <Link
+            to={`/collection/${
+              LatestCollections[0] ? LatestCollections[0]._id : null
+            }`}
+            className="flex flex-col gap-1 dark:bg-darkBlue-400 rounded-lg"
+          >
+            <div className="h-[12pc] rounded-t-lg overflow-hidden flex items-center justify-center w-full sm:w-[25pc]">
+              <img
+                className="w-full"
+                src={
+                  LatestCollections[0]
+                    ? LatestCollections[0].CollectionImages
+                      ? LatestCollections[0].CollectionImages.one
+                      : null
                     : null
-                  : null
-              }
-              alt=""
-            />
-          </div>
-          <div className="p-2 sm:py-4 py-2 flex justify-between items-center">
-            <b className=" text-white/70 sm:text-lg text-sm font-semibold">
-              {LatestCollections[0]
-                ? LatestCollections[0].CollectionName
-                : null}{" "}
-              #
-              {LatestCollections[0] ? LatestCollections[0].CollectionTag : null}
-            </b>
-            <span className="text-white/40 sm:text-lg text-sm">
-              {LatestCollections[0]
-                ? timeAgo(LatestCollections[0].createdTime)
-                : null}{" "}
-            </span>
-          </div>
-        </Link>
+                }
+                alt=""
+              />
+            </div>
+            <div className="p-2 sm:py-4 py-2 flex justify-between items-center">
+              <b className=" text-white/70 sm:text-lg text-sm font-semibold">
+                {LatestCollections[0]
+                  ? LatestCollections[0].CollectionName
+                  : null}{" "}
+                #
+                {LatestCollections[0]
+                  ? LatestCollections[0].CollectionTag
+                  : null}
+              </b>
+              <span className="text-white/40 sm:text-lg text-sm">
+                {LatestCollections[0]
+                  ? timeAgo(LatestCollections[0].createdTime)
+                  : null}{" "}
+              </span>
+            </div>
+          </Link>
+        ) : (
+          <Product404
+            message="Collections not found "
+            subMessage="Collections not added"
+          />
+        )}
         <div className="flex flex-col w-full gap-4 sm:text-sm text-[0.8rem]">
           {LatestCollections.map((items, index) =>
             index == 0 ? (

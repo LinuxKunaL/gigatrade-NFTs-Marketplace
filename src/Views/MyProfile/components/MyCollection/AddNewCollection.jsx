@@ -5,6 +5,7 @@ import { TiUpload } from "react-icons/ti";
 import { createCollection } from "../../../../apis/Collections.apis";
 import { useSelector } from "react-redux";
 import { SuccessToast } from "../../../../app/Toast/Success";
+import { ErrorToast } from "../../../../app/Toast/Error";
 import { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
@@ -77,6 +78,15 @@ function AddNewCollection() {
 
   const HandleSubmit = async (e) => {
     e.preventDefault();
+    if (
+      CollectionForm.images.one === "" ||
+      CollectionForm.images.two === "" ||
+      CollectionForm.images.three === "" ||
+      CollectionForm.images.four === ""
+    ) {
+      ErrorToast("Please upload an image! 💔");
+      return null;
+    }
     try {
       if (EthAddress) {
         const result = await createCollection(CollectionForm);
@@ -100,14 +110,14 @@ function AddNewCollection() {
   };
 
   return (
-    <div className="flex flex-col p-2 sm:p-5 gap-5 overflow-y-auto">
+    <div className="flex flex-col p-2 sm:p-5 gap-5 overflow-y-auto h-[89%] w-full">
       <Toaster position="bottomleft" />
       <h1 className="text-white/90 font-semibold text-xl sm:text-2xl mt-4">
         Create New Collection
       </h1>
       <div className="flex flex-row gap-2 items-center text-sm sm:text-base sm:mt-4 text-white/70">
         <BsStars />
-        <p>once created a Collection we cannot change its details </p>
+        <p>Creating a collection doesn't need gas</p>
       </div>
       <div className="h-full flex gap-8">
         <div className="flex-auto mt-5 sm:mt-10">
@@ -128,6 +138,8 @@ function AddNewCollection() {
                   className=" bg-gray-50 text-gray-900 rounded-lg focus:ring-0 focus:dark:border-pink-500 block w-full p-2.5 dark:bg-darkBlue-600 dark:border-gray-600/30 dark:placeholder-gray-500 dark:text-white/70 text-sm sm:text-base"
                   type="text"
                   placeholder="Collection Name"
+                  pattern="[A-Z a-z]{1,15}"
+                  title="Please enter only alphabetical characters and a maximum of 15 characters"
                   name="collectionName"
                   onChange={(e) =>
                     setCollectionForm({
@@ -204,8 +216,7 @@ function AddNewCollection() {
                     type="file"
                     name={`image-${key}`}
                     onChange={(e) => handleImageChange(e, key)}
-                    // hidden
-                    // required
+                    hidden
                   />
                 </label>
               ))}
