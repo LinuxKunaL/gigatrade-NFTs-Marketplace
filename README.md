@@ -91,12 +91,23 @@ GigaTrade is a decentralized NFT marketplace that empowers creators and collecto
 
     _Copy the file code and paste it into the original ERC721 file, which can be found in the 'node_module' folder at 'node_module/@openzipline/token/ERC721.' Locate 'ERC721.sol' and replace it with the file that I will provide.
 
+4.  **Setup Backend:**
 
-4.  **Setup Instructions:**
+   Start in local
+    ```bash
+    npm run local
+    ```
+
+   Start in production level
+    ```bash
+    npm run prod
+    ```
+    
+6.  **Setup Instructions:**
 
     Follow the guidelines in the README.md for setting up smart contracts, backend, and frontend.
 
-5.  **Contribute:**
+7.  **Contribute:**
 
     Feel free to contribute by opening issues, submitting pull requests, or providing feedback.
 
