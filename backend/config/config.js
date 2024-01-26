@@ -1,16 +1,28 @@
-const Config = {
+import dotenv from "dotenv";
+
+if (process.env.NODE_ENV === 'development') {
+
+  dotenv.config({ path: '.env.development' });
+
+} else if (process.env.NODE_ENV === 'production') {
+
+  dotenv.config({ path: '.env.production' });
+
+}
+
+const config = {
   Server: {
-    PORT: 90,
-    HOST: "", //  ex. http://localhost:90
+    PORT: process.env.SERVER_PORT,
+    HOST: process.env.SERVER_HOST,
   },
   Database: {
-    name: "gigatrade",
-    ConnectUrl: "", // ex. mongodb+srv://thelosser321:<password>@clusterteehaven.fy29l9l.mongodb.net , localhost DB url 
+    name: process.env.DB_NAME,
+    ConnectUrl: process.env.DB_CONNECT_URL, 
   },
   web3: {
-    ContractAddress: "", // ex. 0x9b27f429a6ced75d86ea6fd8fc2db10815f636c7
-    Web3Provider: "", // ex. ws://localhost:8545 , ws://eth-sepolia.g.alchemy.com/v2/key , hardhat url , genash url
+    ContractAddress: process.env.CONTRACT_ADDRESS,
+    WebsocketProvider: process.env.WEB3_WEBSOCKET_PROVIDER, 
   },
 };
 
-export { Config };
+export { config };

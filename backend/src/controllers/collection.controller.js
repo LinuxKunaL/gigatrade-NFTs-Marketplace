@@ -8,7 +8,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 import { Collection } from "../../database/models.js";
-import { Config } from "../../config/config.js";
+import { config } from "../../config/config.js";
 
 const createCollection = async (req, res) => {
   const { EthUser, name, tag } = req.body;
@@ -19,10 +19,10 @@ const createCollection = async (req, res) => {
       CollectionName: name,
       CollectionTag: tag,
       CollectionImages: {
-        one: `${Config.Server.HOST}${imageLinks[0]}`,
-        two: `${Config.Server.HOST}${imageLinks[1]}`,
-        Three: `${Config.Server.HOST}${imageLinks[2]}`,
-        four: `${Config.Server.HOST}${imageLinks[3]}`,
+        one: `${config.Server.HOST}${imageLinks[0]}`,
+        two: `${config.Server.HOST}${imageLinks[1]}`,
+        Three: `${config.Server.HOST}${imageLinks[2]}`,
+        four: `${config.Server.HOST}${imageLinks[3]}`,
       },
       NFTs: [],
       createdTime: new Date().getTime(),
@@ -116,25 +116,25 @@ const updateCollectionById = async (req, res) => {
         CollectionImages: {
           one: `${
             imageLinks.find((i) => i.index === "one")
-              ? Config.Server.HOST +
+              ? config.Server.HOST +
                 imageLinks.find((i) => i.index === "one").link
               : updatedCollection.CollectionImages.one
           }`,
           two: `${
             imageLinks.find((i) => i.index === "two")
-              ? Config.Server.HOST +
+              ? config.Server.HOST +
                 imageLinks.find((i) => i.index === "two").link
               : updatedCollection.CollectionImages.two
           }`,
           Three: `${
             imageLinks.find((i) => i.index === "Three")
-              ? Config.Server.HOST +
+              ? config.Server.HOST +
                 imageLinks.find((i) => i.index === "Three").link
               : updatedCollection.CollectionImages.Three
           }`,
           four: `${
             imageLinks.find((i) => i.index === "four")
-              ? Config.Server.HOST +
+              ? config.Server.HOST +
                 imageLinks.find((i) => i.index === "four").link
               : updatedCollection.CollectionImages.four
           }`,

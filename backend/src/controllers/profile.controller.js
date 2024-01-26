@@ -1,5 +1,5 @@
 import { Users } from "../../database/models.js";
-import { Config } from "../../config/config.js";
+import { config } from "../../config/config.js";
 
 const setProfilePhoto = async (req, res) => {
   const { EthUser } = req.body;
@@ -7,10 +7,9 @@ const setProfilePhoto = async (req, res) => {
 
   try {
     const filter = { userEthAddress: EthUser };
-    console.log(EthUser);
     const update = {
       $set: {
-        userProfile: `${Config.Server.HOST}${ImageLink[0]}`,
+        userProfile: `${config.Server.HOST}${ImageLink[0]}`,
         userEthAddress: EthUser,
         createdAt: Date.now(),
       },

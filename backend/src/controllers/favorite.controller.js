@@ -1,5 +1,5 @@
 import { Users } from "../../database/models.js";
-import { Config } from "../../config/config.js";
+import { config } from "../../config/config.js";
 
 const addNFTFavorite = async (req, res) => {
   const { EthUser, NFTData } = req.body;
