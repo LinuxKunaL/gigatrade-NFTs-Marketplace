@@ -74,17 +74,20 @@ GigaTrade is a decentralized NFT marketplace that empowers creators and collecto
     ```
         REACT_APP_API_URL= 'backend url'
 
+        REACT_APP_WEB3_PROVIDER=
+        
         REACT_APP_ETH_CHAIN=sepolia
-
+        
         REACT_APP_OPENSEA_URL=https://testnets.opensea.io
-
+        
         REACT_APP_BLOCK_EXPLORE_URL=https://sepolia.etherscan.io
-
+        
         REACT_APP_CONTRACT_ADDRESS=
-
-        REACT_APP_NFT_STORAGE_KEY= 'i use https://nft.storage for ipfs'
-
-        REACT_APP_CONTRACT_OWNER_ADDRESS=
+        
+        REACT_APP_NFT_STORAGE_KEY=  #i'm useing https://nft.storage for ipfs storage
+        
+        REACT_APP_CONTRACT_OWNER_ADDRESS=0x0B113FB87c3d94CD27e026946b552845136b61e5
+    
     ```
 
 3.  **Set up a custom ERC721 file: I have modified a default ERC721 contract file, so you need to replace it with the one I will provide you in the 'contract' folder"**
