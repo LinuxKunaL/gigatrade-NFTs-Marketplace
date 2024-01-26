@@ -65,13 +65,13 @@ GigaTrade is a decentralized NFT marketplace that empowers creators and collecto
 
 1.  **Clone the Repository:**
 
-    ```bash
+    ```
     git clone https://github.com/LinuxKunaL/gigatrade-NFTs-Marketplace.git
     ```
 
 2.  **Setup .env file:**
 
-        ```
+    ```
         REACT_APP_API_URL= 'backend url'
 
         REACT_APP_ETH_CHAIN=sepolia
@@ -85,7 +85,7 @@ GigaTrade is a decentralized NFT marketplace that empowers creators and collecto
         REACT_APP_NFT_STORAGE_KEY= 'i use https://nft.storage for ipfs'
 
         REACT_APP_CONTRACT_OWNER_ADDRESS=
-        ```
+    ```
 
 3.  **Set up a custom ERC721 file: I have modified a default ERC721 contract file, so you need to replace it with the one I will provide you in the 'contract' folder"**
 
@@ -94,12 +94,12 @@ GigaTrade is a decentralized NFT marketplace that empowers creators and collecto
 4.  **Setup Backend:**
 
    Start in local
-    ```bash
+    ```
     npm run local
     ```
 
    Start in production level
-    ```bash
+    ```
     npm run prod
     ```
     
